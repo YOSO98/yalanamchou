@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connexion — Yalanamchou</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --rouge:#C8102E; --jaune:#FFC72C; --bleu:#003DA5; --noir:#0A0A0F; --blanc:#F5F0E8; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Outfit',sans-serif; background:var(--noir); color:var(--blanc); min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px; }
+  
+  .logo { font-family:'Bebas Neue',sans-serif; font-size:48px; letter-spacing:3px; background:linear-gradient(135deg,var(--jaune),var(--rouge)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:8px; text-align:center; }
+  .subtitle { font-size:14px; color:rgba(245,240,232,0.4); text-align:center; margin-bottom:48px; }
+  
+  .card { background:rgba(245,240,232,0.04); border:1px solid rgba(245,240,232,0.08); border-radius:24px; padding:32px; width:100%; max-width:380px; }
+  
+  .step { display:none; }
+  .step.active { display:block; animation:fadeIn 0.3s ease; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+  
+  .step-title { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .step-sub { font-size:14px; color:rgba(245,240,232,0.5); margin-bottom:28px; }
+  
+  .input-field { width:100%; background:rgba(245,240,232,0.06); border:1px solid rgba(245,240,232,0.12); border-radius:14px; padding:16px 18px; color:var(--blanc); font-family:'Outfit',sans-serif; font-size:16px; outline:none; transition:all 0.3s; margin-bottom:16px; }
+  .input-field:focus { border-color:var(--jaune); background:rgba(255,199,44,0.05); }
+  .input-field::placeholder { color:rgba(245,240,232,0.3); }
+  
+  .btn-main { width:100%; padding:16px; background:linear-gradient(135deg,var(--rouge),#E8284A); color:white; border:none; border-radius:14px; font-family:'Outfit',sans-serif; font-size:16px; font-weight:700; cursor:pointer; transition:all 0.3s; }
+  .btn-main:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(200,16,46,0.4); }
+  
+  .otp-inputs { display:flex; gap:10px; justify-content:center; margin-bottom:24px; }
+  .otp-digit { width:52px; height:60px; background:rgba(245,240,232,0.06); border:1px solid rgba(245,240,232,0.12); border-radius:14px; color:var(--blanc); font-size:24px; font-weight:700; text-align:center; font-family:'Outfit',sans-serif; outline:none; transition:all 0.3s; }
+  .otp-digit:focus { border-color:var(--jaune); background:rgba(255,199,44,0.05); }
+  
+  .role-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:24px; }
+  .role-card { background:rgba(245,240,232,0.05); border:2px solid rgba(245,240,232,0.08); border-radius:16px; padding:20px 16px; text-align:center; cursor:pointer; transition:all 0.3s; }
+  .role-card:hover { border-color:rgba(255,199,44,0.3); }
+  .role-card.selected { border-color:var(--jaune); background:rgba(255,199,44,0.08); }
+  .role-card .role-icon { font-size:36px; margin-bottom:10px; }
+  .role-card .role-name { font-size:15px; font-weight:600; }
+  
+  .back-link { text-align:center; margin-top:20px; font-size:14px; color:rgba(245,240,232,0.4); cursor:pointer; }
+  .back-link:hover { color:var(--jaune); }
+</style>
+</head>
+<body>
+
+<div class="logo">YALANAMCHOU</div>
+<div class="subtitle">Entrez votre numéro pour continuer</div>
+
+<div class="card">
+
+  <!-- ÉTAPE 1 : Numéro de téléphone -->
+  <div class="step active" id="step1">
+    <div class="step-title">📱 Votre numéro</div>
+    <div class="step-sub">Vous recevrez un code SMS de vérification</div>
+    <input type="tel" class="input-field" id="phoneInput" placeholder="+235 66 XX XX XX" maxlength="15">
+    <button class="btn-main" onclick="envoyerOTP()">Envoyer le code →</button>
+  </div>
+
+  <!-- ÉTAPE 2 : Code OTP -->
+  <div class="step" id="step2">
+    <div class="step-title">🔐 Code de vérification</div>
+    <div class="step-sub" id="otpSub">Code envoyé au +235 66 XX XX XX</div>
+    <div class="otp-inputs">
+      <input type="text" class="otp-digit" maxlength="1" oninput="nextDigit(this, 0)">
+      <input type="text" class="otp-digit" maxlength="1" oninput="nextDigit(this, 1)">
+      <input type="text" class="otp-digit" maxlength="1" oninput="nextDigit(this, 2)">
+      <input type="text" class="otp-digit" maxlength="1" oninput="nextDigit(this, 3)">
+      <input type="text" class="otp-digit" maxlength="1" oninput="nextDigit(this, 4)">
+      <input type="text" class="otp-digit" maxlength="1" oninput="nextDigit(this, 5)">
+    </div>
+    <button class="btn-main" onclick="verifierOTP()">Vérifier →</button>
+    <div class="back-link" onclick="showStep('step1')">← Changer de numéro</div>
+  </div>
+
+  <!-- ÉTAPE 3 : Choisir le rôle -->
+  <div class="step" id="step3">
+    <div class="step-title">👋 Bienvenue !</div>
+    <div class="step-sub">Vous êtes...</div>
+    <div class="role-grid">
+      <div class="role-card selected" onclick="selectRole(this, 'passager')">
+        <div class="role-icon">🧑</div>
+        <div class="role-name">Passager</div>
+      </div>
+      <div class="role-card" onclick="selectRole(this, 'chauffeur')">
+        <div class="role-icon">🚕</div>
+        <div class="role-name">Chauffeur</div>
+      </div>
+    </div>
+    <input type="text" class="input-field" id="nameInput" placeholder="Votre prénom...">
+    <button class="btn-main" onclick="terminerInscription()">C'est parti ! 🚀</button>
+  </div>
+
+</div>
+
+<script>
+  let selectedRole = 'passager';
+  let phoneNumber = '';
+
+  function showStep(id) {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  async function envoyerOTP() {
+    phoneNumber = document.getElementById('phoneInput').value.trim();
+    if (!phoneNumber || phoneNumber.length < 8) {
+      alert('Veuillez entrer un numéro valide');
+      return;
+    }
+
+    // Appel API backend
+    try {
+      const res = await fetch('/api/auth/send-otp', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ phone: phoneNumber })
+      });
+      const data = await res.json();
+      
+      // En dev, afficher le code (à retirer en production)
+      if (data.debug_otp) {
+        console.log(`📱 Code OTP: ${data.debug_otp}`);
+        alert(`[MODE DEV] Votre code: ${data.debug_otp}`);
+      }
+      
+      document.getElementById('otpSub').textContent = `Code envoyé au ${phoneNumber}`;
+      showStep('step2');
+    } catch(e) {
+      // Mode démo sans backend
+      showStep('step2');
+    }
+  }
+
+  function nextDigit(input, index) {
+    input.value = input.value.replace(/[^0-9]/g, '');
+    const digits = document.querySelectorAll('.otp-digit');
+    if (input.value && index < 5) {
+      digits[index + 1].focus();
+    }
+    // Vérifier auto si tous les chiffres sont remplis
+    const code = Array.from(digits).map(d => d.value).join('');
+    if (code.length === 6) verifierOTP();
+  }
+
+  async function verifierOTP() {
+    const digits = document.querySelectorAll('.otp-digit');
+    const otp = Array.from(digits).map(d => d.value).join('');
+    
+    if (otp.length < 6) { alert('Entrez le code complet'); return; }
+
+    try {
+      const res = await fetch('/api/auth/verify-otp', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ phone: phoneNumber, otp })
+      });
+      const data = await res.json();
+      if (data.token) {
+        localStorage.setItem('yna_token', data.token);
+        localStorage.setItem('yna_user', JSON.stringify(data.user));
+      }
+    } catch(e) {}
+
+    showStep('step3');
+  }
+
+  function selectRole(el, role) {
+    document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedRole = role;
+  }
+
+  function terminerInscription() {
+    const name = document.getElementById('nameInput').value.trim();
+    if (!name) { alert('Entrez votre prénom'); return; }
+    
+    // Rediriger selon le rôle
+    if (selectedRole === 'chauffeur') {
+      window.location.href = '../chauffeur/dashboard.html';
+    } else {
+      window.location.href = '../passager/commande.html';
+    }
+  }
+</script>
+</body>
+</html>

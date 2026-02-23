@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Yalanamchou</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --rouge:#C8102E; --jaune:#FFC72C; --bleu:#003DA5; --noir:#0A0A0F; --blanc:#F5F0E8; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Outfit',sans-serif; background:var(--noir); color:var(--blanc); min-height:100vh; }
+  
+  .sidebar { width:240px; background:rgba(245,240,232,0.03); border-right:1px solid rgba(245,240,232,0.06); position:fixed; height:100vh; padding:24px 16px; }
+  .sidebar-logo { font-family:'Bebas Neue',sans-serif; font-size:28px; letter-spacing:2px; background:linear-gradient(135deg,var(--jaune),var(--rouge)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:32px; padding:0 8px; }
+  .nav-item { display:flex; align-items:center; gap:12px; padding:12px 16px; border-radius:12px; cursor:pointer; transition:all 0.2s; margin-bottom:4px; font-size:14px; font-weight:500; color:rgba(245,240,232,0.5); }
+  .nav-item:hover, .nav-item.active { background:rgba(245,240,232,0.06); color:var(--blanc); }
+  .nav-item.active { border-left:3px solid var(--jaune); }
+  .nav-icon { font-size:18px; }
+  
+  .main { margin-left:240px; padding:32px; }
+  .page-title { font-size:28px; font-weight:800; margin-bottom:8px; }
+  .page-sub { font-size:14px; color:rgba(245,240,232,0.4); margin-bottom:32px; }
+  
+  .stats-grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; margin-bottom:32px; }
+  .stat-card { background:rgba(245,240,232,0.04); border:1px solid rgba(245,240,232,0.08); border-radius:20px; padding:24px; }
+  .stat-card-value { font-family:'Bebas Neue',sans-serif; font-size:42px; letter-spacing:1px; }
+  .stat-card-label { font-size:13px; color:rgba(245,240,232,0.4); margin-top:4px; }
+  .stat-card-change { font-size:12px; margin-top:8px; }
+  .up { color:#6BFF9E; }
+  
+  table { width:100%; border-collapse:collapse; }
+  th { text-align:left; padding:12px 16px; font-size:11px; text-transform:uppercase; letter-spacing:2px; color:rgba(245,240,232,0.3); border-bottom:1px solid rgba(245,240,232,0.06); }
+  td { padding:14px 16px; font-size:14px; border-bottom:1px solid rgba(245,240,232,0.04); }
+  tr:hover td { background:rgba(245,240,232,0.02); }
+  
+  .badge { display:inline-block; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:600; }
+  .badge-green { background:rgba(107,255,158,0.1); color:#6BFF9E; }
+  .badge-yellow { background:rgba(255,199,44,0.1); color:var(--jaune); }
+  .badge-red { background:rgba(200,16,46,0.1); color:#FF6B6B; }
+  
+  .section-card { background:rgba(245,240,232,0.03); border:1px solid rgba(245,240,232,0.07); border-radius:20px; padding:24px; margin-bottom:24px; }
+  .section-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+  .section-header h3 { font-size:17px; font-weight:700; }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+  <div class="sidebar-logo">YALANAM</div>
+  <div class="nav-item active"><span class="nav-icon">📊</span> Tableau de bord</div>
+  <div class="nav-item"><span class="nav-icon">🚕</span> Courses</div>
+  <div class="nav-item"><span class="nav-icon">🧑</span> Passagers</div>
+  <div class="nav-item"><span class="nav-icon">🚗</span> Chauffeurs</div>
+  <div class="nav-item"><span class="nav-icon">💰</span> Paiements</div>
+  <div class="nav-item"><span class="nav-icon">📍</span> Carte live</div>
+  <div class="nav-item"><span class="nav-icon">⚙️</span> Paramètres</div>
+</div>
+
+<!-- Main -->
+<div class="main">
+  <div class="page-title">Tableau de bord 📊</div>
+  <div class="page-sub">Mercredi 24 Février 2026 — N'Djaména, Tchad</div>
+
+  <!-- Stats -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-card-value" style="color:var(--jaune)">1 247</div>
+      <div class="stat-card-label">Courses aujourd'hui</div>
+      <div class="stat-card-change up">↑ +12% vs hier</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-value" style="color:#6BFF9E">847 500</div>
+      <div class="stat-card-label">Revenus FCFA (aujourd'hui)</div>
+      <div class="stat-card-change up">↑ +8% vs hier</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-value" style="color:#6B9FFF">89</div>
+      <div class="stat-card-label">Chauffeurs en ligne</div>
+      <div class="stat-card-change up">↑ +5 depuis 1h</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-value" style="color:var(--rouge)">4.8</div>
+      <div class="stat-card-label">Note moyenne app</div>
+      <div class="stat-card-change up">⭐ Excellent</div>
+    </div>
+  </div>
+
+  <!-- Dernières courses -->
+  <div class="section-card">
+    <div class="section-header">
+      <h3>🚕 Dernières courses</h3>
+      <span style="font-size:13px;color:rgba(245,240,232,0.4);">Voir tout →</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Passager</th>
+          <th>Chauffeur</th>
+          <th>Trajet</th>
+          <th>Prix</th>
+          <th>Statut</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>#1247</td>
+          <td>Amina M.</td>
+          <td>Mahamat I.</td>
+          <td>Marché → Aéroport</td>
+          <td>1 200 FCFA</td>
+          <td><span class="badge badge-green">✅ Terminée</span></td>
+        </tr>
+        <tr>
+          <td>#1246</td>
+          <td>Fatima A.</td>
+          <td>Ibrahim H.</td>
+          <td>Université → Hôpital</td>
+          <td>800 FCFA</td>
+          <td><span class="badge badge-yellow">🚕 En cours</span></td>
+        </tr>
+        <tr>
+          <td>#1245</td>
+          <td>Hassan K.</td>
+          <td>—</td>
+          <td>Préfecture → Gare</td>
+          <td>1 500 FCFA</td>
+          <td><span class="badge badge-red">⏳ En attente</span></td>
+        </tr>
+        <tr>
+          <td>#1244</td>
+          <td>Mariam S.</td>
+          <td>Ali M.</td>
+          <td>Lycée → Centre ville</td>
+          <td>600 FCFA</td>
+          <td><span class="badge badge-green">✅ Terminée</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Chauffeurs -->
+  <div class="section-card">
+    <div class="section-header">
+      <h3>🚗 Chauffeurs à valider</h3>
+      <span style="font-size:13px;color:rgba(245,240,232,0.4);">3 en attente</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Téléphone</th>
+          <th>Véhicule</th>
+          <th>Plaque</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Oumar Deby</td>
+          <td>+235 66 XX XX XX</td>
+          <td>🚕 Toyota Jaune</td>
+          <td>TD-3421-B</td>
+          <td>
+            <button onclick="valider(this)" style="background:rgba(107,255,158,0.1);color:#6BFF9E;border:1px solid rgba(107,255,158,0.2);padding:6px 16px;border-radius:8px;cursor:pointer;font-family:Outfit,sans-serif;font-weight:600;font-size:13px;margin-right:8px;">✅ Valider</button>
+            <button style="background:rgba(200,16,46,0.1);color:#FF6B6B;border:1px solid rgba(200,16,46,0.2);padding:6px 16px;border-radius:8px;cursor:pointer;font-family:Outfit,sans-serif;font-weight:600;font-size:13px;">✕ Refuser</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  function valider(btn) {
+    btn.textContent = '✅ Validé';
+    btn.style.background = 'rgba(107,255,158,0.2)';
+    btn.disabled = true;
+  }
+</script>
+</body>
+</html>
