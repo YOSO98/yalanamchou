@@ -3,181 +3,925 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin — Yalanamchou</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>Yalanamchou — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root { --rouge:#C8102E; --jaune:#FFC72C; --bleu:#003DA5; --noir:#0A0A0F; --blanc:#F5F0E8; }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family:'Outfit',sans-serif; background:var(--noir); color:var(--blanc); min-height:100vh; }
-  
-  .sidebar { width:240px; background:rgba(245,240,232,0.03); border-right:1px solid rgba(245,240,232,0.06); position:fixed; height:100vh; padding:24px 16px; }
-  .sidebar-logo { font-family:'Bebas Neue',sans-serif; font-size:28px; letter-spacing:2px; background:linear-gradient(135deg,var(--jaune),var(--rouge)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:32px; padding:0 8px; }
-  .nav-item { display:flex; align-items:center; gap:12px; padding:12px 16px; border-radius:12px; cursor:pointer; transition:all 0.2s; margin-bottom:4px; font-size:14px; font-weight:500; color:rgba(245,240,232,0.5); }
-  .nav-item:hover, .nav-item.active { background:rgba(245,240,232,0.06); color:var(--blanc); }
-  .nav-item.active { border-left:3px solid var(--jaune); }
-  .nav-icon { font-size:18px; }
-  
-  .main { margin-left:240px; padding:32px; }
-  .page-title { font-size:28px; font-weight:800; margin-bottom:8px; }
-  .page-sub { font-size:14px; color:rgba(245,240,232,0.4); margin-bottom:32px; }
-  
-  .stats-grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; margin-bottom:32px; }
-  .stat-card { background:rgba(245,240,232,0.04); border:1px solid rgba(245,240,232,0.08); border-radius:20px; padding:24px; }
-  .stat-card-value { font-family:'Bebas Neue',sans-serif; font-size:42px; letter-spacing:1px; }
-  .stat-card-label { font-size:13px; color:rgba(245,240,232,0.4); margin-top:4px; }
-  .stat-card-change { font-size:12px; margin-top:8px; }
-  .up { color:#6BFF9E; }
-  
-  table { width:100%; border-collapse:collapse; }
-  th { text-align:left; padding:12px 16px; font-size:11px; text-transform:uppercase; letter-spacing:2px; color:rgba(245,240,232,0.3); border-bottom:1px solid rgba(245,240,232,0.06); }
-  td { padding:14px 16px; font-size:14px; border-bottom:1px solid rgba(245,240,232,0.04); }
-  tr:hover td { background:rgba(245,240,232,0.02); }
-  
-  .badge { display:inline-block; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:600; }
-  .badge-green { background:rgba(107,255,158,0.1); color:#6BFF9E; }
-  .badge-yellow { background:rgba(255,199,44,0.1); color:var(--jaune); }
-  .badge-red { background:rgba(200,16,46,0.1); color:#FF6B6B; }
-  
-  .section-card { background:rgba(245,240,232,0.03); border:1px solid rgba(245,240,232,0.07); border-radius:20px; padding:24px; margin-bottom:24px; }
-  .section-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
-  .section-header h3 { font-size:17px; font-weight:700; }
+:root {
+  --bg: #F7F8FA;
+  --white: #FFFFFF;
+  --noir: #0F1117;
+  --rouge: #C8102E;
+  --jaune: #FFC72C;
+  --vert: #22C55E;
+  --bleu: #3B82F6;
+  --violet: #8B5CF6;
+  --border: #E8ECF0;
+  --text: #1a1a2e;
+  --muted: #8A94A6;
+  --sidebar-w: 240px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  width: var(--sidebar-w); background: var(--noir); color: white;
+  display: flex; flex-direction: column; flex-shrink: 0; z-index: 10;
+}
+.sidebar-logo {
+  padding: 24px 20px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.sidebar-logo .logo-text {
+  font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 2px;
+  background: linear-gradient(135deg, #FFC72C, #C8102E);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.sidebar-logo .logo-sub { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 2px; }
+.sidebar-nav { flex: 1; padding: 16px 12px; display: flex; flex-direction: column; gap: 4px; }
+.nav-label { font-size: 10px; color: rgba(255,255,255,0.25); text-transform: uppercase; letter-spacing: 1.5px; padding: 12px 8px 6px; }
+.nav-item {
+  display: flex; align-items: center; gap: 12px; padding: 11px 12px;
+  border-radius: 10px; cursor: pointer; transition: all 0.2s;
+  font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.55);
+}
+.nav-item:hover { background: rgba(255,255,255,0.06); color: white; }
+.nav-item.active { background: rgba(255,199,44,0.12); color: #FFC72C; }
+.nav-item .nav-icon { font-size: 18px; width: 22px; text-align: center; }
+.nav-item .nav-badge {
+  margin-left: auto; background: var(--rouge); color: white;
+  font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px;
+}
+.sidebar-footer {
+  padding: 16px 12px; border-top: 1px solid rgba(255,255,255,0.06);
+}
+.admin-profile {
+  display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+  border-radius: 10px; background: rgba(255,255,255,0.04);
+}
+.admin-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: linear-gradient(135deg, #C8102E, #FFC72C);
+  display: flex; align-items: center; justify-content: center; font-size: 18px;
+}
+.admin-name { font-size: 13px; font-weight: 600; }
+.admin-role { font-size: 11px; color: rgba(255,255,255,0.4); }
+
+/* ===== MAIN ===== */
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+/* TOPBAR */
+.topbar {
+  background: var(--white); border-bottom: 1px solid var(--border);
+  padding: 0 28px; height: 64px; display: flex; align-items: center;
+  justify-content: space-between; flex-shrink: 0;
+}
+.page-title { font-size: 20px; font-weight: 800; color: var(--text); }
+.page-sub { font-size: 13px; color: var(--muted); margin-top: 1px; }
+.topbar-actions { display: flex; align-items: center; gap: 12px; }
+.btn-refresh {
+  padding: 8px 16px; background: var(--bg); border: 1px solid var(--border);
+  border-radius: 10px; font-family: 'Outfit', sans-serif; font-size: 13px;
+  font-weight: 600; cursor: pointer; color: var(--text); transition: all 0.2s;
+}
+.btn-refresh:hover { background: var(--border); }
+.live-indicator {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 13px; font-weight: 600; color: var(--vert);
+}
+.live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--vert); animation: blink 1.5s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+/* CONTENT */
+.content { flex: 1; overflow-y: auto; padding: 24px 28px; }
+
+/* PAGES */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ===== KPI CARDS ===== */
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+.kpi-card {
+  background: var(--white); border-radius: 16px; padding: 20px 22px;
+  border: 1px solid var(--border); position: relative; overflow: hidden;
+}
+.kpi-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--accent);
+}
+.kpi-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; margin-bottom: 14px;
+  background: var(--icon-bg);
+}
+.kpi-val { font-size: 28px; font-weight: 800; color: var(--text); line-height: 1; }
+.kpi-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+.kpi-change {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 12px; font-weight: 600; margin-top: 8px;
+  padding: 3px 8px; border-radius: 6px;
+}
+.kpi-change.up { background: rgba(34,197,94,0.1); color: #16A34A; }
+.kpi-change.down { background: rgba(200,16,46,0.1); color: #C8102E; }
+
+/* ===== GRID 2 COL ===== */
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+.grid3 { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-bottom: 24px; }
+
+/* ===== CARD ===== */
+.card {
+  background: var(--white); border-radius: 16px; border: 1px solid var(--border);
+  overflow: hidden;
+}
+.card-header {
+  padding: 18px 20px 14px; display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+.card-title { font-size: 15px; font-weight: 700; color: var(--text); }
+.card-action { font-size: 13px; color: var(--bleu); cursor: pointer; font-weight: 600; }
+.card-body { padding: 16px 20px; }
+
+/* ===== TABLE ===== */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; padding: 10px 14px; text-align: left; background: var(--bg); }
+td { padding: 14px; border-top: 1px solid var(--border); font-size: 14px; }
+tr:hover td { background: #fafbfc; }
+.badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600;
+}
+.badge.pending { background: rgba(255,199,44,0.12); color: #B45309; }
+.badge.active { background: rgba(34,197,94,0.1); color: #16A34A; }
+.badge.completed { background: rgba(59,130,246,0.1); color: #2563EB; }
+.badge.cancelled { background: rgba(200,16,46,0.08); color: #C8102E; }
+.badge.online { background: rgba(34,197,94,0.1); color: #16A34A; }
+.badge.offline { background: rgba(138,148,166,0.12); color: var(--muted); }
+
+/* ===== MINI CHART (bar) ===== */
+.chart-bars { display: flex; align-items: flex-end; gap: 6px; height: 80px; padding: 8px 0; }
+.bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.bar { width: 100%; border-radius: 4px 4px 0 0; background: var(--bleu); transition: height 0.6s ease; min-height: 4px; }
+.bar-label { font-size: 10px; color: var(--muted); }
+
+/* ===== REVENUE CHART ===== */
+.revenue-chart { height: 160px; position: relative; }
+canvas.rev-canvas { width: 100%; height: 100%; }
+
+/* ===== STAT ROW ===== */
+.stat-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.stat-row:last-child { border: none; }
+.stat-row-label { font-size: 14px; color: var(--text); }
+.stat-row-val { font-size: 14px; font-weight: 700; }
+
+/* ===== DRIVER LIST ===== */
+.driver-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.driver-row:last-child { border: none; }
+.driver-ava { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg,#C8102E,#FFC72C); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+.driver-info { flex: 1; }
+.driver-n { font-size: 14px; font-weight: 600; }
+.driver-s { font-size: 12px; color: var(--muted); margin-top: 1px; }
+.driver-earn { font-size: 14px; font-weight: 700; color: var(--vert); }
+
+/* ===== MAP MINI ===== */
+.map-mini { height: 200px; background: #0f1f42; border-radius: 12px; position: relative; overflow: hidden; }
+.map-mini canvas { width: 100%; height: 100%; }
+
+/* ===== FORMS ===== */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group.full { grid-column: 1/-1; }
+.form-label { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.form-input {
+  padding: 11px 14px; border: 1.5px solid var(--border); border-radius: 10px;
+  font-family: 'Outfit', sans-serif; font-size: 14px; color: var(--text);
+  outline: none; transition: border-color 0.2s;
+}
+.form-input:focus { border-color: var(--bleu); }
+.form-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238A94A6' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; }
+.btn-primary {
+  padding: 12px 24px; background: var(--rouge); color: white; border: none;
+  border-radius: 10px; font-family: 'Outfit', sans-serif; font-size: 14px;
+  font-weight: 700; cursor: pointer; transition: all 0.2s;
+}
+.btn-primary:hover { background: #a50d25; transform: translateY(-1px); }
+.btn-secondary {
+  padding: 12px 24px; background: var(--bg); color: var(--text); border: 1.5px solid var(--border);
+  border-radius: 10px; font-family: 'Outfit', sans-serif; font-size: 14px;
+  font-weight: 700; cursor: pointer;
+}
+
+/* ===== ALERT ===== */
+.alert {
+  padding: 12px 16px; border-radius: 10px; font-size: 13px; font-weight: 500;
+  display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
+}
+.alert.warning { background: rgba(255,199,44,0.1); border: 1px solid rgba(255,199,44,0.3); color: #92400E; }
+.alert.success { background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.2); color: #166534; }
+
+/* ===== TOAST ===== */
+.toast {
+  position: fixed; bottom: 24px; right: 24px; z-index: 999;
+  background: var(--noir); color: white; padding: 14px 20px; border-radius: 14px;
+  font-size: 14px; font-weight: 600; box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  transform: translateY(80px); opacity: 0; transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.success { background: #166534; }
+.toast.error { background: var(--rouge); }
 </style>
 </head>
 <body>
 
-<!-- Sidebar -->
+<div class="toast" id="toast"></div>
+
+<!-- ===== SIDEBAR ===== -->
 <div class="sidebar">
-  <div class="sidebar-logo">YALANAM</div>
-  <div class="nav-item active"><span class="nav-icon">📊</span> Tableau de bord</div>
-  <div class="nav-item"><span class="nav-icon">🚕</span> Courses</div>
-  <div class="nav-item"><span class="nav-icon">🧑</span> Passagers</div>
-  <div class="nav-item"><span class="nav-icon">🚗</span> Chauffeurs</div>
-  <div class="nav-item"><span class="nav-icon">💰</span> Paiements</div>
-  <div class="nav-item"><span class="nav-icon">📍</span> Carte live</div>
-  <div class="nav-item"><span class="nav-icon">⚙️</span> Paramètres</div>
+  <div class="sidebar-logo">
+    <div class="logo-text">YALANAMCHOU</div>
+    <div class="logo-sub">Panel Administrateur</div>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-label">Principal</div>
+    <div class="nav-item active" onclick="showPage('dashboard',this)">
+      <span class="nav-icon">📊</span> Dashboard
+    </div>
+    <div class="nav-item" onclick="showPage('courses',this)">
+      <span class="nav-icon">🚕</span> Courses
+      <span class="nav-badge" id="pendingBadge">3</span>
+    </div>
+    <div class="nav-item" onclick="showPage('chauffeurs',this)">
+      <span class="nav-icon">👨‍✈️</span> Chauffeurs
+    </div>
+    <div class="nav-item" onclick="showPage('passagers',this)">
+      <span class="nav-icon">👤</span> Passagers
+    </div>
+    <div class="nav-label">Finance</div>
+    <div class="nav-item" onclick="showPage('revenus',this)">
+      <span class="nav-icon">💰</span> Revenus
+    </div>
+    <div class="nav-item" onclick="showPage('paiements',this)">
+      <span class="nav-icon">💳</span> Paiements
+    </div>
+    <div class="nav-label">Système</div>
+    <div class="nav-item" onclick="showPage('carte',this)">
+      <span class="nav-icon">🗺️</span> Carte Live
+    </div>
+    <div class="nav-item" onclick="showPage('parametres',this)">
+      <span class="nav-icon">⚙️</span> Paramètres
+    </div>
+  </div>
+  <div class="sidebar-footer">
+    <div class="admin-profile">
+      <div class="admin-avatar">👨🏿</div>
+      <div>
+        <div class="admin-name">Super Admin</div>
+        <div class="admin-role">Yalanamchou</div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<!-- Main -->
+<!-- ===== MAIN ===== -->
 <div class="main">
-  <div class="page-title">Tableau de bord 📊</div>
-  <div class="page-sub">Mercredi 24 Février 2026 — N'Djaména, Tchad</div>
-
-  <!-- Stats -->
-  <div class="stats-grid">
-    <div class="stat-card">
-      <div class="stat-card-value" style="color:var(--jaune)">1 247</div>
-      <div class="stat-card-label">Courses aujourd'hui</div>
-      <div class="stat-card-change up">↑ +12% vs hier</div>
+  <div class="topbar">
+    <div>
+      <div class="page-title" id="pageTitle">Dashboard</div>
+      <div class="page-sub" id="pageSub">Vue d'ensemble — Mardi 24 février 2026</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-card-value" style="color:#6BFF9E">847 500</div>
-      <div class="stat-card-label">Revenus FCFA (aujourd'hui)</div>
-      <div class="stat-card-change up">↑ +8% vs hier</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-card-value" style="color:#6B9FFF">89</div>
-      <div class="stat-card-label">Chauffeurs en ligne</div>
-      <div class="stat-card-change up">↑ +5 depuis 1h</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-card-value" style="color:var(--rouge)">4.8</div>
-      <div class="stat-card-label">Note moyenne app</div>
-      <div class="stat-card-change up">⭐ Excellent</div>
+    <div class="topbar-actions">
+      <div class="live-indicator"><div class="live-dot"></div>En direct</div>
+      <button class="btn-refresh" onclick="refreshData()">🔄 Actualiser</button>
     </div>
   </div>
 
-  <!-- Dernières courses -->
-  <div class="section-card">
-    <div class="section-header">
-      <h3>🚕 Dernières courses</h3>
-      <span style="font-size:13px;color:rgba(245,240,232,0.4);">Voir tout →</span>
-    </div>
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Passager</th>
-          <th>Chauffeur</th>
-          <th>Trajet</th>
-          <th>Prix</th>
-          <th>Statut</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>#1247</td>
-          <td>Amina M.</td>
-          <td>Mahamat I.</td>
-          <td>Marché → Aéroport</td>
-          <td>1 200 FCFA</td>
-          <td><span class="badge badge-green">✅ Terminée</span></td>
-        </tr>
-        <tr>
-          <td>#1246</td>
-          <td>Fatima A.</td>
-          <td>Ibrahim H.</td>
-          <td>Université → Hôpital</td>
-          <td>800 FCFA</td>
-          <td><span class="badge badge-yellow">🚕 En cours</span></td>
-        </tr>
-        <tr>
-          <td>#1245</td>
-          <td>Hassan K.</td>
-          <td>—</td>
-          <td>Préfecture → Gare</td>
-          <td>1 500 FCFA</td>
-          <td><span class="badge badge-red">⏳ En attente</span></td>
-        </tr>
-        <tr>
-          <td>#1244</td>
-          <td>Mariam S.</td>
-          <td>Ali M.</td>
-          <td>Lycée → Centre ville</td>
-          <td>600 FCFA</td>
-          <td><span class="badge badge-green">✅ Terminée</span></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <div class="content">
 
-  <!-- Chauffeurs -->
-  <div class="section-card">
-    <div class="section-header">
-      <h3>🚗 Chauffeurs à valider</h3>
-      <span style="font-size:13px;color:rgba(245,240,232,0.4);">3 en attente</span>
+    <!-- ===== PAGE: DASHBOARD ===== -->
+    <div class="page active" id="page-dashboard">
+
+      <!-- KPIs -->
+      <div class="kpi-grid">
+        <div class="kpi-card" style="--accent:#C8102E; --icon-bg:rgba(200,16,46,0.08)">
+          <div class="kpi-icon">🚕</div>
+          <div class="kpi-val" id="kpiCourses">24</div>
+          <div class="kpi-label">Courses aujourd'hui</div>
+          <div class="kpi-change up">↑ +18% vs hier</div>
+        </div>
+        <div class="kpi-card" style="--accent:#FFC72C; --icon-bg:rgba(255,199,44,0.1)">
+          <div class="kpi-icon">💰</div>
+          <div class="kpi-val" id="kpiRevenu">47 500</div>
+          <div class="kpi-label">FCFA générés</div>
+          <div class="kpi-change up">↑ +12% vs hier</div>
+        </div>
+        <div class="kpi-card" style="--accent:#22C55E; --icon-bg:rgba(34,197,94,0.08)">
+          <div class="kpi-icon">👨‍✈️</div>
+          <div class="kpi-val" id="kpiDrivers">8</div>
+          <div class="kpi-label">Chauffeurs actifs</div>
+          <div class="kpi-change up">↑ 3 en ligne</div>
+        </div>
+        <div class="kpi-card" style="--accent:#3B82F6; --icon-bg:rgba(59,130,246,0.08)">
+          <div class="kpi-icon">👤</div>
+          <div class="kpi-val" id="kpiUsers">142</div>
+          <div class="kpi-label">Utilisateurs inscrits</div>
+          <div class="kpi-change up">↑ +5 aujourd'hui</div>
+        </div>
+      </div>
+
+      <div class="grid3">
+        <!-- Activité récente -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">📋 Courses récentes</div>
+            <div class="card-action" onclick="showPage('courses', document.querySelector('.nav-item:nth-child(3)'))">Voir tout →</div>
+          </div>
+          <div class="table-wrap">
+            <table id="recentTable">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Passager</th>
+                  <th>Destination</th>
+                  <th>Prix</th>
+                  <th>Statut</th>
+                </tr>
+              </thead>
+              <tbody id="recentTbody">
+                <tr><td colspan="5" style="text-align:center;color:var(--muted);padding:20px">Chargement...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Top chauffeurs -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">⭐ Top Chauffeurs</div>
+          </div>
+          <div class="card-body">
+            <div class="driver-row">
+              <div class="driver-ava">👨🏿</div>
+              <div class="driver-info"><div class="driver-n">Mahamat Ibrahim</div><div class="driver-s">⭐4.9 • 12 courses</div></div>
+              <div class="driver-earn">+18 700F</div>
+            </div>
+            <div class="driver-row">
+              <div class="driver-ava">👩🏿</div>
+              <div class="driver-info"><div class="driver-n">Fatima Oumar</div><div class="driver-s">⭐4.8 • 9 courses</div></div>
+              <div class="driver-earn">+14 200F</div>
+            </div>
+            <div class="driver-row">
+              <div class="driver-ava">👨🏿‍🦱</div>
+              <div class="driver-info"><div class="driver-n">Ibrahim Hassan</div><div class="driver-s">⭐4.7 • 7 courses</div></div>
+              <div class="driver-earn">+11 050F</div>
+            </div>
+            <div class="driver-row">
+              <div class="driver-ava">👨🏿</div>
+              <div class="driver-info"><div class="driver-n">Ali Mahamat</div><div class="driver-s">⭐4.6 • 5 courses</div></div>
+              <div class="driver-earn">+8 500F</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats bar -->
+      <div class="grid2">
+        <div class="card">
+          <div class="card-header"><div class="card-title">📈 Courses par heure</div></div>
+          <div class="card-body">
+            <div class="chart-bars" id="hourChart"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">📊 Résumé du jour</div></div>
+          <div class="card-body">
+            <div class="stat-row"><span class="stat-row-label">Courses terminées</span><span class="stat-row-val" style="color:var(--vert)">18</span></div>
+            <div class="stat-row"><span class="stat-row-label">Courses en cours</span><span class="stat-row-val" style="color:var(--bleu)">3</span></div>
+            <div class="stat-row"><span class="stat-row-label">Courses annulées</span><span class="stat-row-val" style="color:var(--rouge)">3</span></div>
+            <div class="stat-row"><span class="stat-row-label">Commission totale</span><span class="stat-row-val" style="color:var(--rouge)">7 125 FCFA</span></div>
+            <div class="stat-row"><span class="stat-row-label">Note moyenne</span><span class="stat-row-val" style="color:var(--jaune)">⭐ 4.8</span></div>
+          </div>
+        </div>
+      </div>
     </div>
-    <table>
-      <thead>
-        <tr>
-          <th>Nom</th>
-          <th>Téléphone</th>
-          <th>Véhicule</th>
-          <th>Plaque</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Oumar Deby</td>
-          <td>+235 66 XX XX XX</td>
-          <td>🚕 Toyota Jaune</td>
-          <td>TD-3421-B</td>
-          <td>
-            <button onclick="valider(this)" style="background:rgba(107,255,158,0.1);color:#6BFF9E;border:1px solid rgba(107,255,158,0.2);padding:6px 16px;border-radius:8px;cursor:pointer;font-family:Outfit,sans-serif;font-weight:600;font-size:13px;margin-right:8px;">✅ Valider</button>
-            <button style="background:rgba(200,16,46,0.1);color:#FF6B6B;border:1px solid rgba(200,16,46,0.2);padding:6px 16px;border-radius:8px;cursor:pointer;font-family:Outfit,sans-serif;font-weight:600;font-size:13px;">✕ Refuser</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
+
+    <!-- ===== PAGE: COURSES ===== -->
+    <div class="page" id="page-courses">
+      <div class="alert warning">⚠️ <span id="pendingAlert">3 courses en attente de chauffeur</span></div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">🚕 Toutes les courses</div>
+          <div style="display:flex;gap:8px">
+            <select class="form-input form-select" style="padding:6px 28px 6px 10px;font-size:13px" onchange="filterRides(this.value)">
+              <option value="all">Tous les statuts</option>
+              <option value="pending">En attente</option>
+              <option value="accepted">Acceptées</option>
+              <option value="completed">Terminées</option>
+            </select>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th><th>Passager</th><th>Départ</th><th>Arrivée</th>
+                <th>Distance</th><th>Prix</th><th>Chauffeur</th><th>Statut</th><th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="ridesTbody">
+              <tr><td colspan="9" style="text-align:center;color:var(--muted);padding:20px">Chargement...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE: CHAUFFEURS ===== -->
+    <div class="page" id="page-chauffeurs">
+      <div class="grid2" style="margin-bottom:16px">
+        <div class="kpi-card" style="--accent:#22C55E;--icon-bg:rgba(34,197,94,0.08)">
+          <div class="kpi-icon">🟢</div>
+          <div class="kpi-val">3</div>
+          <div class="kpi-label">En ligne maintenant</div>
+        </div>
+        <div class="kpi-card" style="--accent:#8A94A6;--icon-bg:rgba(138,148,166,0.08)">
+          <div class="kpi-icon">⚫</div>
+          <div class="kpi-val">5</div>
+          <div class="kpi-label">Hors ligne</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">👨‍✈️ Liste des chauffeurs</div>
+          <button class="btn-primary" style="padding:8px 16px;font-size:13px" onclick="showPage('ajout-chauffeur')">+ Ajouter</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Chauffeur</th><th>Téléphone</th><th>Véhicule</th><th>Plaque</th><th>Note</th><th>Courses</th><th>Statut</th><th>Action</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><div style="display:flex;align-items:center;gap:10px"><div style="font-size:24px">👨🏿</div><div><div style="font-weight:600">Mahamat Ibrahim</div><div style="font-size:12px;color:var(--muted)">Inscrit le 01/01/2026</div></div></div></td>
+                <td>+235 66 12 34 56</td><td>Toyota Corolla</td><td><span style="background:#FFC72C;color:#000;padding:2px 8px;border-radius:4px;font-weight:700;font-size:12px">TD-2847-A</span></td>
+                <td>⭐ 4.9</td><td>156</td>
+                <td><span class="badge online">🟢 En ligne</span></td>
+                <td><button class="btn-secondary" style="padding:6px 12px;font-size:12px" onclick="toast('Profil de Mahamat ouvert','success')">Voir</button></td>
+              </tr>
+              <tr>
+                <td><div style="display:flex;align-items:center;gap:10px"><div style="font-size:24px">👩🏿</div><div><div style="font-weight:600">Fatima Oumar</div><div style="font-size:12px;color:var(--muted)">Inscrite le 15/01/2026</div></div></div></td>
+                <td>+235 99 87 65 43</td><td>Nissan Sunny</td><td><span style="background:#FFC72C;color:#000;padding:2px 8px;border-radius:4px;font-weight:700;font-size:12px">TD-1234-B</span></td>
+                <td>⭐ 4.8</td><td>98</td>
+                <td><span class="badge online">🟢 En ligne</span></td>
+                <td><button class="btn-secondary" style="padding:6px 12px;font-size:12px" onclick="toast('Profil de Fatima ouvert','success')">Voir</button></td>
+              </tr>
+              <tr>
+                <td><div style="display:flex;align-items:center;gap:10px"><div style="font-size:24px">👨🏿‍🦱</div><div><div style="font-weight:600">Ibrahim Hassan</div><div style="font-size:12px;color:var(--muted)">Inscrit le 20/01/2026</div></div></div></td>
+                <td>+235 66 55 44 33</td><td>Peugeot 504</td><td><span style="background:#FFC72C;color:#000;padding:2px 8px;border-radius:4px;font-weight:700;font-size:12px">TD-5678-C</span></td>
+                <td>⭐ 4.7</td><td>74</td>
+                <td><span class="badge offline">⚫ Hors ligne</span></td>
+                <td><button class="btn-secondary" style="padding:6px 12px;font-size:12px" onclick="toast('Profil d\'Ibrahim ouvert','success')">Voir</button></td>
+              </tr>
+              <tr>
+                <td><div style="display:flex;align-items:center;gap:10px"><div style="font-size:24px">👨🏿</div><div><div style="font-weight:600">Ali Mahamat</div><div style="font-size:12px;color:var(--muted)">Inscrit le 05/02/2026</div></div></div></td>
+                <td>+235 77 22 11 00</td><td>Toyota Hilux</td><td><span style="background:#FFC72C;color:#000;padding:2px 8px;border-radius:4px;font-weight:700;font-size:12px">TD-9012-D</span></td>
+                <td>⭐ 4.6</td><td>42</td>
+                <td><span class="badge online">🟢 En ligne</span></td>
+                <td><button class="btn-secondary" style="padding:6px 12px;font-size:12px" onclick="toast('Profil d\'Ali ouvert','success')">Voir</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE: PASSAGERS ===== -->
+    <div class="page" id="page-passagers">
+      <div class="card">
+        <div class="card-header"><div class="card-title">👤 Passagers inscrits</div></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Nom</th><th>Téléphone</th><th>Inscription</th><th>Courses</th><th>Total dépensé</th></tr></thead>
+            <tbody id="usersTbody">
+              <tr><td colspan="5" style="text-align:center;color:var(--muted);padding:20px">Chargement...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE: REVENUS ===== -->
+    <div class="page" id="page-revenus">
+      <div class="kpi-grid">
+        <div class="kpi-card" style="--accent:#C8102E;--icon-bg:rgba(200,16,46,0.08)">
+          <div class="kpi-icon">📅</div>
+          <div class="kpi-val">47 500</div>
+          <div class="kpi-label">FCFA aujourd'hui</div>
+          <div class="kpi-change up">↑ +12%</div>
+        </div>
+        <div class="kpi-card" style="--accent:#FFC72C;--icon-bg:rgba(255,199,44,0.1)">
+          <div class="kpi-icon">📆</div>
+          <div class="kpi-val">312 000</div>
+          <div class="kpi-label">FCFA cette semaine</div>
+          <div class="kpi-change up">↑ +8%</div>
+        </div>
+        <div class="kpi-card" style="--accent:#22C55E;--icon-bg:rgba(34,197,94,0.08)">
+          <div class="kpi-icon">🗓️</div>
+          <div class="kpi-val">1 240 000</div>
+          <div class="kpi-label">FCFA ce mois</div>
+          <div class="kpi-change up">↑ +22%</div>
+        </div>
+        <div class="kpi-card" style="--accent:#3B82F6;--icon-bg:rgba(59,130,246,0.08)">
+          <div class="kpi-icon">💎</div>
+          <div class="kpi-val">186 000</div>
+          <div class="kpi-label">Commission (15%)</div>
+          <div class="kpi-change up">↑ +22%</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">📈 Revenus des 7 derniers jours</div></div>
+        <div class="card-body">
+          <canvas id="revenueCanvas" height="160"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE: PAIEMENTS ===== -->
+    <div class="page" id="page-paiements">
+      <div class="card">
+        <div class="card-header"><div class="card-title">💳 Historique des paiements</div></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Transaction</th><th>Passager</th><th>Montant</th><th>Méthode</th><th>Statut</th><th>Date</th></tr></thead>
+            <tbody>
+              <tr><td><code style="font-size:12px;background:#f0f0f0;padding:2px 6px;border-radius:4px">YNA-A1B2C3D4</code></td><td>Issa Mahamat</td><td style="font-weight:700;color:var(--vert)">1 700 FCFA</td><td>💵 Espèces</td><td><span class="badge completed">✓ Confirmé</span></td><td style="color:var(--muted)">24/02/2026</td></tr>
+              <tr><td><code style="font-size:12px;background:#f0f0f0;padding:2px 6px;border-radius:4px">YNA-E5F6G7H8</code></td><td>Amina Djibrine</td><td style="font-weight:700;color:var(--vert)">800 FCFA</td><td>📱 Airtel Money</td><td><span class="badge completed">✓ Confirmé</span></td><td style="color:var(--muted)">24/02/2026</td></tr>
+              <tr><td><code style="font-size:12px;background:#f0f0f0;padding:2px 6px;border-radius:4px">YNA-I9J0K1L2</code></td><td>Ali Hassan</td><td style="font-weight:700;color:var(--jaune)">2 500 FCFA</td><td>💳 Moov Money</td><td><span class="badge pending">⏳ En attente</span></td><td style="color:var(--muted)">24/02/2026</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE: CARTE LIVE ===== -->
+    <div class="page" id="page-carte">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">🗺️ Carte en temps réel</div>
+          <div class="live-indicator"><div class="live-dot"></div>4 taxis actifs</div>
+        </div>
+        <div class="card-body" style="padding:0">
+          <div class="map-mini" style="height:400px;border-radius:0">
+            <canvas id="adminMapCanvas"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE: PARAMÈTRES ===== -->
+    <div class="page" id="page-parametres">
+      <div class="grid2">
+        <div class="card">
+          <div class="card-header"><div class="card-title">⚙️ Tarification</div></div>
+          <div class="card-body">
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">Base Moto (FCFA)</label>
+                <input type="number" class="form-input" value="200">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Par km Moto (FCFA)</label>
+                <input type="number" class="form-input" value="150">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Base Taxi (FCFA)</label>
+                <input type="number" class="form-input" value="500">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Par km Taxi (FCFA)</label>
+                <input type="number" class="form-input" value="300">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Commission (%)</label>
+                <input type="number" class="form-input" value="15">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Rayon max (km)</label>
+                <input type="number" class="form-input" value="25">
+              </div>
+            </div>
+            <div style="margin-top:16px;display:flex;gap:10px">
+              <button class="btn-primary" onclick="toast('Tarifs sauvegardés !','success')">💾 Sauvegarder</button>
+              <button class="btn-secondary">Réinitialiser</button>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">🏙️ Zones desservies</div></div>
+          <div class="card-body">
+            <div class="form-grid">
+              <div class="form-group full">
+                <label class="form-label">Ville principale</label>
+                <input type="text" class="form-input" value="N'Djaména">
+              </div>
+              <div class="form-group full">
+                <label class="form-label">Villes secondaires</label>
+                <input type="text" class="form-input" value="Moundou, Abéché">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Lat. centre</label>
+                <input type="text" class="form-input" value="12.1048">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Lng. centre</label>
+                <input type="text" class="form-input" value="15.0445">
+              </div>
+            </div>
+            <div style="margin-top:16px">
+              <button class="btn-primary" onclick="toast('Zones mises à jour !','success')">💾 Sauvegarder</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
 
 <script>
-  function valider(btn) {
-    btn.textContent = '✅ Validé';
-    btn.style.background = 'rgba(107,255,158,0.2)';
-    btn.disabled = true;
+const API = 'http://localhost:5000/api';
+
+// ===== NAVIGATION =====
+function showPage(pageId, navEl){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const page = document.getElementById('page-'+pageId);
+  if(page) page.classList.add('active');
+  if(navEl) navEl.classList.add('active');
+
+  const titles = {
+    dashboard:'Dashboard', courses:'Gestion des courses',
+    chauffeurs:'Chauffeurs', passagers:'Passagers',
+    revenus:'Revenus', paiements:'Paiements',
+    carte:'Carte Live', parametres:'Paramètres'
+  };
+  document.getElementById('pageTitle').textContent = titles[pageId]||pageId;
+
+  if(pageId==='courses') loadRides();
+  if(pageId==='passagers') loadUsers();
+  if(pageId==='carte') initAdminMap();
+  if(pageId==='revenus') drawRevenueChart();
+}
+
+// ===== LOAD RIDES =====
+async function loadRides(){
+  try{
+    const r = await fetch(API+'/rides/all');
+    const d = await r.json();
+    const rides = d.rides||[];
+
+    // Update badge
+    const pending = rides.filter(r=>r.status==='pending').length;
+    document.getElementById('pendingBadge').textContent = pending;
+    document.getElementById('pendingAlert').textContent = `${pending} course(s) en attente de chauffeur`;
+
+    // Recent table (dashboard)
+    const tbody = document.getElementById('recentTbody');
+    if(tbody){
+      tbody.innerHTML = rides.slice(0,5).map(r=>`
+        <tr>
+          <td style="font-weight:700;color:var(--muted)">#${r.id}</td>
+          <td>Passager #${r.passenger_id}</td>
+          <td style="font-size:12px;max-width:120px;overflow:hidden;text-overflow:ellipsis">${r.dropoff_address||'—'}</td>
+          <td style="font-weight:700;color:var(--vert)">${r.prix_fcfa||'—'} F</td>
+          <td>${badgeHtml(r.status)}</td>
+        </tr>
+      `).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--muted)">Aucune course</td></tr>';
+    }
+
+    // Full rides table
+    const tbody2 = document.getElementById('ridesTbody');
+    if(tbody2){
+      tbody2.innerHTML = rides.map(r=>`
+        <tr>
+          <td style="font-weight:800">#${r.id}</td>
+          <td>Passager #${r.passenger_id}</td>
+          <td style="font-size:12px">${r.pickup_address||'—'}</td>
+          <td style="font-size:12px">${r.dropoff_address||'—'}</td>
+          <td>${r.distance_km||'?'} km</td>
+          <td style="font-weight:700;color:var(--vert)">${r.prix_fcfa||'—'} F</td>
+          <td>${r.driver_id?'Chauffeur #'+r.driver_id:'—'}</td>
+          <td>${badgeHtml(r.status)}</td>
+          <td>
+            ${r.status==='pending'?`<button onclick="acceptRide(${r.id})" style="padding:4px 10px;background:var(--vert);color:white;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600">✓ Assigner</button>`:'—'}
+          </td>
+        </tr>
+      `).join('') || '<tr><td colspan="9" style="text-align:center;color:var(--muted)">Aucune course</td></tr>';
+    }
+  }catch(e){ console.error(e); }
+}
+
+function badgeHtml(status){
+  const map = {pending:'⏳ En attente', accepted:'🚕 En cours', completed:'✓ Terminée', cancelled:'✕ Annulée'};
+  const cls = {pending:'pending', accepted:'active', completed:'completed', cancelled:'cancelled'};
+  return `<span class="badge ${cls[status]||''}">${map[status]||status}</span>`;
+}
+
+async function acceptRide(id){
+  try{
+    await fetch(API+'/rides/'+id+'/accept',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({driver_id:1})});
+    toast('Course #'+id+' assignée !','success');
+    loadRides();
+  }catch(e){ toast('Erreur','error'); }
+}
+
+function filterRides(status){
+  const rows = document.querySelectorAll('#ridesTbody tr');
+  rows.forEach(row=>{
+    if(status==='all') { row.style.display=''; return; }
+    row.style.display = row.textContent.includes(status) ? '' : 'none';
+  });
+}
+
+// ===== LOAD USERS =====
+async function loadUsers(){
+  try{
+    const r = await fetch(API+'/auth/users');
+    const d = await r.json();
+    const users = d.users||[];
+    const tbody = document.getElementById('usersTbody');
+    tbody.innerHTML = users.map(u=>`
+      <tr>
+        <td style="font-weight:600">${u.name||'—'}</td>
+        <td>${u.phone}</td>
+        <td style="color:var(--muted)">2026</td>
+        <td>—</td>
+        <td style="color:var(--vert);font-weight:700">—</td>
+      </tr>
+    `).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--muted)">Aucun passager</td></tr>';
+  }catch(e){}
+}
+
+// ===== HOUR CHART =====
+function buildHourChart(){
+  const data = [0,0,1,2,4,6,8,5,7,9,6,4,3,5,8,10,9,7,5,4,3,2,1,0];
+  const max = Math.max(...data);
+  const el = document.getElementById('hourChart');
+  if(!el) return;
+  el.innerHTML = data.slice(6,22).map((v,i)=>`
+    <div class="bar-wrap">
+      <div class="bar" style="height:${max?Math.max(4,v/max*72):4}px;background:${v===Math.max(...data.slice(6,22))?'var(--rouge)':'var(--bleu)'}"></div>
+      <div class="bar-label">${6+i}h</div>
+    </div>
+  `).join('');
+}
+
+// ===== REVENUE CHART =====
+function drawRevenueChart(){
+  const canvas = document.getElementById('revenueCanvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  canvas.width = canvas.offsetWidth;
+  canvas.height = 160;
+  const W=canvas.width, H=canvas.height;
+  const data = [28000,35000,22000,41000,38000,47500,52000];
+  const labels = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+  const max = Math.max(...data);
+  const pad = 40;
+
+  ctx.clearRect(0,0,W,H);
+
+  // Grid lines
+  ctx.strokeStyle='rgba(0,0,0,0.06)'; ctx.lineWidth=1;
+  for(let i=0;i<4;i++){
+    const y=pad+(H-pad*2)*i/3;
+    ctx.beginPath(); ctx.moveTo(pad,y); ctx.lineTo(W-pad,y); ctx.stroke();
+    ctx.fillStyle='rgba(0,0,0,0.3)'; ctx.font='10px Outfit'; ctx.textAlign='right';
+    ctx.fillText(Math.round(max*(3-i)/3/1000)+'k', pad-6, y+4);
   }
+
+  // Area
+  const pts = data.map((v,i)=>({x:pad+i*(W-pad*2)/(data.length-1), y:pad+(H-pad*2)*(1-v/max)}));
+  ctx.beginPath();
+  ctx.moveTo(pts[0].x, H-pad);
+  pts.forEach(p=>ctx.lineTo(p.x, p.y));
+  ctx.lineTo(pts[pts.length-1].x, H-pad);
+  ctx.closePath();
+  const grad=ctx.createLinearGradient(0,0,0,H);
+  grad.addColorStop(0,'rgba(200,16,46,0.15)');
+  grad.addColorStop(1,'rgba(200,16,46,0)');
+  ctx.fillStyle=grad; ctx.fill();
+
+  // Line
+  ctx.beginPath();
+  pts.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));
+  ctx.strokeStyle='#C8102E'; ctx.lineWidth=2.5; ctx.stroke();
+
+  // Dots + labels
+  pts.forEach((p,i)=>{
+    ctx.beginPath(); ctx.arc(p.x,p.y,4,0,Math.PI*2);
+    ctx.fillStyle='#C8102E'; ctx.fill();
+    ctx.fillStyle='white'; ctx.beginPath(); ctx.arc(p.x,p.y,2,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='rgba(0,0,0,0.5)'; ctx.font='10px Outfit'; ctx.textAlign='center';
+    ctx.fillText(labels[i], p.x, H-pad+14);
+  });
+}
+
+// ===== ADMIN MAP =====
+let adminMapAnimFrame=0;
+const adminDrivers=[
+  {px:0.35,py:0.38,dx:0.002,dy:0.0015},{px:0.68,py:0.55,dx:-0.0015,dy:0.002},
+  {px:0.25,py:0.68,dx:0.002,dy:-0.001},{px:0.75,py:0.28,dx:-0.002,dy:-0.0015},
+];
+
+function initAdminMap(){
+  const canvas=document.getElementById('adminMapCanvas');
+  if(!canvas) return;
+  function draw(){
+    canvas.width=canvas.offsetWidth; canvas.height=canvas.offsetHeight;
+    const W=canvas.width, H=canvas.height;
+    const ctx=canvas.getContext('2d');
+
+    // Background
+    const bg=ctx.createLinearGradient(0,0,W,H);
+    bg.addColorStop(0,'#0f1f42'); bg.addColorStop(1,'#060e1c');
+    ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
+
+    // Grid
+    ctx.strokeStyle='rgba(255,255,255,0.03)'; ctx.lineWidth=1;
+    for(let i=0;i<20;i++){
+      ctx.beginPath(); ctx.moveTo(i*W/20,0); ctx.lineTo(i*W/20,H); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0,i*H/20); ctx.lineTo(W,i*H/20); ctx.stroke();
+    }
+
+    // River
+    ctx.beginPath();
+    ctx.moveTo(0,H*0.62);
+    ctx.bezierCurveTo(W*0.2,H*0.52,W*0.4,H*0.66,W*0.6,H*0.54);
+    ctx.bezierCurveTo(W*0.78,H*0.44,W*0.9,H*0.56,W,H*0.5);
+    ctx.strokeStyle='rgba(20,100,220,0.25)'; ctx.lineWidth=20; ctx.stroke();
+
+    // Roads
+    [[0,0.5,1,0.5],[0.5,0,0.5,1],[0,0.3,1,0.3],[0,0.7,1,0.7],[0.3,0,0.3,1],[0.7,0,0.7,1]].forEach(([x1,y1,x2,y2])=>{
+      ctx.beginPath(); ctx.moveTo(x1*W,y1*H); ctx.lineTo(x2*W,y2*H);
+      ctx.strokeStyle='rgba(255,255,255,0.1)'; ctx.lineWidth=4; ctx.stroke();
+    });
+
+    // Taxis
+    adminDrivers.forEach((d,i)=>{
+      d.px+=d.dx; d.py+=d.dy;
+      if(d.px<0.05||d.px>0.93)d.dx*=-1;
+      if(d.py<0.06||d.py>0.88)d.dy*=-1;
+      const px=d.px*W, py=d.py*H;
+      const pulse=0.5+0.5*Math.sin(adminMapAnimFrame*0.04+i);
+      ctx.beginPath(); ctx.arc(px,py,16+pulse*6,0,Math.PI*2);
+      ctx.fillStyle=`rgba(255,199,44,${0.1+pulse*0.08})`; ctx.fill();
+      ctx.font='18px serif'; ctx.textAlign='center'; ctx.fillText('🚕',px,py+7);
+    });
+
+    // User center
+    const ux=0.5*W,uy=0.5*H;
+    ctx.beginPath(); ctx.arc(ux,uy,24,0,Math.PI*2);
+    ctx.fillStyle='rgba(66,133,244,0.15)'; ctx.fill();
+    ctx.beginPath(); ctx.arc(ux,uy,12,0,Math.PI*2);
+    ctx.fillStyle='white'; ctx.fill();
+    ctx.beginPath(); ctx.arc(ux,uy,9,0,Math.PI*2);
+    ctx.fillStyle='#4285F4'; ctx.fill();
+
+    adminMapAnimFrame++;
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// ===== TOAST =====
+function toast(msg, type=''){
+  const el=document.getElementById('toast');
+  el.textContent=msg;
+  el.className='toast show'+(type?' '+type:'');
+  setTimeout(()=>el.classList.remove('show'),3500);
+}
+
+// ===== REFRESH =====
+function refreshData(){
+  loadRides();
+  toast('Données actualisées !','success');
+  // Update KPIs with live data
+  fetch(API+'/rides/all').then(r=>r.json()).then(d=>{
+    const rides=d.rides||[];
+    document.getElementById('kpiCourses').textContent=rides.length;
+    const total=rides.reduce((s,r)=>s+(r.prix_fcfa||0),0);
+    document.getElementById('kpiRevenu').textContent=total.toLocaleString();
+  }).catch(()=>{});
+}
+
+// ===== INIT =====
+window.addEventListener('load',()=>{
+  buildHourChart();
+  loadRides();
+  // Auto-refresh every 30s
+  setInterval(refreshData, 30000);
+});
 </script>
 </body>
 </html>
