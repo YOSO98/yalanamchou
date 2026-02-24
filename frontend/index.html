@@ -2,238 +2,960 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Yalanamchou</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{--rouge:#C8102E;--jaune:#FFC72C;--noir:#0A0A0F;--blanc:#F5F0E8}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Outfit',sans-serif;background:var(--noir);color:var(--blanc);min-height:100vh}
-.screen{display:none;min-height:100vh;flex-direction:column}
-.screen.active{display:flex}
-#splash{align-items:center;justify-content:center;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(200,16,46,0.25) 0%,transparent 60%),var(--noir)}
-.logo-mark{width:90px;height:90px;background:linear-gradient(135deg,var(--rouge),var(--jaune));border-radius:24px;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:40px;animation:pulse 2s ease-in-out infinite}
-@keyframes pulse{0%,100%{box-shadow:0 20px 60px rgba(200,16,46,0.4)}50%{box-shadow:0 20px 80px rgba(255,199,44,0.5);transform:scale(1.04)}}
-.app-name{font-family:'Bebas Neue',sans-serif;font-size:72px;letter-spacing:4px;background:linear-gradient(135deg,#fff 0%,var(--jaune) 50%,var(--rouge) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-align:center}
-.app-tagline{font-size:15px;color:rgba(245,240,232,0.5);letter-spacing:3px;text-transform:uppercase;margin-top:8px;text-align:center}
-.splash-btns{display:flex;flex-direction:column;gap:14px;margin-top:48px;width:300px}
-.btn{padding:16px 32px;border-radius:16px;font-family:'Outfit',sans-serif;font-size:16px;font-weight:600;cursor:pointer;border:none;transition:all 0.3s;width:100%}
-.btn-red{background:linear-gradient(135deg,var(--rouge),#E8284A);color:white}
-.btn-yellow{background:linear-gradient(135deg,var(--jaune),#FFB800);color:var(--noir)}
-.btn-outline{background:transparent;color:var(--blanc);border:1px solid rgba(245,240,232,0.2)}
-.btn:hover{transform:translateY(-2px)}
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;background:rgba(10,10,15,0.9);border-bottom:1px solid rgba(245,240,232,0.06);position:sticky;top:0;z-index:100}
-.topbar-logo{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;background:linear-gradient(135deg,var(--jaune),var(--rouge));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.back-btn{background:rgba(245,240,232,0.08);border:none;color:var(--blanc);width:40px;height:40px;border-radius:12px;cursor:pointer;font-size:18px}
-.login-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px}
-.card{background:rgba(245,240,232,0.04);border:1px solid rgba(245,240,232,0.08);border-radius:24px;padding:32px;width:100%;max-width:380px}
-.step{display:none}.step.active{display:block}
-.step-title{font-size:22px;font-weight:700;margin-bottom:6px}
-.step-sub{font-size:14px;color:rgba(245,240,232,0.45);margin-bottom:24px}
-.input-field{width:100%;background:rgba(245,240,232,0.06);border:1px solid rgba(245,240,232,0.12);border-radius:14px;padding:16px 18px;color:var(--blanc);font-family:'Outfit',sans-serif;font-size:16px;outline:none;margin-bottom:16px}
-.input-field:focus{border-color:var(--jaune)}
-.input-field::placeholder{color:rgba(245,240,232,0.3)}
-.otp-inputs{display:flex;gap:10px;justify-content:center;margin-bottom:24px}
-.otp-digit{width:52px;height:60px;background:rgba(245,240,232,0.06);border:1px solid rgba(245,240,232,0.12);border-radius:14px;color:var(--blanc);font-size:24px;font-weight:700;text-align:center;font-family:'Outfit',sans-serif;outline:none}
-.otp-digit:focus{border-color:var(--jaune)}
-.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
-.role-card{background:rgba(245,240,232,0.05);border:2px solid rgba(245,240,232,0.08);border-radius:16px;padding:20px;text-align:center;cursor:pointer;transition:all 0.3s}
-.role-card.selected{border-color:var(--jaune);background:rgba(255,199,44,0.08)}
-.role-icon{font-size:36px;margin-bottom:8px}
-.role-name{font-size:15px;font-weight:600}
-.content{flex:1;padding:24px;overflow-y:auto}
-.section-title{font-size:20px;font-weight:700;margin-bottom:16px}
-.input-wrap{display:flex;align-items:center;gap:12px;background:rgba(245,240,232,0.06);border:1px solid rgba(245,240,232,0.1);border-radius:16px;padding:14px 16px;margin-bottom:12px}
-.input-wrap:focus-within{border-color:var(--jaune)}
-.input-wrap input{background:none;border:none;outline:none;color:var(--blanc);font-family:'Outfit',sans-serif;font-size:15px;width:100%}
-.input-wrap input::placeholder{color:rgba(245,240,232,0.3)}
-.vehicles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
-.vehicle{background:rgba(245,240,232,0.05);border:1px solid rgba(245,240,232,0.08);border-radius:16px;padding:14px 10px;text-align:center;cursor:pointer;transition:all 0.3s}
-.vehicle.selected{border-color:var(--jaune);background:rgba(255,199,44,0.1)}
-.v-emoji{font-size:28px;margin-bottom:6px}
-.v-name{font-size:13px;font-weight:600}
-.v-price{font-size:12px;color:var(--jaune);margin-top:4px}
-.estimate-box{background:rgba(255,199,44,0.08);border:1px solid rgba(255,199,44,0.2);border-radius:16px;padding:20px;margin-bottom:20px;display:none}
-.est-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(245,240,232,0.06);font-size:15px}
-.est-row:last-child{border:none;font-weight:700;font-size:17px}
-.est-row span:last-child{color:var(--jaune)}
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:rgba(34,197,94,0.9);color:white;padding:14px 28px;border-radius:16px;font-weight:600;font-size:14px;z-index:999;transition:all 0.4s;white-space:nowrap}
-.toast.show{transform:translateX(-50%) translateY(0)}
-.toast.error{background:rgba(200,16,46,0.9)}
-.user-badge{background:rgba(255,199,44,0.1);border:1px solid rgba(255,199,44,0.2);border-radius:12px;padding:10px 16px;margin-bottom:20px;font-size:14px}
+:root {
+  --black: #000000;
+  --white: #FFFFFF;
+  --gray-50: #F8F8F8;
+  --gray-100: #F0F0F0;
+  --gray-200: #E0E0E0;
+  --gray-400: #9E9E9E;
+  --gray-600: #5E5E5E;
+  --rouge: #C8102E;
+  --jaune: #F5A623;
+  --vert: #2ECC71;
+  --font: 'Plus Jakarta Sans', sans-serif;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { height: 100%; }
+body {
+  font-family: var(--font); background: var(--black);
+  height: 100%; overflow: hidden; color: var(--black);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ========== SCREENS ========== */
+.screen {
+  position: fixed; inset: 0; display: none;
+  flex-direction: column; background: var(--white);
+}
+.screen.show { display: flex; }
+
+/* ========== SPLASH ========== */
+#splash {
+  background: var(--black);
+  align-items: center; justify-content: center;
+}
+.splash-inner { text-align: center; }
+.splash-car {
+  font-size: 80px; display: block;
+  animation: splashBounce 0.8s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+@keyframes splashBounce { from { transform: scale(0) translateY(30px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
+.splash-title {
+  font-size: 42px; font-weight: 900; color: var(--white);
+  letter-spacing: -1px; margin-top: 20px;
+  animation: fadeUp 0.6s ease 0.4s both;
+}
+.splash-sub {
+  font-size: 16px; color: var(--gray-400); margin-top: 8px;
+  animation: fadeUp 0.6s ease 0.6s both;
+}
+.splash-bar {
+  width: 48px; height: 4px; background: rgba(255,255,255,0.1);
+  border-radius: 2px; margin: 48px auto 0; overflow: hidden;
+  animation: fadeUp 0.6s ease 0.8s both;
+}
+.splash-bar-fill {
+  height: 100%; background: var(--white); border-radius: 2px;
+  animation: fillBar 2.4s ease forwards;
+}
+@keyframes fillBar { from { width: 0; } to { width: 100%; } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ========== LOGIN ========== */
+#login { background: var(--black); justify-content: flex-end; }
+.login-hero {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; padding: 40px 32px;
+}
+.login-logo {
+  font-size: 36px; font-weight: 900; color: var(--white);
+  letter-spacing: -1.5px; text-align: center; margin-bottom: 12px;
+}
+.login-tagline { font-size: 15px; color: var(--gray-400); text-align: center; }
+.login-card {
+  background: var(--white); border-radius: 28px 28px 0 0;
+  padding: 32px 24px 40px; animation: slideUp 0.5s cubic-bezier(0.32,0.72,0,1);
+}
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.login-card-title { font-size: 24px; font-weight: 800; margin-bottom: 6px; letter-spacing: -0.5px; }
+.login-card-sub { font-size: 14px; color: var(--gray-400); margin-bottom: 24px; }
+.phone-row { display: flex; gap: 10px; margin-bottom: 16px; }
+.code-btn {
+  padding: 0 18px; height: 58px; background: var(--gray-50);
+  border: 1.5px solid var(--gray-200); border-radius: 16px;
+  font-family: var(--font); font-size: 16px; font-weight: 700;
+  color: var(--black); display: flex; align-items: center; gap: 6px; flex-shrink: 0;
+}
+.phone-field {
+  flex: 1; height: 58px; background: var(--gray-50);
+  border: 1.5px solid var(--gray-200); border-radius: 16px;
+  padding: 0 18px; font-family: var(--font); font-size: 18px;
+  font-weight: 600; color: var(--black); outline: none; transition: border-color 0.2s;
+}
+.phone-field:focus { border-color: var(--black); background: var(--white); }
+.btn-cta {
+  width: 100%; height: 58px; background: var(--black); color: var(--white);
+  border: none; border-radius: 16px; font-family: var(--font);
+  font-size: 17px; font-weight: 800; cursor: pointer; letter-spacing: -0.3px;
+  transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn-cta:active { transform: scale(0.97); }
+.btn-cta.red { background: var(--rouge); }
+.btn-cta.green { background: var(--vert); }
+.terms-txt { font-size: 12px; color: var(--gray-400); text-align: center; margin-top: 16px; line-height: 1.6; }
+.terms-txt u { color: var(--gray-600); }
+
+/* OTP */
+.otp-hint { font-size: 14px; color: var(--gray-400); margin-bottom: 24px; }
+.otp-hint span { color: var(--black); font-weight: 700; }
+.otp-grid { display: flex; gap: 8px; margin-bottom: 24px; }
+.otp-box {
+  flex: 1; height: 64px; text-align: center; font-size: 28px; font-weight: 800;
+  background: var(--gray-50); border: 2px solid var(--gray-200);
+  border-radius: 14px; font-family: var(--font); color: var(--black);
+  outline: none; transition: all 0.15s; caret-color: var(--rouge);
+}
+.otp-box:focus { border-color: var(--black); background: var(--white); transform: scale(1.04); }
+.otp-box.done { border-color: var(--black); color: var(--black); }
+.resend-row { text-align: center; margin-top: 16px; }
+.resend-link { font-size: 14px; font-weight: 700; color: var(--black); cursor: pointer; text-decoration: underline; }
+
+/* ========== HOME ========== */
+#home { background: var(--gray-50); }
+.home-header {
+  background: var(--white); padding: 18px 20px 16px;
+  border-bottom: 1px solid var(--gray-100);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.header-logo { font-size: 22px; font-weight: 900; letter-spacing: -1px; color: var(--black); }
+.header-right { display: flex; align-items: center; gap: 10px; }
+.notif-btn {
+  width: 40px; height: 40px; border-radius: 50%; background: var(--gray-50);
+  border: none; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center;
+}
+.avatar-btn {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--black); color: var(--white);
+  font-size: 16px; font-weight: 800; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.home-scroll { flex: 1; overflow-y: auto; padding-bottom: 88px; }
+.home-scroll::-webkit-scrollbar { display: none; }
+
+/* WHERE TO CARD */
+.where-card {
+  margin: 16px; background: var(--white); border-radius: 20px;
+  padding: 6px; box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+}
+.where-row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 16px; cursor: pointer; border-radius: 14px; transition: background 0.15s;
+}
+.where-row:hover { background: var(--gray-50); }
+.where-pip { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.where-pip.from { background: var(--black); }
+.where-pip.to { background: var(--rouge); }
+.where-line { height: 1px; background: var(--gray-100); margin: 0 16px; }
+.where-label { font-size: 16px; font-weight: 600; flex: 1; }
+.where-label.muted { color: var(--gray-400); font-weight: 500; }
+.where-arrow { font-size: 20px; color: var(--gray-400); }
+
+/* GREETING */
+.greeting-wrap { padding: 8px 20px 16px; }
+.greeting-txt { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; color: var(--black); }
+.greeting-sub { font-size: 14px; color: var(--gray-400); margin-top: 3px; }
+
+/* PROMO */
+.promo-card {
+  margin: 0 16px 20px; border-radius: 20px; overflow: hidden;
+  background: var(--black); padding: 22px 24px; position: relative;
+}
+.promo-card::before {
+  content: ''; position: absolute; right: -20px; top: -20px;
+  width: 120px; height: 120px; border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+}
+.promo-pill {
+  display: inline-block; background: var(--jaune); color: var(--black);
+  font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 20px;
+  margin-bottom: 10px; letter-spacing: 0.5px;
+}
+.promo-title { font-size: 20px; font-weight: 800; color: var(--white); letter-spacing: -0.5px; margin-bottom: 4px; }
+.promo-sub { font-size: 13px; color: rgba(255,255,255,0.45); }
+.promo-emoji { position: absolute; right: 24px; top: 50%; transform: translateY(-50%); font-size: 52px; opacity: 0.25; }
+
+/* SECTION */
+.section-head { display: flex; align-items: center; justify-content: space-between; padding: 0 20px; margin-bottom: 12px; }
+.section-title { font-size: 17px; font-weight: 800; letter-spacing: -0.3px; }
+.section-link { font-size: 14px; font-weight: 700; color: var(--gray-400); cursor: pointer; }
+
+/* QUICK SCROLL */
+.quick-scroll { display: flex; gap: 10px; padding: 0 16px; overflow-x: auto; margin-bottom: 24px; }
+.quick-scroll::-webkit-scrollbar { display: none; }
+.quick-chip {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--white); border-radius: 50px; padding: 12px 18px;
+  white-space: nowrap; cursor: pointer; flex-shrink: 0;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.06); transition: all 0.2s;
+  border: 1.5px solid transparent;
+}
+.quick-chip:hover { border-color: var(--black); }
+.quick-chip:active { transform: scale(0.96); }
+.chip-icon { font-size: 20px; }
+.chip-name { font-size: 14px; font-weight: 700; }
+.chip-dist { font-size: 12px; color: var(--gray-400); margin-top: 1px; }
+
+/* RECENT */
+.recent-list { padding: 0 16px; }
+.recent-card {
+  background: var(--white); border-radius: 16px;
+  padding: 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 14px;
+  cursor: pointer; transition: all 0.2s; box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+}
+.recent-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+.recent-card:active { transform: scale(0.98); }
+.recent-icon {
+  width: 48px; height: 48px; border-radius: 14px; background: var(--gray-50);
+  display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;
+}
+.recent-name { font-size: 15px; font-weight: 700; letter-spacing: -0.2px; }
+.recent-meta { font-size: 13px; color: var(--gray-400); margin-top: 3px; }
+.recent-price { font-size: 15px; font-weight: 800; color: var(--black); }
+.recent-arrow { font-size: 18px; color: var(--gray-200); }
+
+/* BOTTOM NAV */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0; height: 80px;
+  background: var(--white); border-top: 1px solid var(--gray-100);
+  display: flex; align-items: center; z-index: 200;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.nav-item {
+  flex: 1; display: flex; flex-direction: column; align-items: center;
+  gap: 4px; cursor: pointer; padding: 8px 0; transition: all 0.2s;
+}
+.nav-item:active { transform: scale(0.9); }
+.nav-ico { font-size: 24px; }
+.nav-lbl { font-size: 11px; font-weight: 700; color: var(--gray-400); letter-spacing: 0.3px; }
+.nav-item.on .nav-lbl { color: var(--black); }
+.nav-item.on .nav-ico { filter: none; }
+
+/* ========== BOOKING ========== */
+#booking { background: var(--white); }
+.booking-top {
+  padding: 16px 20px; display: flex; align-items: center; gap: 14px;
+  border-bottom: 1px solid var(--gray-100);
+}
+.back-circle {
+  width: 42px; height: 42px; border-radius: 50%; background: var(--gray-50);
+  border: none; cursor: pointer; font-size: 20px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; transition: all 0.15s;
+}
+.back-circle:active { background: var(--gray-200); }
+.booking-inputs { flex: 1; }
+.b-inp-wrap { display: flex; align-items: center; gap: 10px; padding: 8px 0; }
+.b-inp-wrap + .b-inp-wrap { border-top: 1px solid var(--gray-100); }
+.b-pip { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.b-inp {
+  flex: 1; border: none; outline: none; font-family: var(--font);
+  font-size: 16px; font-weight: 600; color: var(--black); background: transparent;
+}
+.b-inp::placeholder { color: var(--gray-400); font-weight: 500; }
+.booking-scroll { flex: 1; overflow-y: auto; }
+.booking-scroll::-webkit-scrollbar { display: none; }
+.sugg-head { font-size: 12px; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 1px; padding: 20px 20px 10px; }
+.sugg-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 20px; cursor: pointer; transition: background 0.15s;
+}
+.sugg-item:hover { background: var(--gray-50); }
+.sugg-item:active { background: var(--gray-100); }
+.sugg-ico {
+  width: 44px; height: 44px; border-radius: 14px; background: var(--gray-100);
+  display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;
+}
+.sugg-name { font-size: 15px; font-weight: 700; letter-spacing: -0.2px; }
+.sugg-sub { font-size: 13px; color: var(--gray-400); margin-top: 2px; }
+.sugg-km { font-size: 13px; color: var(--gray-400); margin-left: auto; flex-shrink: 0; }
+.sugg-div { height: 1px; background: var(--gray-100); margin: 0 20px; }
+
+/* ========== VEHICLES ========== */
+#vehicles { background: var(--white); }
+.vehicle-map {
+  height: 200px; background: #0a0f1e; overflow: hidden; position: relative; flex-shrink: 0;
+}
+.vehicle-map canvas { width: 100%; height: 100%; display: block; }
+.vehicle-dest-label {
+  position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+  background: var(--white); padding: 8px 18px; border-radius: 24px;
+  font-size: 13px; font-weight: 700; box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  white-space: nowrap;
+}
+.vehicles-scroll { flex: 1; overflow-y: auto; padding: 16px 16px 0; }
+.vehicles-scroll::-webkit-scrollbar { display: none; }
+.vehicle-card {
+  display: flex; align-items: center; gap: 14px;
+  padding: 18px 16px; border-radius: 18px; margin-bottom: 10px;
+  border: 2px solid var(--gray-100); cursor: pointer; transition: all 0.2s;
+  background: var(--white);
+}
+.vehicle-card.sel { border-color: var(--black); background: var(--black); }
+.vehicle-card:active { transform: scale(0.98); }
+.v-emoji { font-size: 42px; width: 56px; text-align: center; flex-shrink: 0; }
+.v-info { flex: 1; }
+.v-name { font-size: 16px; font-weight: 800; letter-spacing: -0.3px; }
+.v-desc { font-size: 13px; margin-top: 2px; }
+.v-eta { display: inline-block; font-size: 12px; font-weight: 700; margin-top: 6px; padding: 3px 10px; border-radius: 20px; }
+.v-right { text-align: right; }
+.v-price { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; }
+.v-fcfa { font-size: 12px; margin-top: 2px; }
+/* Default colors */
+.vehicle-card .v-name, .vehicle-card .v-desc, .vehicle-card .v-fcfa { color: var(--black); }
+.vehicle-card .v-desc { color: var(--gray-400); }
+.vehicle-card .v-eta { background: rgba(46,204,113,0.1); color: #16A34A; }
+.vehicle-card .v-price { color: var(--black); }
+.vehicle-card .v-fcfa { color: var(--gray-400); }
+/* Selected state */
+.vehicle-card.sel .v-name, .vehicle-card.sel .v-price { color: var(--white); }
+.vehicle-card.sel .v-desc, .vehicle-card.sel .v-fcfa { color: rgba(255,255,255,0.5); }
+.vehicle-card.sel .v-eta { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.9); }
+/* Bottom confirm */
+.v-confirm {
+  padding: 16px 16px 32px; border-top: 1px solid var(--gray-100);
+  background: var(--white);
+}
+.v-confirm-row { display: flex; justify-content: space-between; margin-bottom: 14px; }
+.v-confirm-lbl { font-size: 14px; color: var(--gray-400); font-weight: 500; }
+.v-confirm-val { font-size: 15px; font-weight: 800; }
+
+/* ========== TRACKING ========== */
+#tracking { background: var(--white); }
+.track-map { height: 42vh; background: #0a0f1e; flex-shrink: 0; position: relative; overflow: hidden; }
+.track-map canvas { width: 100%; height: 100%; display: block; }
+.track-sheet {
+  flex: 1; overflow-y: auto; padding: 0 20px 32px;
+  border-radius: 28px 28px 0 0; background: var(--white);
+  margin-top: -28px; position: relative; z-index: 10;
+}
+.track-sheet::-webkit-scrollbar { display: none; }
+.track-handle { width: 40px; height: 4px; background: var(--gray-200); border-radius: 2px; margin: 16px auto 20px; }
+.track-status {
+  text-align: center; padding: 20px; background: var(--gray-50);
+  border-radius: 18px; margin-bottom: 16px;
+}
+.track-status-title { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 4px; }
+.track-status-sub { font-size: 14px; color: var(--gray-400); }
+.track-eta-row { display: flex; gap: 10px; margin-bottom: 16px; }
+.track-eta-box {
+  flex: 1; background: var(--gray-50); border-radius: 16px;
+  padding: 16px; text-align: center;
+}
+.track-eta-num { font-size: 30px; font-weight: 900; letter-spacing: -1px; }
+.track-eta-lbl { font-size: 11px; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+.track-prog { height: 4px; background: var(--gray-100); border-radius: 2px; margin-bottom: 20px; overflow: hidden; }
+.track-prog-fill { height: 100%; background: var(--black); border-radius: 2px; transition: width 0.6s ease; }
+.driver-block {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--gray-50); border-radius: 18px; padding: 16px; margin-bottom: 14px;
+}
+.driver-ava {
+  width: 60px; height: 60px; border-radius: 50%;
+  background: var(--black); display: flex; align-items: center;
+  justify-content: center; font-size: 30px; flex-shrink: 0;
+}
+.driver-n { font-size: 18px; font-weight: 800; letter-spacing: -0.3px; }
+.driver-car-info { font-size: 13px; color: var(--gray-400); margin-top: 3px; }
+.driver-pl {
+  display: inline-block; background: var(--jaune); color: var(--black);
+  font-size: 11px; font-weight: 900; padding: 3px 10px; border-radius: 6px; margin-top: 6px;
+  letter-spacing: 0.5px;
+}
+.driver-rating { margin-left: auto; text-align: center; }
+.driver-stars { font-size: 14px; color: var(--jaune); }
+.driver-num { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; }
+.track-btns { display: flex; gap: 10px; }
+.btn-outline {
+  flex: 1; height: 52px; border: 2px solid var(--gray-200);
+  border-radius: 14px; background: var(--white); font-family: var(--font);
+  font-size: 15px; font-weight: 700; cursor: pointer; color: var(--black); transition: all 0.2s;
+}
+.btn-outline:active { background: var(--gray-50); }
+.btn-outline.danger { border-color: rgba(200,16,46,0.2); color: var(--rouge); }
+
+/* ========== ARRIVED ========== */
+#arrived { background: var(--white); align-items: center; justify-content: center; padding: 40px 24px; }
+.arrived-anim { font-size: 80px; margin-bottom: 20px; animation: pop 0.5s cubic-bezier(0.34,1.56,0.64,1) both; }
+@keyframes pop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.arrived-h { font-size: 30px; font-weight: 900; letter-spacing: -1px; text-align: center; margin-bottom: 6px; }
+.arrived-s { font-size: 15px; color: var(--gray-400); text-align: center; margin-bottom: 28px; }
+.price-big { font-size: 64px; font-weight: 900; letter-spacing: -3px; text-align: center; line-height: 1; margin-bottom: 4px; }
+.price-curr { font-size: 16px; color: var(--gray-400); text-align: center; margin-bottom: 28px; }
+.rate-section { width: 100%; margin-bottom: 24px; text-align: center; }
+.rate-label { font-size: 14px; color: var(--gray-400); font-weight: 600; margin-bottom: 12px; }
+.rate-stars { display: flex; gap: 6px; justify-content: center; }
+.rate-star { font-size: 40px; cursor: pointer; transition: all 0.15s; filter: grayscale(1) opacity(0.25); }
+.rate-star.on { filter: none; transform: scale(1.15); }
+.pay-row { display: flex; gap: 8px; width: 100%; margin-bottom: 20px; }
+.pay-btn {
+  flex: 1; padding: 14px 8px; border: 2px solid var(--gray-100); border-radius: 14px;
+  cursor: pointer; text-align: center; transition: all 0.2s;
+}
+.pay-btn.on { border-color: var(--black); background: var(--black); }
+.pay-btn .p-ico { font-size: 28px; margin-bottom: 4px; }
+.pay-btn .p-lbl { font-size: 12px; font-weight: 700; color: var(--black); }
+.pay-btn.on .p-lbl { color: var(--white); }
+
+/* ========== PROFILE ========== */
+#profile { background: var(--gray-50); overflow-y: auto; padding-bottom: 80px; }
+.profile-top {
+  background: var(--black); padding: 48px 24px 32px;
+  display: flex; flex-direction: column; align-items: center;
+}
+.profile-ava-big {
+  width: 80px; height: 80px; border-radius: 50%; background: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px; font-weight: 900; color: var(--black); margin-bottom: 14px;
+}
+.profile-n { font-size: 24px; font-weight: 900; color: var(--white); letter-spacing: -0.5px; }
+.profile-p { font-size: 14px; color: rgba(255,255,255,0.4); margin-top: 4px; }
+.stats-row { display: flex; margin: 16px; gap: 10px; }
+.stat-card {
+  flex: 1; background: var(--white); border-radius: 16px; padding: 16px;
+  text-align: center; box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+}
+.stat-n { font-size: 26px; font-weight: 900; letter-spacing: -1px; }
+.stat-l { font-size: 12px; color: var(--gray-400); font-weight: 600; margin-top: 2px; }
+.menu-grp { padding: 0 16px; margin-bottom: 14px; }
+.menu-grp-title { font-size: 12px; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 1px; padding: 0 4px; margin-bottom: 8px; }
+.menu-row {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--white); border-radius: 14px; padding: 16px;
+  margin-bottom: 6px; cursor: pointer; transition: all 0.2s;
+}
+.menu-row:active { background: var(--gray-50); }
+.menu-ico { font-size: 22px; width: 30px; }
+.menu-lbl { font-size: 15px; font-weight: 700; flex: 1; letter-spacing: -0.2px; }
+.menu-chev { font-size: 18px; color: var(--gray-200); }
+.menu-row.danger .menu-lbl { color: var(--rouge); }
+
+/* ========== TOAST ========== */
+.toast {
+  position: fixed; top: 20px; left: 50%;
+  transform: translateX(-50%) translateY(-80px);
+  z-index: 9999; background: var(--black); color: var(--white);
+  padding: 14px 24px; border-radius: 50px;
+  font-size: 14px; font-weight: 700; letter-spacing: -0.2px;
+  white-space: nowrap; opacity: 0;
+  transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+}
+.toast.on { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast.green { background: #16A34A; }
+.toast.red { background: var(--rouge); }
+.toast.blue { background: #2563EB; }
 </style>
 </head>
 <body>
-<div class="toast" id="toast"></div>
-<div class="screen active" id="splash">
-  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:40px">
-    <div class="logo-mark">🚕</div>
-    <div class="app-name">Yalanamchou</div>
-    <div class="app-tagline">Votre taxi intelligent au Tchad</div>
-    <div class="splash-btns">
-      <button class="btn btn-red" onclick="show('login')">🧑 Se connecter</button>
-      <button class="btn btn-yellow" onclick="show('login')">🚗 Je suis chauffeur</button>
-    </div>
+
+<div class="toast" id="t"></div>
+
+<!-- ====== SPLASH ====== -->
+<div class="screen show" id="splash">
+  <div class="splash-inner">
+    <span class="splash-car">🚕</span>
+    <div class="splash-title">Yalanamchou</div>
+    <div class="splash-sub">Le taxi intelligent du Tchad</div>
+    <div class="splash-bar"><div class="splash-bar-fill"></div></div>
   </div>
 </div>
+
+<!-- ====== LOGIN ====== -->
 <div class="screen" id="login">
-  <div class="topbar">
-    <button class="back-btn" onclick="show('splash')">←</button>
-    <div class="topbar-logo">CONNEXION</div>
-    <div style="width:40px"></div>
+  <div class="login-hero">
+    <div style="font-size:64px;margin-bottom:20px">🚕</div>
+    <div class="login-logo">Yalanamchou</div>
+    <div class="login-tagline">Votre taxi partout à N'Djaména</div>
   </div>
-  <div class="login-body">
-    <div class="card">
-      <div class="step active" id="s1">
-        <div class="step-title">📱 Votre numero</div>
-        <div class="step-sub">Vous recevrez un code SMS</div>
-        <input type="tel" class="input-field" id="phoneInput" placeholder="+235 66 XX XX XX">
-        <button class="btn btn-red" onclick="sendOTP()">Envoyer le code</button>
+  <!-- Step 1: Phone -->
+  <div class="login-card" id="s1">
+    <div class="login-card-title">Entrez votre numéro</div>
+    <div class="login-card-sub">Nous vous enverrons un code de vérification</div>
+    <div class="phone-row">
+      <div class="code-btn">🇹🇩 +235</div>
+      <input class="phone-field" type="tel" id="ph" placeholder="66 XX XX XX" maxlength="8">
+    </div>
+    <button class="btn-cta" onclick="doSendOTP()">Continuer →</button>
+    <div class="terms-txt">En continuant, vous acceptez nos <u>Conditions</u> et <u>Politique de confidentialité</u></div>
+  </div>
+  <!-- Step 2: OTP -->
+  <div class="login-card" id="s2" style="display:none">
+    <div class="login-card-title">Code de vérification</div>
+    <div class="otp-hint">Entrez le code envoyé au <span id="phDisp"></span></div>
+    <div class="otp-grid">
+      <input class="otp-box" type="tel" maxlength="1" id="o0" oninput="otpIn(this,0)">
+      <input class="otp-box" type="tel" maxlength="1" id="o1" oninput="otpIn(this,1)">
+      <input class="otp-box" type="tel" maxlength="1" id="o2" oninput="otpIn(this,2)">
+      <input class="otp-box" type="tel" maxlength="1" id="o3" oninput="otpIn(this,3)">
+      <input class="otp-box" type="tel" maxlength="1" id="o4" oninput="otpIn(this,4)">
+      <input class="otp-box" type="tel" maxlength="1" id="o5" oninput="otpIn(this,5)">
+    </div>
+    <button class="btn-cta green" onclick="doVerifyOTP()">Vérifier →</button>
+    <div class="resend-row"><span class="resend-link" onclick="doSendOTP()">Renvoyer le code</span></div>
+  </div>
+</div>
+
+<!-- ====== HOME ====== -->
+<div class="screen" id="home">
+  <div class="home-header">
+    <div class="header-logo">Yalanamchou</div>
+    <div class="header-right">
+      <button class="notif-btn">🔔</button>
+      <button class="avatar-btn" id="avatarBtn" onclick="go('profile')">M</button>
+    </div>
+  </div>
+  <div class="home-scroll">
+    <!-- Greeting -->
+    <div class="greeting-wrap" style="padding:16px 20px 12px">
+      <div class="greeting-txt" id="greetTxt">Bonjour 👋</div>
+      <div class="greeting-sub">📍 Marché Central, N'Djaména</div>
+    </div>
+    <!-- Where to -->
+    <div class="where-card" onclick="go('booking')">
+      <div class="where-row">
+        <div class="where-pip from"></div>
+        <div class="where-label muted">Où voulez-vous aller ?</div>
+        <div class="where-arrow">›</div>
       </div>
-      <div class="step" id="s2">
-        <div class="step-title">🔐 Code recu</div>
-        <div class="step-sub" id="otpSub">Entrez le code</div>
-        <div class="otp-inputs">
-          <input type="text" class="otp-digit" maxlength="1" oninput="nextOTP(this,0)">
-          <input type="text" class="otp-digit" maxlength="1" oninput="nextOTP(this,1)">
-          <input type="text" class="otp-digit" maxlength="1" oninput="nextOTP(this,2)">
-          <input type="text" class="otp-digit" maxlength="1" oninput="nextOTP(this,3)">
-          <input type="text" class="otp-digit" maxlength="1" oninput="nextOTP(this,4)">
-          <input type="text" class="otp-digit" maxlength="1" oninput="nextOTP(this,5)">
+    </div>
+    <!-- Promo -->
+    <div class="promo-card" style="margin:16px">
+      <div class="promo-pill">🎁 OFFRE</div>
+      <div class="promo-title">Première course à -50%</div>
+      <div class="promo-sub">Code : YALA2026</div>
+      <div class="promo-emoji">🚕</div>
+    </div>
+    <!-- Quick -->
+    <div class="section-head">
+      <div class="section-title">Destinations rapides</div>
+    </div>
+    <div class="quick-scroll">
+      <div class="quick-chip" onclick="pick('Aéroport Hassan Djamous',8.2,12)"><div class="chip-icon">✈️</div><div><div class="chip-name">Aéroport</div><div class="chip-dist">8.2 km</div></div></div>
+      <div class="quick-chip" onclick="pick('Université de N\'Djaména',4.1,6)"><div class="chip-icon">🎓</div><div><div class="chip-name">Université</div><div class="chip-dist">4.1 km</div></div></div>
+      <div class="quick-chip" onclick="pick('Hôpital Général',5.2,8)"><div class="chip-icon">🏥</div><div><div class="chip-name">Hôpital</div><div class="chip-dist">5.2 km</div></div></div>
+      <div class="quick-chip" onclick="pick('Marché de Dembé',3.8,6)"><div class="chip-icon">🛒</div><div><div class="chip-name">Marché</div><div class="chip-dist">3.8 km</div></div></div>
+      <div class="quick-chip" onclick="pick('Quartier Moursal',2.5,4)"><div class="chip-icon">🏘️</div><div><div class="chip-name">Moursal</div><div class="chip-dist">2.5 km</div></div></div>
+    </div>
+    <!-- Recent -->
+    <div class="section-head"><div class="section-title">Récents</div></div>
+    <div class="recent-list">
+      <div class="recent-card" onclick="pick('Aéroport Hassan Djamous',8.2,12)">
+        <div class="recent-icon">✈️</div>
+        <div style="flex:1">
+          <div class="recent-name">Aéroport Hassan Djamous</div>
+          <div class="recent-meta">Hier • 8.2 km • Mahamat</div>
         </div>
-        <button class="btn btn-red" onclick="verifyOTP()">Verifier</button>
-      </div>
-      <div class="step" id="s3">
-        <div class="step-title">👋 Bienvenue !</div>
-        <div class="step-sub">Completez votre profil</div>
-        <div class="role-grid">
-          <div class="role-card selected" onclick="selectRole(this,'passager')">
-            <div class="role-icon">🧑</div>
-            <div class="role-name">Passager</div>
-          </div>
-          <div class="role-card" onclick="selectRole(this,'chauffeur')">
-            <div class="role-icon">🚕</div>
-            <div class="role-name">Chauffeur</div>
-          </div>
+        <div style="text-align:right">
+          <div class="recent-price">2 750F</div>
+          <div class="recent-arrow">›</div>
         </div>
-        <input type="text" class="input-field" id="nameInput" placeholder="Votre prenom...">
-        <button class="btn btn-yellow" onclick="finishLogin()">Cest parti !</button>
       </div>
+      <div class="recent-card" onclick="pick('Université de N\'Djaména',4.1,6)">
+        <div class="recent-icon">🎓</div>
+        <div style="flex:1">
+          <div class="recent-name">Université de N'Djaména</div>
+          <div class="recent-meta">Lun 23 fév • 4.1 km • Fatima</div>
+        </div>
+        <div style="text-align:right">
+          <div class="recent-price">1 450F</div>
+          <div class="recent-arrow">›</div>
+        </div>
+      </div>
+      <div class="recent-card" onclick="pick('Hôpital Général',5.2,8)">
+        <div class="recent-icon">🏥</div>
+        <div style="flex:1">
+          <div class="recent-name">Hôpital Général</div>
+          <div class="recent-meta">Dim 22 fév • 5.2 km • Ali</div>
+        </div>
+        <div style="text-align:right">
+          <div class="recent-price">1 800F</div>
+          <div class="recent-arrow">›</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-nav">
+    <div class="nav-item on" onclick="nav(this);go('home')"><div class="nav-ico">🏠</div><div class="nav-lbl">Accueil</div></div>
+    <div class="nav-item" onclick="nav(this);go('booking')"><div class="nav-ico">🚕</div><div class="nav-lbl">Commander</div></div>
+    <div class="nav-item" onclick="nav(this)"><div class="nav-ico">📋</div><div class="nav-lbl">Courses</div></div>
+    <div class="nav-item" onclick="nav(this);go('profile')"><div class="nav-ico">👤</div><div class="nav-lbl">Profil</div></div>
+  </div>
+</div>
+
+<!-- ====== BOOKING ====== -->
+<div class="screen" id="booking">
+  <div class="booking-top">
+    <button class="back-circle" onclick="go('home')">←</button>
+    <div class="booking-inputs">
+      <div class="b-inp-wrap">
+        <div class="b-pip" style="background:var(--black)"></div>
+        <input class="b-inp" type="text" value="Ma position actuelle" readonly style="color:var(--gray-400)">
+      </div>
+      <div class="b-inp-wrap">
+        <div class="b-pip" style="background:var(--rouge)"></div>
+        <input class="b-inp" type="text" id="destInp" placeholder="Destination..." autofocus>
+      </div>
+    </div>
+  </div>
+  <div class="booking-scroll">
+    <div class="sugg-head">Suggestions</div>
+    <div class="sugg-item" onclick="pick('Aéroport Hassan Djamous',8.2,12)"><div class="sugg-ico">✈️</div><div><div class="sugg-name">Aéroport Hassan Djamous</div><div class="sugg-sub">N'Djaména International</div></div><div class="sugg-km">8.2 km</div></div>
+    <div class="sugg-div"></div>
+    <div class="sugg-item" onclick="pick('Université de N\'Djaména',4.1,6)"><div class="sugg-ico">🎓</div><div><div class="sugg-name">Université de N'Djaména</div><div class="sugg-sub">Quartier Farcha</div></div><div class="sugg-km">4.1 km</div></div>
+    <div class="sugg-div"></div>
+    <div class="sugg-item" onclick="pick('Hôpital Général de Référence',5.2,8)"><div class="sugg-ico">🏥</div><div><div class="sugg-name">Hôpital Général de Référence</div><div class="sugg-sub">Centre-ville</div></div><div class="sugg-km">5.2 km</div></div>
+    <div class="sugg-div"></div>
+    <div class="sugg-item" onclick="pick('Marché de Dembé',3.8,6)"><div class="sugg-ico">🛒</div><div><div class="sugg-name">Marché de Dembé</div><div class="sugg-sub">Dembé</div></div><div class="sugg-km">3.8 km</div></div>
+    <div class="sugg-div"></div>
+    <div class="sugg-item" onclick="pick('Préfecture de N\'Djaména',2.8,4)"><div class="sugg-ico">🏛️</div><div><div class="sugg-name">Préfecture de N'Djaména</div><div class="sugg-sub">Centre administratif</div></div><div class="sugg-km">2.8 km</div></div>
+    <div class="sugg-div"></div>
+    <div class="sugg-item" onclick="pick('Quartier Moursal',2.5,4)"><div class="sugg-ico">🏘️</div><div><div class="sugg-name">Quartier Moursal</div><div class="sugg-sub">N'Djaména</div></div><div class="sugg-km">2.5 km</div></div>
+    <div class="sugg-div"></div>
+    <div class="sugg-item" onclick="pick('Grand Marché de N\'Djaména',1.8,3)"><div class="sugg-ico">🏪</div><div><div class="sugg-name">Grand Marché</div><div class="sugg-sub">Centre-ville</div></div><div class="sugg-km">1.8 km</div></div>
+  </div>
+</div>
+
+<!-- ====== VEHICLES ====== -->
+<div class="screen" id="vehicles">
+  <div class="vehicle-map">
+    <canvas id="vMapC"></canvas>
+    <div class="vehicle-dest-label" id="vDestLbl">Destination</div>
+    <button class="back-circle" style="position:absolute;top:12px;left:12px;background:rgba(255,255,255,0.9)" onclick="go('booking')">←</button>
+  </div>
+  <div class="vehicles-scroll">
+    <div class="vehicle-card sel" id="vc0" onclick="selV(this,0)">
+      <div class="v-emoji">🛵</div>
+      <div class="v-info"><div class="v-name">Moto Express</div><div class="v-desc">Rapide · 1 personne</div><div class="v-eta" id="ve0">⏱ 3 min</div></div>
+      <div class="v-right"><div class="v-price" id="vp0">500</div><div class="v-fcfa">FCFA</div></div>
+    </div>
+    <div class="vehicle-card" id="vc1" onclick="selV(this,1)">
+      <div class="v-emoji">🚕</div>
+      <div class="v-info"><div class="v-name">Yala Taxi</div><div class="v-desc">Confort · 1–4 personnes</div><div class="v-eta" id="ve1">⏱ 5 min</div></div>
+      <div class="v-right"><div class="v-price" id="vp1">1 200</div><div class="v-fcfa">FCFA</div></div>
+    </div>
+    <div class="vehicle-card" id="vc2" onclick="selV(this,2)">
+      <div class="v-emoji">🚐</div>
+      <div class="v-info"><div class="v-name">Yala Premium</div><div class="v-desc">Climatisé · 1–6 personnes</div><div class="v-eta" id="ve2">⏱ 8 min</div></div>
+      <div class="v-right"><div class="v-price" id="vp2">2 500</div><div class="v-fcfa">FCFA</div></div>
+    </div>
+  </div>
+  <div class="v-confirm">
+    <div class="v-confirm-row">
+      <div class="v-confirm-lbl">💳 Total estimé</div>
+      <div class="v-confirm-val" id="vTotal">500 FCFA</div>
+    </div>
+    <button class="btn-cta" onclick="doConfirm()">Commander maintenant →</button>
+  </div>
+</div>
+
+<!-- ====== TRACKING ====== -->
+<div class="screen" id="tracking">
+  <div class="track-map"><canvas id="tMapC"></canvas></div>
+  <div class="track-sheet">
+    <div class="track-handle"></div>
+    <div class="track-status">
+      <div class="track-status-title" id="tTitle">Chauffeur en route</div>
+      <div class="track-status-sub" id="tSub">Arrive dans quelques minutes...</div>
+    </div>
+    <div class="track-eta-row">
+      <div class="track-eta-box"><div class="track-eta-num" id="tMin">5</div><div class="track-eta-lbl">Minutes</div></div>
+      <div class="track-eta-box"><div class="track-eta-num" id="tKm">—</div><div class="track-eta-lbl">Km</div></div>
+      <div class="track-eta-box"><div class="track-eta-num" id="tPrix">—</div><div class="track-eta-lbl">FCFA</div></div>
+    </div>
+    <div class="track-prog"><div class="track-prog-fill" id="tProg" style="width:0%"></div></div>
+    <div class="driver-block">
+      <div class="driver-ava" id="dAva">👨🏿</div>
+      <div>
+        <div class="driver-n" id="dName">Mahamat Ibrahim</div>
+        <div class="driver-car-info" id="dCar">Toyota Corolla</div>
+        <div class="driver-pl" id="dPlate">TD-2847-A</div>
+      </div>
+      <div class="driver-rating">
+        <div class="driver-stars">★★★★★</div>
+        <div class="driver-num" id="dRat">4.9</div>
+      </div>
+    </div>
+    <div class="track-btns">
+      <button class="btn-outline" onclick="callDrv()">📞 Appeler</button>
+      <button class="btn-outline danger" onclick="cancelRide()">✕ Annuler</button>
     </div>
   </div>
 </div>
-<div class="screen" id="passager">
-  <div class="topbar">
-    <button class="back-btn" onclick="show('splash')">←</button>
-    <div class="topbar-logo">YALANAMCHOU</div>
-    <div style="font-size:20px;cursor:pointer" onclick="showProfile()">👤</div>
+
+<!-- ====== ARRIVED ====== -->
+<div class="screen" id="arrived">
+  <div class="arrived-anim">🎉</div>
+  <div class="arrived-h">Vous êtes arrivé !</div>
+  <div class="arrived-s" id="arrivedSub">Course avec Mahamat Ibrahim</div>
+  <div class="price-big" id="arrivedAmt">1 200</div>
+  <div class="price-curr">FCFA à payer</div>
+  <div class="rate-section">
+    <div class="rate-label">Notez votre chauffeur</div>
+    <div class="rate-stars">
+      <div class="rate-star on" onclick="rate(1)">★</div>
+      <div class="rate-star on" onclick="rate(2)">★</div>
+      <div class="rate-star on" onclick="rate(3)">★</div>
+      <div class="rate-star on" onclick="rate(4)">★</div>
+      <div class="rate-star on" onclick="rate(5)">★</div>
+    </div>
   </div>
-  <div class="content">
-    <div class="user-badge" id="userBadge">👋 Bonjour !</div>
-    <div class="section-title">Ou allons-nous ?</div>
-    <div class="input-wrap">
-      <span>🟡</span>
-      <input type="text" id="pickup" placeholder="Point de depart..." value="Marche central, NDjamena">
-    </div>
-    <div class="input-wrap">
-      <span>🔴</span>
-      <input type="text" id="dropoff" placeholder="Destination...">
-    </div>
-    <div style="font-size:13px;color:rgba(245,240,232,0.4);text-transform:uppercase;letter-spacing:2px;margin-bottom:12px;margin-top:4px">Vehicule</div>
-    <div class="vehicles">
-      <div class="vehicle selected" onclick="selectV(this,'moto')">
-        <div class="v-emoji">🛵</div>
-        <div class="v-name">Moto</div>
-        <div class="v-price">~500 F</div>
-      </div>
-      <div class="vehicle" onclick="selectV(this,'taxi')">
-        <div class="v-emoji">🚕</div>
-        <div class="v-name">Taxi</div>
-        <div class="v-price">~1200 F</div>
-      </div>
-      <div class="vehicle" onclick="selectV(this,'premium')">
-        <div class="v-emoji">🚐</div>
-        <div class="v-name">Premium</div>
-        <div class="v-price">~2500 F</div>
-      </div>
-    </div>
-    <button class="btn btn-outline" style="margin-bottom:12px" onclick="getEstimate()">Estimer le prix</button>
-    <div class="estimate-box" id="estimateBox">
-      <div class="est-row"><span>Distance</span><span id="estDist">-</span></div>
-      <div class="est-row"><span>Duree</span><span id="estDur">-</span></div>
-      <div class="est-row"><span>Prix total</span><span id="estPrix">-</span></div>
-    </div>
-    <button class="btn btn-red" onclick="orderRide()">🚀 Commander maintenant</button>
-    <div style="height:32px"></div>
+  <div class="pay-row">
+    <div class="pay-btn on" onclick="selPay(this)"><div class="p-ico">💵</div><div class="p-lbl">Espèces</div></div>
+    <div class="pay-btn" onclick="selPay(this)"><div class="p-ico">📱</div><div class="p-lbl">Airtel</div></div>
+    <div class="pay-btn" onclick="selPay(this)"><div class="p-ico">💳</div><div class="p-lbl">Moov</div></div>
+  </div>
+  <button class="btn-cta green" onclick="doPay()" style="width:100%;margin-top:auto">✅ Confirmer le paiement</button>
+</div>
+
+<!-- ====== PROFILE ====== -->
+<div class="screen" id="profile">
+  <div class="profile-top">
+    <div class="profile-ava-big" id="profAva">M</div>
+    <div class="profile-n" id="profName">Mon Profil</div>
+    <div class="profile-p" id="profPhone">+235 --</div>
+  </div>
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-n">8</div><div class="stat-l">Courses</div></div>
+    <div class="stat-card"><div class="stat-n">4.9</div><div class="stat-l">Ma note</div></div>
+    <div class="stat-card"><div class="stat-n">32km</div><div class="stat-l">Distance</div></div>
+  </div>
+  <div class="menu-grp">
+    <div class="menu-grp-title">Mon compte</div>
+    <div class="menu-row"><div class="menu-ico">👤</div><div class="menu-lbl">Informations personnelles</div><div class="menu-chev">›</div></div>
+    <div class="menu-row"><div class="menu-ico">💳</div><div class="menu-lbl">Modes de paiement</div><div class="menu-chev">›</div></div>
+    <div class="menu-row"><div class="menu-ico">📋</div><div class="menu-lbl">Historique des courses</div><div class="menu-chev">›</div></div>
+    <div class="menu-row"><div class="menu-ico">🎁</div><div class="menu-lbl">Mes promotions</div><div class="menu-chev">›</div></div>
+  </div>
+  <div class="menu-grp">
+    <div class="menu-grp-title">Support</div>
+    <div class="menu-row"><div class="menu-ico">🆘</div><div class="menu-lbl">Centre d'aide</div><div class="menu-chev">›</div></div>
+    <div class="menu-row"><div class="menu-ico">⭐</div><div class="menu-lbl">Noter l'application</div><div class="menu-chev">›</div></div>
+  </div>
+  <div class="menu-grp">
+    <div class="menu-row danger" onclick="doLogout()"><div class="menu-ico">🚪</div><div class="menu-lbl">Se déconnecter</div></div>
+  </div>
+  <div class="bottom-nav">
+    <div class="nav-item" onclick="nav(this);go('home')"><div class="nav-ico">🏠</div><div class="nav-lbl">Accueil</div></div>
+    <div class="nav-item" onclick="nav(this);go('booking')"><div class="nav-ico">🚕</div><div class="nav-lbl">Commander</div></div>
+    <div class="nav-item" onclick="nav(this)"><div class="nav-ico">📋</div><div class="nav-lbl">Courses</div></div>
+    <div class="nav-item on" onclick="nav(this)"><div class="nav-ico">👤</div><div class="nav-lbl">Profil</div></div>
   </div>
 </div>
+
 <script>
 const API='http://localhost:5000/api';
-let currentUser=null,selectedRole='passager',selectedVehicle='moto',currentOTP='',currentPhone='';
-const COORDS={pickup:{lat:12.1048,lng:15.0445},dropoff:{lat:12.1348,lng:15.0645}};
-function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0)}
-function showStep(id){document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
-function toast(msg,isError=false){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show'+(isError?' error':'');setTimeout(()=>t.classList.remove('show'),3000)}
-async function sendOTP(){
-  const phone=document.getElementById('phoneInput').value.trim();
-  if(!phone)return toast('Entrez votre numero',true);
-  try{
-    const r=await fetch(API+'/auth/send-otp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone})});
-    const d=await r.json();
-    currentPhone=phone;currentOTP=d.debug_otp;
-    document.getElementById('otpSub').textContent='Code envoye au '+phone;
-    if(d.debug_otp){const digits=document.querySelectorAll('.otp-digit');d.debug_otp.split('').forEach((c,i)=>digits[i].value=c)}
-    showStep('s2');toast('Code envoye !');
-  }catch(e){toast('Erreur serveur',true)}
+const DRVS=[
+  {n:'Mahamat Ibrahim',e:'👨🏿',r:4.9,c:'Toyota Corolla',p:'TD-2847-A'},
+  {n:'Fatima Oumar',   e:'👩🏿',r:4.8,c:'Nissan Sunny',  p:'TD-1234-B'},
+  {n:'Ibrahim Hassan', e:'👨🏿‍🦱',r:4.7,c:'Peugeot 504',  p:'TD-5678-C'},
+  {n:'Ali Mahamat',    e:'👨🏿',r:4.6,c:'Toyota Hilux', p:'TD-9012-D'},
+];
+let user=null,destN='',destKm=0,destEta=0,selVeh=0,selPrice=500,drv=null;
+let pInv=null,eInv=null,etaS=0,destPt=null;
+const prices=[
+  (km)=>Math.round((200+km*150)/50)*50,
+  (km)=>Math.round((500+km*300)/50)*50,
+  (km)=>Math.round((1000+km*500)/50)*50,
+];
+const etaMins=[0,0,3];
+
+// ===== SCREENS =====
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('show'));
+  document.getElementById(id).classList.add('show');
+  if(id==='vehicles') startVMap();
+  if(id==='tracking') startTMap();
 }
-async function verifyOTP(){
-  const digits=document.querySelectorAll('.otp-digit');
-  const otp=Array.from(digits).map(d=>d.value).join('');
-  if(otp.length<6)return toast('Entrez le code complet',true);
-  try{
-    const r=await fetch(API+'/auth/verify-otp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone:currentPhone,otp,name:'',role:'passager'})});
-    const d=await r.json();
-    if(d.error)return toast(d.error,true);
-    currentUser=d.user;showStep('s3');toast('Code verifie !');
-  }catch(e){toast('Erreur serveur',true)}
+function nav(el){
+  el.closest('.bottom-nav').querySelectorAll('.nav-item').forEach(n=>n.classList.remove('on'));
+  el.classList.add('on');
 }
-async function finishLogin(){
-  const name=document.getElementById('nameInput').value.trim();
-  if(!name)return toast('Entrez votre prenom',true);
+
+// ===== SPLASH =====
+setTimeout(()=>{
+  const u=localStorage.getItem('yala_u');
+  if(u){ user=JSON.parse(u); applyUser(); go('home'); }
+  else go('login');
+},3000);
+
+// ===== AUTH =====
+let savedOTP='',savedPhone='';
+async function doSendOTP(){
+  const p=document.getElementById('ph').value.trim();
+  if(p.length<8){toast('Numéro invalide','red');return;}
+  savedPhone='+235'+p;
   try{
-    const r=await fetch(API+'/auth/verify-otp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone:currentPhone,otp:currentOTP,name,role:selectedRole})});
+    const r=await fetch(API+'/auth/send-otp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone:savedPhone})});
     const d=await r.json();
-    currentUser=d.user||{name,role:selectedRole};
-  }catch(e){currentUser={name,role:selectedRole}}
-  currentUser.name=name;
-  document.getElementById('userBadge').textContent='👋 Bonjour '+name+' !';
-  show('passager');toast('Bienvenue '+name+' !');
+    savedOTP=d.debug_otp||'';
+    document.getElementById('phDisp').textContent=savedPhone;
+    if(savedOTP) savedOTP.split('').forEach((c,i)=>{const b=document.getElementById('o'+i);if(b){b.value=c;b.classList.add('done');}});
+    document.getElementById('s1').style.display='none';
+    document.getElementById('s2').style.display='block';
+    toast('Code envoyé !','green');
+  }catch(e){toast('Erreur réseau','red');}
 }
-function nextOTP(input,i){input.value=input.value.replace(/[^0-9]/g,'');const digits=document.querySelectorAll('.otp-digit');if(input.value&&i<5)digits[i+1].focus()}
-function selectRole(el,role){document.querySelectorAll('.role-card').forEach(c=>c.classList.remove('selected'));el.classList.add('selected');selectedRole=role}
-function selectV(el,type){document.querySelectorAll('.vehicle').forEach(v=>v.classList.remove('selected'));el.classList.add('selected');selectedVehicle=type}
-function showProfile(){if(currentUser)alert('👤 '+currentUser.name+'\n🎭 '+currentUser.role)}
-async function getEstimate(){
-  try{
-    const r=await fetch(API+'/rides/estimate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pickup_lat:COORDS.pickup.lat,pickup_lng:COORDS.pickup.lng,dropoff_lat:COORDS.dropoff.lat,dropoff_lng:COORDS.dropoff.lng,vehicle_type:selectedVehicle})});
-    const d=await r.json();
-    document.getElementById('estDist').textContent=d.distance_km+' km';
-    document.getElementById('estDur').textContent=d.duration_min+' min';
-    document.getElementById('estPrix').textContent=d.prix_fcfa.toLocaleString()+' FCFA';
-    document.getElementById('estimateBox').style.display='block';
-    toast('Prix estime !');
-  }catch(e){toast('Erreur estimation',true)}
+function otpIn(el,i){
+  if(el.value){el.classList.add('done');if(i<5)document.getElementById('o'+(i+1)).focus();}
+  else el.classList.remove('done');
 }
-async function orderRide(){
-  const dropoff=document.getElementById('dropoff').value.trim();
-  if(!dropoff)return toast('Entrez une destination',true);
-  if(!currentUser)return toast('Connectez-vous dabord',true);
+async function doVerifyOTP(){
+  const otp=[0,1,2,3,4,5].map(i=>document.getElementById('o'+i).value).join('');
+  if(otp.length<6){toast('Entrez le code complet','red');return;}
   try{
-    const r=await fetch(API+'/rides/request',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({passenger_id:currentUser.id||1,pickup_lat:COORDS.pickup.lat,pickup_lng:COORDS.pickup.lng,pickup_address:document.getElementById('pickup').value,dropoff_lat:COORDS.dropoff.lat,dropoff_lng:COORDS.dropoff.lng,dropoff_address:dropoff,vehicle_type:selectedVehicle})});
+    const r=await fetch(API+'/auth/verify-otp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone:savedPhone,otp,name:'Utilisateur',role:'passager'})});
     const d=await r.json();
-    toast('Course #'+d.ride_id+' creee ! '+d.prix_fcfa+' FCFA');
-    setTimeout(()=>alert('Course commandee !\nID: #'+d.ride_id+'\nPrix: '+d.prix_fcfa+' FCFA\nStatut: En attente...'),500);
-  }catch(e){toast('Erreur commande',true)}
+    if(r.ok){user=d.user;localStorage.setItem('yala_u',JSON.stringify(user));applyUser();toast('Bienvenue !','green');go('home');}
+    else toast('Code incorrect','red');
+  }catch(e){toast('Erreur','red');}
+}
+function applyUser(){
+  if(!user)return;
+  const n=user.name||'Moi';
+  document.getElementById('profName').textContent=n;
+  document.getElementById('profPhone').textContent=user.phone||'';
+  document.getElementById('greetTxt').textContent='Bonjour, '+n.split(' ')[0]+' 👋';
+  document.getElementById('avatarBtn').textContent=n[0]||'M';
+  document.getElementById('profAva').textContent=n[0]||'M';
+}
+function doLogout(){
+  localStorage.removeItem('yala_u');user=null;
+  document.getElementById('s1').style.display='block';
+  document.getElementById('s2').style.display='none';
+  go('login');
+}
+
+// ===== PICK DESTINATION =====
+function pick(name,km,eta){
+  destN=name;destKm=km;destEta=eta;
+  destPt={px:0.5+(Math.random()-0.5)*0.4,py:0.5+(Math.random()-0.5)*0.4};
+  document.getElementById('vDestLbl').textContent='→ '+name;
+  const lbls=['Moto','Taxi','Premium'];
+  [0,1,2].forEach(i=>{
+    const p=prices[i](km);
+    document.getElementById('vp'+i).textContent=p.toLocaleString();
+    document.getElementById('ve'+i).textContent='⏱ '+[Math.max(2,eta-2),eta,eta+3][i]+' min';
+  });
+  selV(document.getElementById('vc0'),0);
+  go('vehicles');
+}
+
+// ===== SELECT VEHICLE =====
+function selV(el,i){
+  document.querySelectorAll('.vehicle-card').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  selVeh=i;
+  selPrice=prices[i](destKm);
+  document.getElementById('vTotal').textContent=selPrice.toLocaleString()+' FCFA';
+  document.getElementById('tPrix').textContent=selPrice.toLocaleString();
+  document.getElementById('arrivedAmt').textContent=selPrice.toLocaleString();
+}
+
+// ===== CONFIRM RIDE =====
+async function doConfirm(){
+  drv=DRVS[Math.floor(Math.random()*DRVS.length)];
+  document.getElementById('dAva').textContent=drv.e;
+  document.getElementById('dName').textContent=drv.n;
+  document.getElementById('dCar').textContent=drv.c;
+  document.getElementById('dPlate').textContent=drv.p;
+  document.getElementById('dRat').textContent=drv.r;
+  document.getElementById('arrivedSub').textContent='Course avec '+drv.n;
+  document.getElementById('tKm').textContent=destKm;
+  document.getElementById('tMin').textContent=destEta;
+  go('tracking');
+  toast(drv.e+' '+drv.n+' est en route !','green');
+  try{await fetch(API+'/rides/request',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({passenger_id:user?.id||1,pickup_lat:12.1048,pickup_lng:15.0445,pickup_address:'Marché Central',dropoff_lat:12.1348,dropoff_lng:15.0645,dropoff_address:destN,vehicle_type:['moto','taxi','premium'][selVeh]})});}catch(e){}
+  startRide();
+}
+function startRide(){
+  let s=0,total=80;etaS=destEta*60;
+  eInv=setInterval(()=>{etaS=Math.max(0,etaS-1);const m=Math.floor(etaS/60);document.getElementById('tMin').textContent=m;},1000);
+  pInv=setInterval(()=>{
+    s++;const t=s/total;
+    document.getElementById('tProg').style.width=(t*100)+'%';
+    document.getElementById('tTitle').textContent=t<0.3?'Chauffeur en route':t<0.7?'🚕 S\'approche...':t<0.95?'⚡ Presque là !':'✅ Chauffeur arrivé !';
+    document.getElementById('tSub').textContent=Math.round((1-t)*destKm*10)/10+' km restants';
+    if(s>=total){clearInterval(pInv);clearInterval(eInv);setTimeout(()=>go('arrived'),800);}
+  },180);
+}
+function callDrv(){if(drv)toast('📞 Appel de '+drv.n+'...');}
+function cancelRide(){clearInterval(pInv);clearInterval(eInv);go('home');toast('Course annulée');}
+
+// ===== ARRIVED =====
+function rate(n){document.querySelectorAll('.rate-star').forEach((s,i)=>s.classList.toggle('on',i<n));}
+function selPay(el){document.querySelectorAll('.pay-btn').forEach(b=>b.classList.remove('on'));el.classList.add('on');}
+function doPay(){toast('✅ Paiement de '+selPrice.toLocaleString()+' FCFA confirmé !','green');setTimeout(()=>go('home'),2000);}
+
+// ===== MAPS =====
+const dPos=[{x:0.3,y:0.35},{x:0.7,y:0.55},{x:0.2,y:0.65},{x:0.75,y:0.25}];
+const dVel=dPos.map(()=>({dx:(Math.random()-0.5)*0.002,dy:(Math.random()-0.5)*0.002}));
+let vMapInt=null,tMapInt=null;
+
+function drawMapOn(canvas){
+  if(!canvas)return;
+  const W=canvas.offsetWidth||300,H=canvas.offsetHeight||200;
+  canvas.width=W;canvas.height=H;
+  const ctx=canvas.getContext('2d');
+  const g=ctx.createLinearGradient(0,0,W,H);
+  g.addColorStop(0,'#0a0f1e');g.addColorStop(1,'#050810');
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  // Grid
+  ctx.strokeStyle='rgba(255,255,255,0.03)';ctx.lineWidth=1;
+  for(let i=0;i<20;i++){ctx.beginPath();ctx.moveTo(i*W/20,0);ctx.lineTo(i*W/20,H);ctx.stroke();ctx.beginPath();ctx.moveTo(0,i*H/20);ctx.lineTo(W,i*H/20);ctx.stroke();}
+  // River
+  ctx.beginPath();ctx.moveTo(0,H*0.62);ctx.bezierCurveTo(W*0.3,H*0.52,W*0.6,H*0.64,W,H*0.5);
+  ctx.strokeStyle='rgba(30,100,220,0.2)';ctx.lineWidth=18;ctx.stroke();
+  // Roads
+  [[0,0.5,1,0.5,6],[0.5,0,0.5,1,6],[0,0.3,1,0.3,3],[0.3,0,0.3,1,3],[0.7,0,0.7,1,3]].forEach(([x1,y1,x2,y2,w])=>{
+    ctx.beginPath();ctx.moveTo(x1*W,y1*H);ctx.lineTo(x2*W,y2*H);
+    ctx.strokeStyle='rgba(255,255,255,0.1)';ctx.lineWidth=w;ctx.stroke();
+  });
+  // Route line
+  if(destPt){
+    ctx.beginPath();ctx.moveTo(0.5*W,0.5*H);ctx.lineTo(destPt.px*W,destPt.py*H);
+    ctx.strokeStyle='rgba(200,16,46,0.6)';ctx.lineWidth=3;ctx.stroke();
+    ctx.font='18px serif';ctx.textAlign='center';ctx.fillText('📍',destPt.px*W,destPt.py*H+4);
+  }
+  // Taxis
+  dPos.forEach((d,i)=>{
+    d.x+=dVel[i].dx;d.y+=dVel[i].dy;
+    if(d.x<0.05||d.x>0.92)dVel[i].dx*=-1;
+    if(d.y<0.06||d.y>0.88)dVel[i].dy*=-1;
+    const px=d.x*W,py=d.y*H;
+    ctx.beginPath();ctx.arc(px,py,12,0,Math.PI*2);ctx.fillStyle='rgba(255,199,44,0.12)';ctx.fill();
+    ctx.font='14px serif';ctx.textAlign='center';ctx.fillText('🚕',px,py+5);
+  });
+  // User dot (blue)
+  const ux=0.5*W,uy=0.5*H;
+  ctx.beginPath();ctx.arc(ux,uy,14,0,Math.PI*2);ctx.fillStyle='rgba(66,133,244,0.15)';ctx.fill();
+  ctx.beginPath();ctx.arc(ux,uy,9,0,Math.PI*2);ctx.fillStyle='white';ctx.fill();
+  ctx.beginPath();ctx.arc(ux,uy,7,0,Math.PI*2);ctx.fillStyle='#4285F4';ctx.fill();
+}
+
+function startVMap(){clearInterval(vMapInt);vMapInt=setInterval(()=>drawMapOn(document.getElementById('vMapC')),120);}
+function startTMap(){clearInterval(tMapInt);tMapInt=setInterval(()=>drawMapOn(document.getElementById('tMapC')),120);}
+
+// ===== TOAST =====
+function toast(msg,type=''){
+  const el=document.getElementById('t');
+  el.textContent=msg;el.className='toast on'+(type?' '+type:'');
+  setTimeout(()=>el.classList.remove('on'),3200);
 }
 </script>
 </body>
