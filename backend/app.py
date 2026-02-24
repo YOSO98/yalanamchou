@@ -32,6 +32,10 @@ def paiement():
 def admin():
     return send_from_directory(os.path.join(FRONTEND, '..', 'admin'), 'dashboard.html')
 
+@app.route('/carte')
+def carte():
+    return send_from_directory(os.path.join(FRONTEND, 'passager'), 'carte.html')
+
 if __name__ == '__main__':
     print("🚕 Yalanamchou → http://localhost:5000")
     app.run(debug=True, host='0.0.0.0', port=5000)

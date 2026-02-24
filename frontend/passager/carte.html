@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yalanamchou - Carte</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; overflow: hidden; font-family: 'Outfit', sans-serif; background: #000; color: #fff; }
+
+/* ===== MAP ===== */
+#map { position: fixed; inset: 0; z-index: 0; }
+#mapCanvas { width: 100%; height: 100%; display: block; }
+
+/* ===== TOP BAR ===== */
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 14px 16px;
+  display: flex; align-items: center; gap: 12px;
+}
+.btn-icon {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: #fff; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  flex-shrink: 0;
+}
+.search-bar {
+  flex: 1; background: #fff; border-radius: 24px;
+  padding: 12px 18px; display: flex; align-items: center; gap: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.25); cursor: pointer;
+}
+.search-bar input {
+  flex: 1; border: none; outline: none; font-family: 'Outfit', sans-serif;
+  font-size: 15px; font-weight: 500; color: #1a1a1a;
+  background: transparent;
+}
+.search-bar input::placeholder { color: #888; }
+.dot-red { width: 10px; height: 10px; border-radius: 50%; background: #C8102E; flex-shrink: 0; }
+
+/* ===== ETA CARD (top) ===== */
+.eta-card {
+  position: fixed; top: 74px; left: 50%; transform: translateX(-50%);
+  z-index: 100; background: #fff; border-radius: 20px;
+  padding: 12px 24px; display: flex; gap: 20px; align-items: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  opacity: 0; pointer-events: none; transition: all 0.3s;
+  white-space: nowrap;
+}
+.eta-card.show { opacity: 1; pointer-events: auto; top: 80px; }
+.eta-item { text-align: center; }
+.eta-val { font-size: 28px; font-weight: 800; color: #1a1a1a; line-height: 1; }
+.eta-lbl { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
+.eta-sep { width: 1px; height: 36px; background: #eee; }
+
+/* ===== BOTTOM SHEET ===== */
+.sheet {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+  background: #fff; border-radius: 24px 24px 0 0;
+  box-shadow: 0 -4px 30px rgba(0,0,0,0.15);
+  transition: transform 0.4s cubic-bezier(0.32,0.72,0,1);
+}
+.sheet-handle {
+  width: 36px; height: 4px; background: #ddd; border-radius: 2px;
+  margin: 12px auto 0;
+}
+
+/* SHEET: WHERE TO */
+#sheetWhere { padding: 16px; }
+.where-title { font-size: 22px; font-weight: 800; color: #1a1a1a; margin-bottom: 16px; }
+.where-input-wrap {
+  background: #f5f5f5; border-radius: 16px; padding: 4px 0; margin-bottom: 14px;
+}
+.where-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px;
+}
+.where-row + .where-row { border-top: 1px solid #ebebeb; }
+.where-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.where-dot.pickup { background: #1a1a1a; }
+.where-dot.dropoff { background: #C8102E; }
+.where-inp {
+  flex: 1; border: none; outline: none; background: transparent;
+  font-family: 'Outfit', sans-serif; font-size: 15px; color: #1a1a1a;
+}
+.where-inp::placeholder { color: #aaa; }
+.suggestions { display: flex; flex-direction: column; gap: 2px; margin-bottom: 14px; }
+.suggestion {
+  display: flex; align-items: center; gap: 14px; padding: 14px 4px;
+  border-bottom: 1px solid #f0f0f0; cursor: pointer; transition: background 0.15s;
+}
+.suggestion:hover { background: #fafafa; border-radius: 12px; }
+.sugg-icon {
+  width: 40px; height: 40px; border-radius: 50%; background: #f0f0f0;
+  display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;
+}
+.sugg-name { font-size: 15px; font-weight: 600; color: #1a1a1a; }
+.sugg-dist { font-size: 13px; color: #888; margin-top: 2px; }
+.btn-map-select {
+  width: 100%; padding: 16px; background: #1a1a1a; color: #fff; border: none;
+  border-radius: 14px; font-family: 'Outfit', sans-serif; font-size: 16px;
+  font-weight: 700; cursor: pointer; margin-bottom: 8px;
+}
+
+/* SHEET: CHOOSE VEHICLE */
+#sheetVehicle { padding: 16px; display: none; }
+.vehicle-title { font-size: 20px; font-weight: 800; color: #1a1a1a; margin-bottom: 16px; }
+.vehicles { display: flex; flex-direction: column; gap: 2px; margin-bottom: 16px; }
+.vehicle-row {
+  display: flex; align-items: center; gap: 16px; padding: 16px 12px;
+  border-radius: 16px; cursor: pointer; transition: background 0.15s; border: 2px solid transparent;
+}
+.vehicle-row:hover, .vehicle-row.selected { background: #f5f5f5; border-color: #1a1a1a; }
+.vehicle-img { font-size: 36px; width: 56px; text-align: center; flex-shrink: 0; }
+.vehicle-info { flex: 1; }
+.vehicle-name { font-size: 16px; font-weight: 700; color: #1a1a1a; }
+.vehicle-sub { font-size: 13px; color: #888; margin-top: 2px; }
+.vehicle-eta { font-size: 13px; color: #888; }
+.vehicle-price { font-size: 18px; font-weight: 800; color: #1a1a1a; text-align: right; }
+.vehicle-price-sub { font-size: 12px; color: #888; text-align: right; }
+.btn-request {
+  width: 100%; padding: 18px; border: none; border-radius: 14px;
+  font-family: 'Outfit', sans-serif; font-size: 17px; font-weight: 800;
+  cursor: pointer; transition: all 0.2s; background: #C8102E; color: #fff;
+}
+
+/* SHEET: DRIVER EN ROUTE */
+#sheetDriver { padding: 16px; display: none; }
+.driver-status {
+  text-align: center; padding: 8px 0 16px;
+  font-size: 15px; color: #555; font-weight: 500;
+}
+.driver-status strong { color: #1a1a1a; font-size: 18px; display: block; margin-bottom: 4px; }
+.progress-bar {
+  height: 4px; background: #eee; border-radius: 2px; margin-bottom: 20px; overflow: hidden;
+}
+.progress-fill {
+  height: 100%; background: #1a1a1a; border-radius: 2px;
+  transition: width 0.8s ease; width: 0%;
+}
+.driver-card {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px; background: #f8f8f8; border-radius: 16px; margin-bottom: 16px;
+}
+.driver-avatar {
+  width: 56px; height: 56px; border-radius: 50%; background: #1a1a1a;
+  display: flex; align-items: center; justify-content: center; font-size: 28px; flex-shrink: 0;
+}
+.driver-name-big { font-size: 18px; font-weight: 800; color: #1a1a1a; }
+.driver-plate {
+  display: inline-block; background: #FFC72C; color: #1a1a1a;
+  font-size: 13px; font-weight: 800; padding: 3px 10px; border-radius: 6px; margin-top: 4px;
+}
+.driver-car { font-size: 13px; color: #888; margin-top: 4px; }
+.driver-rating-row { margin-left: auto; text-align: center; }
+.driver-stars { color: #FFC72C; font-size: 16px; }
+.driver-rating-num { font-size: 20px; font-weight: 800; color: #1a1a1a; }
+.driver-actions { display: flex; gap: 10px; }
+.btn-action {
+  flex: 1; padding: 14px; border-radius: 14px;
+  font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 700;
+  cursor: pointer; border: none; transition: all 0.2s;
+}
+.btn-call { background: #f0f0f0; color: #1a1a1a; }
+.btn-cancel { background: #fff0f0; color: #C8102E; border: 1px solid #ffd0d0; }
+
+/* SHEET: ARRIVED */
+#sheetArrived { padding: 24px 16px; display: none; text-align: center; }
+.arrived-emoji { font-size: 60px; margin-bottom: 12px; }
+.arrived-title { font-size: 24px; font-weight: 800; color: #1a1a1a; margin-bottom: 6px; }
+.arrived-sub { font-size: 15px; color: #888; margin-bottom: 24px; }
+.price-big { font-size: 48px; font-weight: 800; color: #1a1a1a; margin-bottom: 4px; }
+.price-sub { font-size: 14px; color: #888; margin-bottom: 24px; }
+.payment-methods { display: flex; gap: 10px; margin-bottom: 16px; }
+.pay-method {
+  flex: 1; padding: 14px 10px; border-radius: 14px; border: 2px solid #eee;
+  background: #fff; cursor: pointer; text-align: center; transition: all 0.2s;
+}
+.pay-method.selected { border-color: #1a1a1a; background: #f8f8f8; }
+.pay-method-icon { font-size: 24px; margin-bottom: 4px; }
+.pay-method-name { font-size: 12px; font-weight: 600; color: #1a1a1a; }
+.btn-pay {
+  width: 100%; padding: 18px; background: #1a1a1a; color: #fff; border: none;
+  border-radius: 14px; font-family: 'Outfit', sans-serif; font-size: 17px;
+  font-weight: 800; cursor: pointer;
+}
+
+/* RATING STARS */
+.rating-section { margin-bottom: 20px; }
+.rating-label { font-size: 15px; color: #555; margin-bottom: 10px; }
+.stars-row { display: flex; gap: 8px; justify-content: center; }
+.star { font-size: 36px; cursor: pointer; opacity: 0.3; transition: all 0.15s; }
+.star.active { opacity: 1; }
+
+/* TOAST */
+.toast {
+  position: fixed; bottom: 120px; left: 50%; transform: translateX(-50%) translateY(40px);
+  z-index: 200; background: #1a1a1a; color: #fff;
+  padding: 12px 22px; border-radius: 24px; font-size: 14px; font-weight: 600;
+  white-space: nowrap; opacity: 0; transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast.success { background: #1a7a3a; }
+.toast.error { background: #C8102E; }
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- MAP -->
+<div id="map"><canvas id="mapCanvas"></canvas></div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <button class="btn-icon" onclick="goBack()">←</button>
+  <div class="search-bar" onclick="showWhere()">
+    <div class="dot-red"></div>
+    <input type="text" id="searchInput" placeholder="Où allons-nous ?" readonly>
+  </div>
+</div>
+
+<!-- ETA CARD -->
+<div class="eta-card" id="etaCard">
+  <div class="eta-item">
+    <div class="eta-val" id="etaMin">5</div>
+    <div class="eta-lbl">min</div>
+  </div>
+  <div class="eta-sep"></div>
+  <div class="eta-item">
+    <div class="eta-val" id="etaKm">3.2</div>
+    <div class="eta-lbl">km</div>
+  </div>
+  <div class="eta-sep"></div>
+  <div class="eta-item">
+    <div class="eta-val" id="etaPrix">1 450</div>
+    <div class="eta-lbl">FCFA</div>
+  </div>
+</div>
+
+<!-- ====== SHEETS ====== -->
+
+<!-- SHEET 1: WHERE TO -->
+<div class="sheet" id="sheetWhere">
+  <div class="sheet-handle"></div>
+  <div id="sheetWhere">
+    <div class="where-title">Où allons-nous ?</div>
+    <div class="where-input-wrap">
+      <div class="where-row">
+        <div class="where-dot pickup"></div>
+        <input class="where-inp" type="text" value="Ma position" readonly>
+      </div>
+      <div class="where-row">
+        <div class="where-dot dropoff"></div>
+        <input class="where-inp" type="text" id="destInput" placeholder="Entrez une destination...">
+      </div>
+    </div>
+    <div class="suggestions">
+      <div class="suggestion" onclick="selectDest('Aéroport Hassan Djamous', 8.2, 12)">
+        <div class="sugg-icon">✈️</div>
+        <div><div class="sugg-name">Aéroport Hassan Djamous</div><div class="sugg-dist">8.2 km • N'Djaména</div></div>
+      </div>
+      <div class="suggestion" onclick="selectDest('Université de N\'Djaména', 4.1, 6)">
+        <div class="sugg-icon">🎓</div>
+        <div><div class="sugg-name">Université de N'Djaména</div><div class="sugg-dist">4.1 km • Farcha</div></div>
+      </div>
+      <div class="suggestion" onclick="selectDest('Quartier Dembé', 3.5, 5)">
+        <div class="sugg-icon">🏘️</div>
+        <div><div class="sugg-name">Quartier Dembé</div><div class="sugg-dist">3.5 km • N'Djaména</div></div>
+      </div>
+      <div class="suggestion" onclick="selectDest('Marché de Dembé', 3.8, 6)">
+        <div class="sugg-icon">🛒</div>
+        <div><div class="sugg-name">Marché de Dembé</div><div class="sugg-dist">3.8 km • Dembé</div></div>
+      </div>
+      <div class="suggestion" onclick="selectDest('Hôpital Général de Référence Nationale', 5.2, 8)">
+        <div class="sugg-icon">🏥</div>
+        <div><div class="sugg-name">Hôpital Général de Référence Nationale</div><div class="sugg-dist">5.2 km • N'Djaména</div></div>
+      </div>
+    </div>
+    <button class="btn-map-select" onclick="selectOnMap()">📍 Choisir sur la carte</button>
+  </div>
+</div>
+
+<!-- SHEET 2: VEHICLES -->
+<div class="sheet" id="sheetVehicle" style="display:none; transform:translateY(100%)">
+  <div class="sheet-handle"></div>
+  <div style="padding:16px">
+    <div class="vehicle-title">Choisissez un véhicule</div>
+    <div class="vehicles">
+      <div class="vehicle-row selected" onclick="selectVehicle(this,'moto',500,3)">
+        <div class="vehicle-img">🛵</div>
+        <div class="vehicle-info">
+          <div class="vehicle-name">Moto</div>
+          <div class="vehicle-sub">Rapide et économique</div>
+          <div class="vehicle-eta" id="etaMoto">3 min</div>
+        </div>
+        <div>
+          <div class="vehicle-price" id="priceMoto">500</div>
+          <div class="vehicle-price-sub">FCFA</div>
+        </div>
+      </div>
+      <div class="vehicle-row" onclick="selectVehicle(this,'taxi',1200,5)">
+        <div class="vehicle-img">🚕</div>
+        <div class="vehicle-info">
+          <div class="vehicle-name">Yala Taxi</div>
+          <div class="vehicle-sub">Confort standard</div>
+          <div class="vehicle-eta" id="etaTaxi">5 min</div>
+        </div>
+        <div>
+          <div class="vehicle-price" id="priceTaxi">1 200</div>
+          <div class="vehicle-price-sub">FCFA</div>
+        </div>
+      </div>
+      <div class="vehicle-row" onclick="selectVehicle(this,'premium',2500,8)">
+        <div class="vehicle-img">🚐</div>
+        <div class="vehicle-info">
+          <div class="vehicle-name">Yala Premium</div>
+          <div class="vehicle-sub">Véhicule climatisé</div>
+          <div class="vehicle-eta" id="etaPremium">8 min</div>
+        </div>
+        <div>
+          <div class="vehicle-price" id="pricePremium">2 500</div>
+          <div class="vehicle-price-sub">FCFA</div>
+        </div>
+      </div>
+    </div>
+    <button class="btn-request" id="btnRequest" onclick="requestRide()">
+      Confirmer — <span id="confirmPrice">500</span> FCFA
+    </button>
+  </div>
+</div>
+
+<!-- SHEET 3: DRIVER EN ROUTE -->
+<div class="sheet" id="sheetDriver" style="display:none; transform:translateY(100%)">
+  <div class="sheet-handle"></div>
+  <div style="padding:16px">
+    <div class="driver-status">
+      <strong id="driverStatusTitle">Chauffeur en route</strong>
+      <span id="driverStatusSub">Arrive dans <span id="etaCountdown">4:00</span></span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progFill"></div></div>
+    <div class="driver-card">
+      <div class="driver-avatar" id="driverEmoji">👨🏿</div>
+      <div>
+        <div class="driver-name-big" id="driverName">Mahamat Ibrahim</div>
+        <div><span class="driver-plate" id="driverPlate">TD-2847-A</span></div>
+        <div class="driver-car" id="driverCar">Toyota Corolla</div>
+      </div>
+      <div class="driver-rating-row">
+        <div class="driver-stars">★</div>
+        <div class="driver-rating-num" id="driverRating">4.9</div>
+      </div>
+    </div>
+    <div class="driver-actions">
+      <button class="btn-action btn-call" onclick="callDriver()">📞 Appeler</button>
+      <button class="btn-action btn-cancel" onclick="cancelRide()">✕ Annuler</button>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET 4: ARRIVED + PAYMENT -->
+<div class="sheet" id="sheetArrived" style="display:none; transform:translateY(100%)">
+  <div class="sheet-handle"></div>
+  <div style="padding:16px 16px 24px">
+    <div class="arrived-emoji">🎉</div>
+    <div class="arrived-title">Vous êtes arrivé !</div>
+    <div class="arrived-sub" id="arrivedSub">Course avec Mahamat Ibrahim</div>
+    <div class="price-big" id="finalPrice">1 200</div>
+    <div class="price-sub">FCFA à payer</div>
+    <div class="rating-section">
+      <div class="rating-label">Notez votre chauffeur</div>
+      <div class="stars-row">
+        <div class="star active" onclick="setRating(1)">★</div>
+        <div class="star active" onclick="setRating(2)">★</div>
+        <div class="star active" onclick="setRating(3)">★</div>
+        <div class="star active" onclick="setRating(4)">★</div>
+        <div class="star active" onclick="setRating(5)">★</div>
+      </div>
+    </div>
+    <div class="payment-methods">
+      <div class="pay-method selected" onclick="selectPay(this)">
+        <div class="pay-method-icon">💵</div>
+        <div class="pay-method-name">Espèces</div>
+      </div>
+      <div class="pay-method" onclick="selectPay(this)">
+        <div class="pay-method-icon">📱</div>
+        <div class="pay-method-name">Airtel Money</div>
+      </div>
+      <div class="pay-method" onclick="selectPay(this)">
+        <div class="pay-method-icon">💳</div>
+        <div class="pay-method-name">Moov Money</div>
+      </div>
+    </div>
+    <button class="btn-pay" onclick="payNow()">✅ Payer maintenant</button>
+  </div>
+</div>
+
+<script>
+// ===== CONFIG =====
+const API = 'http://localhost:5000/api';
+
+const DRIVERS = [
+  {name:'Mahamat Ibrahim', emoji:'👨🏿', rating:4.9, car:'Toyota Corolla', plate:'TD-2847-A', px:0.35, py:0.35},
+  {name:'Fatima Oumar',    emoji:'👩🏿', rating:4.8, car:'Nissan Sunny',   plate:'TD-1234-B', px:0.68, py:0.55},
+  {name:'Ibrahim Hassan',  emoji:'👨🏿‍🦱', rating:4.7, car:'Peugeot 504',   plate:'TD-5678-C', px:0.25, py:0.68},
+  {name:'Ali Mahamat',     emoji:'👨🏿', rating:4.6, car:'Toyota Hilux',   plate:'TD-9012-D', px:0.75, py:0.28},
+];
+
+// ===== STATE =====
+let state = 'idle'; // idle | selecting | vehicle | driver | arrived
+let destName = '';
+let destKm = 0;
+let destEta = 0;
+let selectedVehicleType = 'moto';
+let selectedPrice = 500;
+let activeDriverIdx = 0;
+let destPt = null;
+let rideProgress = 0;
+let progInterval = null;
+let etaInterval = null;
+let etaSec = 0;
+let userRating = 5;
+let mapClickMode = false;
+
+// Driver positions (animated)
+const driverPos = DRIVERS.map(d => ({
+  px: d.px, py: d.py,
+  dx: (Math.random()-0.5)*0.0012,
+  dy: (Math.random()-0.5)*0.0012
+}));
+
+// ===== CANVAS MAP =====
+const canvas = document.getElementById('mapCanvas');
+const ctx = canvas.getContext('2d');
+let animFrame = 0;
+
+function resizeCanvas(){
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+
+// Road network
+const ROADS = [
+  {x1:0,   y1:0.5, x2:1,   y2:0.5, w:8,  c:'rgba(255,255,255,0.14)'},
+  {x1:0.5, y1:0,   x2:0.5, y2:1,   w:8,  c:'rgba(255,255,255,0.14)'},
+  {x1:0,   y1:0.3, x2:1,   y2:0.3, w:5,  c:'rgba(255,255,255,0.09)'},
+  {x1:0,   y1:0.7, x2:1,   y2:0.7, w:5,  c:'rgba(255,255,255,0.09)'},
+  {x1:0.3, y1:0,   x2:0.3, y2:1,   w:5,  c:'rgba(255,255,255,0.09)'},
+  {x1:0.7, y1:0,   x2:0.7, y2:1,   w:5,  c:'rgba(255,255,255,0.09)'},
+  {x1:0,   y1:0.15,x2:0.5, y2:0.5, w:3,  c:'rgba(255,255,255,0.05)'},
+  {x1:0.5, y1:0.5, x2:1,   y2:0.85,w:3,  c:'rgba(255,255,255,0.05)'},
+  {x1:0,   y1:0.85,x2:0.5, y2:0.5, w:3,  c:'rgba(255,255,255,0.05)'},
+  {x1:0.5, y1:0.5, x2:1,   y2:0.15,w:3,  c:'rgba(255,255,255,0.05)'},
+  {x1:0.15,y1:0,   x2:0.85,y2:1,   w:2,  c:'rgba(255,255,255,0.04)'},
+  {x1:0.85,y1:0,   x2:0.15,y2:1,   w:2,  c:'rgba(255,255,255,0.04)'},
+];
+
+const ZONES = [
+  {n:"Marché Central",     px:0.5,  py:0.5,  r:32, c:'rgba(255,199,44,0.1)',  s:'rgba(255,199,44,0.25)'},
+  {n:"Aéroport Hassan",    px:0.8,  py:0.18, r:22, c:'rgba(100,160,255,0.08)',s:'rgba(100,160,255,0.2)'},
+  {n:"Université",         px:0.18, py:0.75, r:18, c:'rgba(100,220,150,0.07)',s:'rgba(100,220,150,0.18)'},
+  {n:"Préfecture",         px:0.65, py:0.68, r:16, c:'rgba(255,140,100,0.07)',s:'rgba(255,140,100,0.18)'},
+  {n:"Moursal",            px:0.28, py:0.28, r:15, c:'rgba(200,200,255,0.06)',s:'rgba(200,200,255,0.15)'},
+  {n:"Farcha",             px:0.1,  py:0.5,  r:14, c:'rgba(255,220,100,0.06)',s:'rgba(255,220,100,0.15)'},
+  {n:"Dembé",              px:0.78, py:0.78, r:14, c:'rgba(100,255,210,0.06)',s:'rgba(100,255,210,0.15)'},
+  {n:"Klemat",             px:0.45, py:0.2,  r:12, c:'rgba(255,100,150,0.06)',s:'rgba(255,100,150,0.14)'},
+];
+
+function drawMap(){
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+
+  // Background
+  const bg = ctx.createLinearGradient(0,0,W,H);
+  bg.addColorStop(0,'#0f1f42');
+  bg.addColorStop(0.5,'#0a1628');
+  bg.addColorStop(1,'#060e1c');
+  ctx.fillStyle = bg;
+  ctx.fillRect(0,0,W,H);
+
+  // Fine grid
+  ctx.strokeStyle = 'rgba(255,255,255,0.02)';
+  ctx.lineWidth = 1;
+  for(let i=0;i<24;i++){
+    ctx.beginPath(); ctx.moveTo(i*W/24,0); ctx.lineTo(i*W/24,H); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0,i*H/24); ctx.lineTo(W,i*H/24); ctx.stroke();
+  }
+
+  // City blocks
+  ctx.fillStyle = 'rgba(255,255,255,0.018)';
+  for(let i=0;i<16;i++){
+    const bx = (0.08 + (i%4)*0.23)*W;
+    const by = (0.08 + Math.floor(i/4)*0.23)*H;
+    ctx.fillRect(bx, by, W*0.08, H*0.08);
+  }
+
+  // Fleuve Chari
+  ctx.save();
+  ctx.beginPath();
+  ctx.moveTo(0, H*0.62);
+  ctx.bezierCurveTo(W*0.2,H*0.52, W*0.4,H*0.66, W*0.6,H*0.54);
+  ctx.bezierCurveTo(W*0.78,H*0.44, W*0.9,H*0.56, W,H*0.5);
+  ctx.strokeStyle = 'rgba(20,100,220,0.22)';
+  ctx.lineWidth = 28;
+  ctx.stroke();
+  ctx.strokeStyle = 'rgba(40,140,255,0.1)';
+  ctx.lineWidth = 44;
+  ctx.stroke();
+  ctx.fillStyle = 'rgba(80,160,255,0.3)';
+  ctx.font = 'italic 500 11px Outfit';
+  ctx.textAlign = 'left';
+  ctx.fillText('Fleuve Chari', W*0.08, H*0.6);
+  ctx.restore();
+
+  // Roads
+  ROADS.forEach(r => {
+    ctx.beginPath();
+    ctx.moveTo(r.x1*W, r.y1*H);
+    ctx.lineTo(r.x2*W, r.y2*H);
+    ctx.strokeStyle = r.c;
+    ctx.lineWidth = r.w;
+    ctx.lineCap = 'round';
+    ctx.stroke();
+  });
+
+  // Zones
+  ZONES.forEach(z => {
+    const px=z.px*W, py=z.py*H;
+    ctx.beginPath(); ctx.arc(px,py,z.r,0,Math.PI*2);
+    ctx.fillStyle=z.c; ctx.fill();
+    ctx.strokeStyle=z.s; ctx.lineWidth=1.5; ctx.stroke();
+    ctx.fillStyle='rgba(255,255,255,0.55)';
+    ctx.font=`${Math.max(9,z.r*0.4)}px Outfit`;
+    ctx.textAlign='center';
+    ctx.fillText(z.n, px, py+z.r+13);
+  });
+
+  // Route line (if destination selected)
+  if(destPt){
+    const ux=0.5*W, uy=0.5*H;
+    const dx=destPt.px*W, dy=destPt.py*H;
+
+    // Glow
+    ctx.beginPath();
+    ctx.moveTo(ux,uy);
+    ctx.bezierCurveTo(ux+(dx-ux)*0.5, uy, ux+(dx-ux)*0.5, dy, dx, dy);
+    ctx.strokeStyle = 'rgba(200,16,46,0.15)';
+    ctx.lineWidth = 18;
+    ctx.setLineDash([]);
+    ctx.stroke();
+
+    // Main line
+    ctx.beginPath();
+    ctx.moveTo(ux,uy);
+    ctx.bezierCurveTo(ux+(dx-ux)*0.5, uy, ux+(dx-ux)*0.5, dy, dx, dy);
+    ctx.strokeStyle = '#C8102E';
+    ctx.lineWidth = 5;
+    ctx.stroke();
+
+    // White border
+    ctx.beginPath();
+    ctx.moveTo(ux,uy);
+    ctx.bezierCurveTo(ux+(dx-ux)*0.5, uy, ux+(dx-ux)*0.5, dy, dx, dy);
+    ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+    ctx.lineWidth = 7;
+    ctx.stroke();
+
+    // Destination pin
+    ctx.font='30px serif'; ctx.textAlign='center';
+    ctx.fillText('📍', dx, dy+4);
+
+    // Destination label
+    const lw = Math.min(destName.length*7+20, 180);
+    ctx.fillStyle='rgba(10,10,20,0.88)';
+    roundRect(ctx, dx-lw/2, dy-48, lw, 26, 8);
+    ctx.fill();
+    ctx.fillStyle='#fff';
+    ctx.font='bold 11px Outfit'; ctx.textAlign='center';
+    ctx.fillText(destName.length>20?destName.substr(0,20)+'...':destName, dx, dy-30);
+  }
+
+  // Driver → user line (during ride)
+  if(state==='driver'){
+    const dp = driverPos[activeDriverIdx];
+    const ux=0.5*W, uy=0.5*H;
+    const tx=dp.px*W, ty=dp.py*H;
+    ctx.setLineDash([10,8]);
+    ctx.beginPath(); ctx.moveTo(tx,ty); ctx.lineTo(ux,uy);
+    ctx.strokeStyle='rgba(255,199,44,0.35)';
+    ctx.lineWidth=2.5; ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  // Drivers
+  driverPos.forEach((dp,i)=>{
+    const px=dp.px*W, py=dp.py*H;
+    const isActive = (i===activeDriverIdx && (state==='driver'||state==='vehicle'));
+    const pulse = 0.5+0.5*Math.sin(animFrame*0.04+i*1.3);
+
+    // Halo
+    ctx.beginPath(); ctx.arc(px,py, isActive?26+pulse*10:16+pulse*5, 0,Math.PI*2);
+    ctx.fillStyle = isActive ? `rgba(255,199,44,${0.15+pulse*0.1})` : `rgba(255,255,255,0.04)`;
+    ctx.fill();
+
+    // Marker bg
+    ctx.beginPath(); ctx.arc(px,py, isActive?20:15, 0,Math.PI*2);
+    ctx.fillStyle = isActive ? 'rgba(255,255,255,0.95)' : 'rgba(15,25,60,0.85)';
+    ctx.fill();
+    ctx.strokeStyle = isActive ? '#FFC72C' : 'rgba(255,255,255,0.25)';
+    ctx.lineWidth = isActive ? 3 : 1.5;
+    ctx.stroke();
+
+    // Car icon
+    ctx.font=`${isActive?20:16}px serif`; ctx.textAlign='center';
+    ctx.fillText('🚕', px, py+7);
+
+    // Label
+    if(isActive){
+      const d = DRIVERS[i];
+      const lw = 80;
+      ctx.fillStyle='rgba(255,255,255,0.95)';
+      roundRect(ctx, px-lw/2, py-46, lw, 22, 6);
+      ctx.fill();
+      ctx.fillStyle='#1a1a1a';
+      ctx.font='bold 10px Outfit'; ctx.textAlign='center';
+      ctx.fillText(d.name.split(' ')[0]+' ⭐'+d.rating, px, py-30);
+    }
+  });
+
+  // User position (blue dot like Google Maps)
+  const ux=0.5*W, uy=0.5*H;
+  const p2=0.5+0.5*Math.sin(animFrame*0.035);
+
+  // Accuracy circle
+  ctx.beginPath(); ctx.arc(ux,uy, 32+p2*8, 0,Math.PI*2);
+  ctx.fillStyle='rgba(66,133,244,0.1)'; ctx.fill();
+  ctx.strokeStyle='rgba(66,133,244,0.2)'; ctx.lineWidth=1; ctx.stroke();
+
+  // White border
+  ctx.beginPath(); ctx.arc(ux,uy,13,0,Math.PI*2);
+  ctx.fillStyle='white'; ctx.fill();
+
+  // Blue dot
+  ctx.beginPath(); ctx.arc(ux,uy,10,0,Math.PI*2);
+  ctx.fillStyle='#4285F4'; ctx.fill();
+
+  // Center white
+  ctx.beginPath(); ctx.arc(ux,uy,4,0,Math.PI*2);
+  ctx.fillStyle='white'; ctx.fill();
+
+  animFrame++;
+}
+
+function roundRect(ctx, x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.lineTo(x+w-r,y);
+  ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r);
+  ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  ctx.lineTo(x+r,y+h);
+  ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+  ctx.lineTo(x,y+r);
+  ctx.quadraticCurveTo(x,y,x+r,y);
+  ctx.closePath();
+}
+
+// Animation loop
+function animate(){
+  driverPos.forEach((dp,i)=>{
+    if(state==='driver' && i===activeDriverIdx) return;
+    dp.px += dp.dx; dp.py += dp.dy;
+    if(dp.px<0.05||dp.px>0.93) dp.dx*=-1;
+    if(dp.py<0.06||dp.py>0.88) dp.dy*=-1;
+  });
+  resizeCanvas();
+  drawMap();
+  requestAnimationFrame(animate);
+}
+
+// ===== UI FLOWS =====
+
+function goBack(){
+  if(state==='idle') window.location.href='/';
+  else if(state==='vehicle'){ showWhere(); state='idle'; }
+  else if(state==='driver'){ /* can't go back during ride */ }
+}
+
+function showWhere(){
+  hideAllSheets();
+  document.getElementById('sheetWhere').style.display='block';
+  setTimeout(()=>document.getElementById('sheetWhere').style.transform='translateY(0)',10);
+}
+
+function hideAllSheets(){
+  ['sheetWhere','sheetVehicle','sheetDriver','sheetArrived'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el){ el.style.transform='translateY(100%)'; }
+  });
+}
+
+function selectDest(name, km, eta){
+  destName = name;
+  destKm = km;
+  destEta = eta;
+  document.getElementById('searchInput').value = name;
+  document.getElementById('destInput').value = name;
+
+  // Place destination on map
+  destPt = {
+    px: 0.5 + (Math.random()-0.5)*0.4,
+    py: 0.5 + (Math.random()-0.5)*0.4
+  };
+
+  // Update ETA card
+  document.getElementById('etaMin').textContent = eta;
+  document.getElementById('etaKm').textContent = km;
+  const prix = Math.round((500+km*250)/50)*50;
+  document.getElementById('etaPrix').textContent = prix.toLocaleString();
+  document.getElementById('etaCard').classList.add('show');
+
+  // Update prices
+  const moto = Math.round((200+km*150)/50)*50;
+  const taxi = Math.round((500+km*300)/50)*50;
+  const prem = Math.round((1000+km*500)/50)*50;
+  document.getElementById('priceMoto').textContent = moto.toLocaleString();
+  document.getElementById('priceTaxi').textContent = taxi.toLocaleString();
+  document.getElementById('pricePremium').textContent = prem.toLocaleString();
+  document.getElementById('etaMoto').textContent = Math.max(2,eta-2)+' min';
+  document.getElementById('etaTaxi').textContent = eta+' min';
+  document.getElementById('etaPremium').textContent = (eta+3)+' min';
+  document.getElementById('confirmPrice').textContent = moto.toLocaleString();
+  selectedPrice = moto;
+
+  // Show vehicle sheet
+  state = 'vehicle';
+  document.getElementById('sheetWhere').style.display='none';
+  const sv = document.getElementById('sheetVehicle');
+  sv.style.display='block';
+  sv.style.transform='translateY(100%)';
+  setTimeout(()=>sv.style.transform='translateY(0)',20);
+}
+
+function selectOnMap(){
+  mapClickMode = true;
+  document.getElementById('sheetWhere').style.display='none';
+  toast('Cliquez sur la carte pour choisir votre destination');
+}
+
+canvas.addEventListener('click', e=>{
+  if(!mapClickMode) return;
+  const rect=canvas.getBoundingClientRect();
+  const px=(e.clientX-rect.left)/canvas.width;
+  const py=(e.clientY-rect.top)/canvas.height;
+  destPt={px,py};
+  const km=(Math.sqrt((px-0.5)**2+(py-0.5)**2)*12).toFixed(1);
+  mapClickMode=false;
+  selectDest('Position sur la carte', parseFloat(km), Math.max(3,Math.round(km*3)));
+});
+
+function selectVehicle(el, type, basePrice, eta){
+  document.querySelectorAll('.vehicle-row').forEach(r=>r.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedVehicleType = type;
+  const km = destKm;
+  const prices = {moto:Math.round((200+km*150)/50)*50, taxi:Math.round((500+km*300)/50)*50, premium:Math.round((1000+km*500)/50)*50};
+  selectedPrice = prices[type];
+  document.getElementById('confirmPrice').textContent = selectedPrice.toLocaleString();
+}
+
+function requestRide(){
+  // Pick nearest driver
+  activeDriverIdx = Math.floor(Math.random()*DRIVERS.length);
+  const d = DRIVERS[activeDriverIdx];
+
+  document.getElementById('driverEmoji').textContent = d.emoji;
+  document.getElementById('driverName').textContent = d.name;
+  document.getElementById('driverPlate').textContent = d.plate;
+  document.getElementById('driverCar').textContent = d.car;
+  document.getElementById('driverRating').textContent = d.rating;
+  document.getElementById('finalPrice').textContent = selectedPrice.toLocaleString();
+  document.getElementById('arrivedSub').textContent = `Course avec ${d.name} • ${d.plate}`;
+
+  state = 'driver';
+  document.getElementById('sheetVehicle').style.transform='translateY(100%)';
+  const sd = document.getElementById('sheetDriver');
+  sd.style.display='block';
+  setTimeout(()=>sd.style.transform='translateY(0)',20);
+
+  toast(`🚕 ${d.name} a accepté votre course !`, 'success');
+
+  // Save ride
+  try{
+    fetch(API+'/rides/request',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({passenger_id:1,pickup_lat:12.1048,pickup_lng:15.0445,
+    pickup_address:'Marché Central',dropoff_lat:12.1348,dropoff_lng:15.0645,
+    dropoff_address:destName,vehicle_type:selectedVehicleType})});
+  }catch(e){}
+
+  // Animate driver to user
+  startDriverAnimation();
+}
+
+function startDriverAnimation(){
+  const startPx=driverPos[activeDriverIdx].px;
+  const startPy=driverPos[activeDriverIdx].py;
+  let step=0, steps=100;
+  etaSec = destEta*60;
+
+  etaInterval=setInterval(()=>{
+    etaSec=Math.max(0,etaSec-1);
+    const m=Math.floor(etaSec/60), s=etaSec%60;
+    document.getElementById('etaMin').textContent=m;
+    document.getElementById('etaCountdown').textContent=`${m}:${s<10?'0'+s:s}`;
+    document.getElementById('driverStatusSub').textContent=`Arrive dans ${m}:${s<10?'0'+s:s}`;
+  },1000);
+
+  progInterval=setInterval(()=>{
+    step++;
+    const t=step/steps;
+    driverPos[activeDriverIdx].px=startPx+(0.5-startPx)*t;
+    driverPos[activeDriverIdx].py=startPy+(0.5-startPy)*t;
+    document.getElementById('progFill').style.width=(t*100)+'%';
+
+    if(t<0.3) document.getElementById('driverStatusTitle').textContent='Chauffeur en route';
+    else if(t<0.7) document.getElementById('driverStatusTitle').textContent='Chauffeur s\'approche...';
+    else if(t<0.95) document.getElementById('driverStatusTitle').textContent='⚡ Presque là !';
+    else document.getElementById('driverStatusTitle').textContent='✅ Chauffeur arrivé !';
+
+    if(step>=steps){
+      clearInterval(progInterval); clearInterval(etaInterval);
+      setTimeout(showArrived,800);
+    }
+  },150);
+}
+
+function showArrived(){
+  state='arrived';
+  document.getElementById('sheetDriver').style.transform='translateY(100%)';
+  const sa=document.getElementById('sheetArrived');
+  sa.style.display='block';
+  setTimeout(()=>sa.style.transform='translateY(0)',20);
+  document.getElementById('etaCard').classList.remove('show');
+  toast('🎉 Vous êtes arrivé à destination !', 'success');
+}
+
+function callDriver(){
+  const d=DRIVERS[activeDriverIdx];
+  toast(`📞 Appel de ${d.name}...`);
+}
+
+function cancelRide(){
+  clearInterval(progInterval); clearInterval(etaInterval);
+  state='idle'; destPt=null;
+  ['sheetDriver'].forEach(id=>document.getElementById(id).style.transform='translateY(100%)');
+  document.getElementById('etaCard').classList.remove('show');
+  document.getElementById('searchInput').value='';
+  showWhere();
+  toast('Course annulée');
+}
+
+function setRating(n){
+  userRating=n;
+  document.querySelectorAll('.star').forEach((s,i)=>s.classList.toggle('active',i<n));
+}
+
+function selectPay(el){
+  document.querySelectorAll('.pay-method').forEach(m=>m.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function payNow(){
+  toast(`✅ Paiement de ${selectedPrice.toLocaleString()} FCFA confirmé !`, 'success');
+  setTimeout(()=>{
+    state='idle'; destPt=null;
+    document.getElementById('sheetArrived').style.transform='translateY(100%)';
+    document.getElementById('searchInput').value='';
+    showWhere();
+  },2500);
+}
+
+function toast(msg, type=''){
+  const el=document.getElementById('toast');
+  el.textContent=msg;
+  el.className='toast show'+(type?' '+type:'');
+  setTimeout(()=>el.classList.remove('show'),3500);
+}
+
+// ===== INIT =====
+window.addEventListener('load',()=>{
+  resizeCanvas();
+  animate();
+  showWhere();
+});
+window.addEventListener('resize',resizeCanvas);
+</script>
+</body>
+</html>
