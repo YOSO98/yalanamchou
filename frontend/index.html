@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yalanamchou</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--rouge:#C8102E;--jaune:#FFC72C;--noir:#0A0A0F;--blanc:#F5F0E8}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Outfit',sans-serif;background:var(--noir);color:var(--blanc);min-height:100vh}
+.screen{display:none;min-height:100vh;flex-direction:column}
+.screen.active{display:flex}
+#splash{align-items:center;justify-content:center;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(200,16,46,0.25) 0%,transparent 60%),var(--noir)}
+.logo-mark{width:90px;height:90px;background:linear-gradient(135deg,var(--rouge),var(--jaune));border-radius:24px;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:40px;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 20px 60px rgba(200,16,46,0.4)}50%{box-shadow:0 20px 80px rgba(255,199,44,0.5);transform:scale(1.04)}}
+.app-name{font-family:'Bebas Neue',sans-serif;font-size:72px;letter-spacing:4px;background:linear-gradient(135deg,#fff 0%,var(--jaune) 50%,var(--rouge) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-align:center}
+.app-tagline{font-size:15px;color:rgba(245,240,232,0.5);letter-spacing:3px;text-transform:uppercase;margin-top:8px;text-align:center}
+.splash-btns{display:flex;flex-direction:column;gap:14px;margin-top:48px;width:300px}
+.btn{padding:16px 32px;border-radius:16px;font-family:'Outfit',sans-serif;font-size:16px;font-weight:600;cursor:pointer;border:none;transition:all 0.3s;width:100%}
+.btn-red{background:linear-gradient(135deg,var(--rouge),#E8284A);color:white}
+.btn-yellow{background:linear-gradient(135deg,var(--jaune),#FFB800);color:var(--noir)}
+.btn-outline{background:transparent;color:var(--blanc);border:1px solid rgba(245,240,232,0.2)}
+.btn:hover{transform:translateY(-2px)}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;background:rgba(10,10,15,0.9);border-bottom:1px solid rgba(245,240,232,0.06);position:sticky;top:0;z-index:100}
+.topbar-logo{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;background:linear-gradient(135deg,var(--jaune),var(--rouge));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.back-btn{background:rgba(245,240,232,0.08);border:none;color:var(--blanc);width:40px;height:40px;border-radius:12px;cursor:pointer;font-size:18px}
+.login-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px}
+.card{background:rgba(245,240,232,0.04);border:1px solid rgba(245,240,232,0.08);border-radius:24px;padding:32px;width:100%;max-width:380px}
+.step{display:none}.step.active{display:block}
+.step-title{font-size:22px;font-weight:700;margin-bottom:6px}
+.step-sub{font-size:14px;color:rgba(245,240,232,0.45);margin-bottom:24px}
+.input-field{width:100%;background:rgba(245,240,232,0.06);border:1px solid rgba(245,240,232,0.12);border-radius:14px;padding:16px 18px;color:var(--blanc);font-family:'Outfit',sans-serif;font-size:16px;outline:none;margin-bottom:16px}
+.input-field:focus{border-color:var(--jaune)}
+.input-field::placeholder{color:rgba(245,240,232,0.3)}
+.otp-inputs{display:flex;gap:10px;justify-content:center;margin-bottom:24px}
+.otp-digit{width:52px;height:60px;background:rgba(245,240,232,0.06);border:1px solid rgba(245,240,232,0.12);border-radius:14px;color:var(--blanc);font-size:24px;font-weight:700;text-align:center;font-family:'Outfit',sans-serif;outline:none}
+.otp-digit:focus{border-color:var(--jaune)}
+.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.role-card{background:rgba(245,240,232,0.05);border:2px solid rgba(245,240,232,0.08);border-radius:16px;padding:20px;text-align:center;cursor:pointer;transition:all 0.3s}
+.role-card.selected{border-color:var(--jaune);background:rgba(255,199,44,0.08)}
+.role-icon{font-size:36px;margin-bottom:8px}
+.role-name{font-size:15px;font-weight:600}
+.content{flex:1;padding:24px;overflow-y:auto}
+.section-title{font-size:20px;font-weight:700;margin-bottom:16px}
+.input-wrap{display:flex;align-items:center;gap:12px;background:rgba(245,240,232,0.06);border:1px solid rgba(245,240,232,0.1);border-radius:16px;padding:14px 16px;margin-bottom:12px}
+.input-wrap:focus-within{border-color:var(--jaune)}
+.input-wrap input{background:none;border:none;outline:none;color:var(--blanc);font-family:'Outfit',sans-serif;font-size:15px;width:100%}
+.input-wrap input::placeholder{color:rgba(245,240,232,0.3)}
+.vehicles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+.vehicle{background:rgba(245,240,232,0.05);border:1px solid rgba(245,240,232,0.08);border-radius:16px;padding:14px 10px;text-align:center;cursor:pointer;transition:all 0.3s}
+.vehicle.selected{border-color:var(--jaune);background:rgba(255,199,44,0.1)}
+.v-emoji{font-size:28px;margin-bottom:6px}
+.v-name{font-size:13px;font-weight:600}
+.v-price{font-size:12px;color:var(--jaune);margin-top:4px}
+.estimate-box{background:rgba(255,199,44,0.08);border:1px solid rgba(255,199,44,0.2);border-radius:16px;padding:20px;margin-bottom:20px;display:none}
+.est-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(245,240,232,0.06);font-size:15px}
+.est-row:last-child{border:none;font-weight:700;font-size:17px}
+.est-row span:last-child{color:var(--jaune)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:rgba(34,197,94,0.9);color:white;padding:14px 28px;border-radius:16px;font-weight:600;font-size:14px;z-index:999;transition:all 0.4s;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.error{background:rgba(200,16,46,0.9)}
+.user-badge{background:rgba(255,199,44,0.1);border:1px solid rgba(255,199,44,0.2);border-radius:12px;padding:10px 16px;margin-bottom:20px;font-size:14px}
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+<div class="screen active" id="splash">
+  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:40px">
+    <div class="logo-mark">🚕</div>
+    <div class="app-name">Yalanamchou</div>
+    <div class="app-tagline">Votre taxi intelligent au Tchad</div>
+    <div class="splash-btns">
+      <button class="btn btn-red" onclick="show('login')">🧑 Se connecter</button>
+      <button class="btn btn-yellow" onclick="show('login')">🚗 Je suis chauffeur</button>
+    </div>
+  </div>
+</div>
+<div class="screen" id="login">
+  <div class="topbar">
+    <button class="back-btn" onclick="show('splash')">←</button>
+    <div class="topbar-logo">CONNEXION</div>
+    <div style="width:40px"></div>
+  </div>
+  <div class="login-body">
+    <div class="card">
+      <div class="step active" id="s1">
+        <div class="step-title">📱 Votre numero</div>
+        <div class="step-sub">Vous recevrez un code SMS</div>
+        <input type="tel" class="input-field" id="phoneInput" placeholder="+235 66 XX XX XX">
+        <button class="btn btn-red" onclick="sendOTP()">Envoyer le code</button>
+      </div>
+      <div class="step" id="s2">
+        <div class="step-title">🔐 Code recu</div>
+        <div class="step-sub" id="otpSub">Entrez le code</div>
+        <div class="otp-inputs">
+          <input type="text" class="otp-digit" maxlength="1" oninput="nextOTP(this,0)">
+          <input type="text" class="otp-digit" maxlength="1" oninput="nextOTP(this,1)">
+          <input type="text" class="otp-digit" maxlength="1" oninput="nextOTP(this,2)">
+          <input type="text" class="otp-digit" maxlength="1" oninput="nextOTP(this,3)">
+          <input type="text" class="otp-digit" maxlength="1" oninput="nextOTP(this,4)">
+          <input type="text" class="otp-digit" maxlength="1" oninput="nextOTP(this,5)">
+        </div>
+        <button class="btn btn-red" onclick="verifyOTP()">Verifier</button>
+      </div>
+      <div class="step" id="s3">
+        <div class="step-title">👋 Bienvenue !</div>
+        <div class="step-sub">Completez votre profil</div>
+        <div class="role-grid">
+          <div class="role-card selected" onclick="selectRole(this,'passager')">
+            <div class="role-icon">🧑</div>
+            <div class="role-name">Passager</div>
+          </div>
+          <div class="role-card" onclick="selectRole(this,'chauffeur')">
+            <div class="role-icon">🚕</div>
+            <div class="role-name">Chauffeur</div>
+          </div>
+        </div>
+        <input type="text" class="input-field" id="nameInput" placeholder="Votre prenom...">
+        <button class="btn btn-yellow" onclick="finishLogin()">Cest parti !</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="screen" id="passager">
+  <div class="topbar">
+    <button class="back-btn" onclick="show('splash')">←</button>
+    <div class="topbar-logo">YALANAMCHOU</div>
+    <div style="font-size:20px;cursor:pointer" onclick="showProfile()">👤</div>
+  </div>
+  <div class="content">
+    <div class="user-badge" id="userBadge">👋 Bonjour !</div>
+    <div class="section-title">Ou allons-nous ?</div>
+    <div class="input-wrap">
+      <span>🟡</span>
+      <input type="text" id="pickup" placeholder="Point de depart..." value="Marche central, NDjamena">
+    </div>
+    <div class="input-wrap">
+      <span>🔴</span>
+      <input type="text" id="dropoff" placeholder="Destination...">
+    </div>
+    <div style="font-size:13px;color:rgba(245,240,232,0.4);text-transform:uppercase;letter-spacing:2px;margin-bottom:12px;margin-top:4px">Vehicule</div>
+    <div class="vehicles">
+      <div class="vehicle selected" onclick="selectV(this,'moto')">
+        <div class="v-emoji">🛵</div>
+        <div class="v-name">Moto</div>
+        <div class="v-price">~500 F</div>
+      </div>
+      <div class="vehicle" onclick="selectV(this,'taxi')">
+        <div class="v-emoji">🚕</div>
+        <div class="v-name">Taxi</div>
+        <div class="v-price">~1200 F</div>
+      </div>
+      <div class="vehicle" onclick="selectV(this,'premium')">
+        <div class="v-emoji">🚐</div>
+        <div class="v-name">Premium</div>
+        <div class="v-price">~2500 F</div>
+      </div>
+    </div>
+    <button class="btn btn-outline" style="margin-bottom:12px" onclick="getEstimate()">Estimer le prix</button>
+    <div class="estimate-box" id="estimateBox">
+      <div class="est-row"><span>Distance</span><span id="estDist">-</span></div>
+      <div class="est-row"><span>Duree</span><span id="estDur">-</span></div>
+      <div class="est-row"><span>Prix total</span><span id="estPrix">-</span></div>
+    </div>
+    <button class="btn btn-red" onclick="orderRide()">🚀 Commander maintenant</button>
+    <div style="height:32px"></div>
+  </div>
+</div>
+<script>
+const API='http://localhost:5000/api';
+let currentUser=null,selectedRole='passager',selectedVehicle='moto',currentOTP='',currentPhone='';
+const COORDS={pickup:{lat:12.1048,lng:15.0445},dropoff:{lat:12.1348,lng:15.0645}};
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0)}
+function showStep(id){document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
+function toast(msg,isError=false){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show'+(isError?' error':'');setTimeout(()=>t.classList.remove('show'),3000)}
+async function sendOTP(){
+  const phone=document.getElementById('phoneInput').value.trim();
+  if(!phone)return toast('Entrez votre numero',true);
+  try{
+    const r=await fetch(API+'/auth/send-otp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone})});
+    const d=await r.json();
+    currentPhone=phone;currentOTP=d.debug_otp;
+    document.getElementById('otpSub').textContent='Code envoye au '+phone;
+    if(d.debug_otp){const digits=document.querySelectorAll('.otp-digit');d.debug_otp.split('').forEach((c,i)=>digits[i].value=c)}
+    showStep('s2');toast('Code envoye !');
+  }catch(e){toast('Erreur serveur',true)}
+}
+async function verifyOTP(){
+  const digits=document.querySelectorAll('.otp-digit');
+  const otp=Array.from(digits).map(d=>d.value).join('');
+  if(otp.length<6)return toast('Entrez le code complet',true);
+  try{
+    const r=await fetch(API+'/auth/verify-otp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone:currentPhone,otp,name:'',role:'passager'})});
+    const d=await r.json();
+    if(d.error)return toast(d.error,true);
+    currentUser=d.user;showStep('s3');toast('Code verifie !');
+  }catch(e){toast('Erreur serveur',true)}
+}
+async function finishLogin(){
+  const name=document.getElementById('nameInput').value.trim();
+  if(!name)return toast('Entrez votre prenom',true);
+  try{
+    const r=await fetch(API+'/auth/verify-otp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone:currentPhone,otp:currentOTP,name,role:selectedRole})});
+    const d=await r.json();
+    currentUser=d.user||{name,role:selectedRole};
+  }catch(e){currentUser={name,role:selectedRole}}
+  currentUser.name=name;
+  document.getElementById('userBadge').textContent='👋 Bonjour '+name+' !';
+  show('passager');toast('Bienvenue '+name+' !');
+}
+function nextOTP(input,i){input.value=input.value.replace(/[^0-9]/g,'');const digits=document.querySelectorAll('.otp-digit');if(input.value&&i<5)digits[i+1].focus()}
+function selectRole(el,role){document.querySelectorAll('.role-card').forEach(c=>c.classList.remove('selected'));el.classList.add('selected');selectedRole=role}
+function selectV(el,type){document.querySelectorAll('.vehicle').forEach(v=>v.classList.remove('selected'));el.classList.add('selected');selectedVehicle=type}
+function showProfile(){if(currentUser)alert('👤 '+currentUser.name+'\n🎭 '+currentUser.role)}
+async function getEstimate(){
+  try{
+    const r=await fetch(API+'/rides/estimate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pickup_lat:COORDS.pickup.lat,pickup_lng:COORDS.pickup.lng,dropoff_lat:COORDS.dropoff.lat,dropoff_lng:COORDS.dropoff.lng,vehicle_type:selectedVehicle})});
+    const d=await r.json();
+    document.getElementById('estDist').textContent=d.distance_km+' km';
+    document.getElementById('estDur').textContent=d.duration_min+' min';
+    document.getElementById('estPrix').textContent=d.prix_fcfa.toLocaleString()+' FCFA';
+    document.getElementById('estimateBox').style.display='block';
+    toast('Prix estime !');
+  }catch(e){toast('Erreur estimation',true)}
+}
+async function orderRide(){
+  const dropoff=document.getElementById('dropoff').value.trim();
+  if(!dropoff)return toast('Entrez une destination',true);
+  if(!currentUser)return toast('Connectez-vous dabord',true);
+  try{
+    const r=await fetch(API+'/rides/request',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({passenger_id:currentUser.id||1,pickup_lat:COORDS.pickup.lat,pickup_lng:COORDS.pickup.lng,pickup_address:document.getElementById('pickup').value,dropoff_lat:COORDS.dropoff.lat,dropoff_lng:COORDS.dropoff.lng,dropoff_address:dropoff,vehicle_type:selectedVehicle})});
+    const d=await r.json();
+    toast('Course #'+d.ride_id+' creee ! '+d.prix_fcfa+' FCFA');
+    setTimeout(()=>alert('Course commandee !\nID: #'+d.ride_id+'\nPrix: '+d.prix_fcfa+' FCFA\nStatut: En attente...'),500);
+  }catch(e){toast('Erreur commande',true)}
+}
+</script>
+</body>
+</html>
