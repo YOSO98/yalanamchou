@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chauffeur - Yalanamchou</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--rouge:#C8102E;--jaune:#FFC72C;--noir:#0A0A0F;--blanc:#F5F0E8;--vert:#22C55E}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Outfit',sans-serif;background:var(--noir);color:var(--blanc);min-height:100vh}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;background:rgba(10,10,15,0.95);border-bottom:1px solid rgba(245,240,232,0.06);position:sticky;top:0;z-index:100}
+.topbar-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;background:linear-gradient(135deg,var(--jaune),var(--rouge));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.content{padding:24px;max-width:480px;margin:0 auto}
+.status-card{background:rgba(245,240,232,0.04);border:1px solid rgba(245,240,232,0.1);border-radius:20px;padding:20px;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.status-info h3{font-size:18px;font-weight:700}
+.status-info p{font-size:13px;color:rgba(245,240,232,0.4);margin-top:4px}
+.toggle{width:64px;height:34px;border-radius:17px;background:rgba(245,240,232,0.1);border:none;cursor:pointer;position:relative;transition:all 0.3s}
+.toggle.on{background:linear-gradient(135deg,var(--vert),#16A34A)}
+.knob{position:absolute;width:26px;height:26px;background:white;border-radius:50%;top:4px;left:4px;transition:all 0.3s;box-shadow:0 2px 8px rgba(0,0,0,0.3)}
+.toggle.on .knob{left:34px}
+.earnings-card{background:linear-gradient(135deg,rgba(200,16,46,0.15),rgba(255,199,44,0.08));border:1px solid rgba(255,199,44,0.15);border-radius:20px;padding:24px;margin-bottom:20px}
+.earn-label{font-size:12px;color:rgba(245,240,232,0.4);text-transform:uppercase;letter-spacing:2px}
+.earn-amount{font-family:'Bebas Neue',sans-serif;font-size:52px;color:var(--jaune);line-height:1;margin:8px 0}
+.earn-sub{font-size:13px;color:rgba(245,240,232,0.4)}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.stat{background:rgba(245,240,232,0.04);border:1px solid rgba(245,240,232,0.08);border-radius:16px;padding:16px;text-align:center}
+.stat-num{font-size:24px;font-weight:800}
+.stat-label{font-size:11px;color:rgba(245,240,232,0.4);margin-top:4px;text-transform:uppercase;letter-spacing:1px}
+.ride-request{background:rgba(245,240,232,0.04);border:1px solid rgba(255,199,44,0.25);border-radius:20px;padding:20px;margin-bottom:20px;animation:slideIn 0.4s ease}
+@keyframes slideIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.ride-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.ride-badge{background:var(--jaune);color:var(--noir);font-size:11px;font-weight:800;padding:6px 14px;border-radius:20px;text-transform:uppercase;animation:blink 1s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.6}}
+.ride-price{font-size:24px;font-weight:800;color:var(--jaune)}
+.route{display:flex;gap:12px;background:rgba(245,240,232,0.04);border-radius:14px;padding:14px;margin-bottom:14px}
+.dots{display:flex;flex-direction:column;align-items:center;gap:4px;padding-top:2px}
+.dot-a{width:10px;height:10px;border-radius:50%;background:var(--jaune)}
+.dot-line{width:2px;height:20px;background:rgba(245,240,232,0.2)}
+.dot-b{width:10px;height:10px;border-radius:50%;background:var(--rouge)}
+.route-text{flex:1}
+.route-from{font-size:14px;font-weight:500;margin-bottom:10px}
+.route-to{font-size:14px;color:rgba(245,240,232,0.6)}
+.route-dist{text-align:right;flex-shrink:0}
+.route-dist span{display:block;font-size:13px;color:rgba(245,240,232,0.4)}
+.route-dist strong{font-size:16px;font-weight:700}
+.ride-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{padding:14px;border-radius:14px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;cursor:pointer;border:none;transition:all 0.2s;width:100%}
+.btn-accept{background:linear-gradient(135deg,var(--vert),#16A34A);color:white}
+.btn-refuse{background:rgba(200,16,46,0.1);color:#FF6B6B;border:1px solid rgba(200,16,46,0.2)}
+.btn:hover{transform:translateY(-2px)}
+.history-title{font-size:16px;font-weight:700;margin-bottom:14px;color:rgba(245,240,232,0.7)}
+.history-item{display:flex;justify-content:space-between;align-items:center;padding:14px;background:rgba(245,240,232,0.03);border:1px solid rgba(245,240,232,0.06);border-radius:14px;margin-bottom:10px}
+.hist-info p{font-size:14px;font-weight:500}
+.hist-info span{font-size:12px;color:rgba(245,240,232,0.4);margin-top:2px;display:block}
+.hist-amount{font-size:16px;font-weight:700;color:var(--jaune)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:rgba(34,197,94,0.9);color:white;padding:14px 28px;border-radius:16px;font-weight:600;font-size:14px;z-index:999;transition:all 0.4s;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.error{background:rgba(200,16,46,0.9)}
+.waiting{text-align:center;padding:32px;color:rgba(245,240,232,0.3)}
+.waiting-icon{font-size:48px;margin-bottom:12px;display:block}
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+<div class="topbar">
+  <div>
+    <div class="topbar-logo">YALANAMCHOU</div>
+    <div style="font-size:12px;color:rgba(245,240,232,0.4)">Tableau de bord chauffeur</div>
+  </div>
+  <div style="font-size:28px;cursor:pointer" onclick="showProfile()">👨</div>
+</div>
+<div class="content">
+  <div class="status-card">
+    <div class="status-info">
+      <h3 id="statusText">🟢 En ligne</h3>
+      <p id="statusSub">Vous recevez des courses</p>
+    </div>
+    <button class="toggle on" id="toggleBtn" onclick="toggleStatus()">
+      <div class="knob"></div>
+    </button>
+  </div>
+  <div class="earnings-card">
+    <div class="earn-label">Gains aujourd'hui</div>
+    <div class="earn-amount" id="totalEarnings">0</div>
+    <div class="earn-sub">FCFA - <span id="todayDate"></span></div>
+  </div>
+  <div class="stats-grid">
+    <div class="stat">
+      <div class="stat-num" style="color:var(--jaune)" id="totalRides">0</div>
+      <div class="stat-label">Courses</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" style="color:#6B9FFF" id="totalKm">0</div>
+      <div class="stat-label">Km</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" style="color:#6BFF9E">4.9</div>
+      <div class="stat-label">Note</div>
+    </div>
+  </div>
+  <div id="rideContainer"></div>
+  <div class="history-title">Dernieres courses</div>
+  <div id="historyContainer"></div>
+</div>
+<script>
+const API='http://localhost:5000/api';
+let isOnline=true,totalEarnings=0,totalRides=0,totalKm=0,checkInterval=null;
+document.getElementById('todayDate').textContent=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+function toast(msg,isError=false){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show'+(isError?' error':'');setTimeout(()=>t.classList.remove('show'),3000)}
+function toggleStatus(){
+  isOnline=!isOnline;
+  const btn=document.getElementById('toggleBtn');
+  btn.classList.toggle('on',isOnline);
+  document.getElementById('statusText').textContent=isOnline?'🟢 En ligne':'🔴 Hors ligne';
+  document.getElementById('statusSub').textContent=isOnline?'Vous recevez des courses':'Vous ne recevez plus de courses';
+  if(isOnline){startChecking();toast('Vous etes en ligne !');}
+  else{stopChecking();toast('Vous etes hors ligne');document.getElementById('rideContainer').innerHTML='';}
+}
+function showProfile(){alert('Mahamat Ibrahim\nNote: 4.9/5\nToyota Corolla Jaune\nTD-2847-A')}
+async function checkPendingRides(){
+  if(!isOnline)return;
+  try{
+    const r=await fetch(API+'/rides/all');
+    const d=await r.json();
+    const pending=d.rides.filter(r=>r.status==='pending');
+    const container=document.getElementById('rideContainer');
+    if(pending.length>0){const ride=pending[0];container.innerHTML=renderRide(ride);}
+    else{container.innerHTML=renderWaiting();}
+  }catch(e){}
+}
+function renderWaiting(){return '<div class="waiting"><span class="waiting-icon">⏳</span><div style="font-size:14px">En attente de courses...</div></div>'}
+function renderRide(ride){return '<div class="ride-request"><div class="ride-header"><div class="ride-badge">Nouvelle course</div><div class="ride-price">'+ride.price_fcfa.toLocaleString()+' FCFA</div></div><div class="route"><div class="dots"><div class="dot-a"></div><div class="dot-line"></div><div class="dot-b"></div></div><div class="route-text"><div class="route-from">'+ride.pickup_address+'</div><div class="route-to">'+ride.dropoff_address+'</div></div><div class="route-dist"><span>Distance</span><strong>'+ride.distance_km+' km</strong></div></div><div class="ride-actions"><button class="btn btn-accept" onclick="acceptRide('+ride.id+','+ride.price_fcfa+','+ride.distance_km+')">Accepter</button><button class="btn btn-refuse" onclick="refuseRide()">Refuser</button></div></div>'}
+async function acceptRide(rideId,price,km){
+  try{
+    await fetch(API+'/rides/'+rideId+'/accept',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({driver_id:2})});
+    totalEarnings+=Math.floor(price*0.85);totalRides+=1;totalKm+=km;
+    document.getElementById('totalEarnings').textContent=totalEarnings.toLocaleString();
+    document.getElementById('totalRides').textContent=totalRides;
+    document.getElementById('totalKm').textContent=Math.round(totalKm);
+    addToHistory(rideId,price,km);
+    document.getElementById('rideContainer').innerHTML=renderWaiting();
+    toast('Course acceptee !');
+  }catch(e){toast('Erreur',true)}
+}
+function refuseRide(){document.getElementById('rideContainer').innerHTML=renderWaiting();toast('Course refusee')}
+function addToHistory(rideId,price,km){const c=document.getElementById('historyContainer');const i=document.createElement('div');i.className='history-item';i.innerHTML='<div class="hist-info"><p>Course #'+rideId+'</p><span>'+km+' km</span></div><div class="hist-amount">+'+Math.floor(price*0.85).toLocaleString()+' F</div>';c.insertBefore(i,c.firstChild)}
+function startChecking(){checkPendingRides();checkInterval=setInterval(checkPendingRides,5000)}
+function stopChecking(){if(checkInterval)clearInterval(checkInterval)}
+startChecking();
+</script>
+</body>
+</html>

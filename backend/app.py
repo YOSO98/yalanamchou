@@ -19,9 +19,13 @@ app.register_blueprint(rides_bp, url_prefix='/api/rides')
 def index():
     return send_from_directory(FRONTEND, 'index.html')
 
-@app.route('/api/status')
-def status():
-    return jsonify({'status': 'OK'})
+@app.route('/chauffeur')
+def chauffeur():
+    return send_from_directory(os.path.join(FRONTEND, 'chauffeur'), 'index.html')
+
+@app.route('/admin')
+def admin():
+    return send_from_directory(os.path.join(FRONTEND, '..', 'admin'), 'dashboard.html')
 
 if __name__ == '__main__':
     print("🚕 Yalanamchou → http://localhost:5000")
