@@ -2,152 +2,666 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chauffeur - Yalanamchou</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Yalanamchou — Chauffeur</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{--rouge:#C8102E;--jaune:#FFC72C;--noir:#0A0A0F;--blanc:#F5F0E8;--vert:#22C55E}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Outfit',sans-serif;background:var(--noir);color:var(--blanc);min-height:100vh}
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;background:rgba(10,10,15,0.95);border-bottom:1px solid rgba(245,240,232,0.06);position:sticky;top:0;z-index:100}
-.topbar-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;background:linear-gradient(135deg,var(--jaune),var(--rouge));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.content{padding:24px;max-width:480px;margin:0 auto}
-.status-card{background:rgba(245,240,232,0.04);border:1px solid rgba(245,240,232,0.1);border-radius:20px;padding:20px;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
-.status-info h3{font-size:18px;font-weight:700}
-.status-info p{font-size:13px;color:rgba(245,240,232,0.4);margin-top:4px}
-.toggle{width:64px;height:34px;border-radius:17px;background:rgba(245,240,232,0.1);border:none;cursor:pointer;position:relative;transition:all 0.3s}
-.toggle.on{background:linear-gradient(135deg,var(--vert),#16A34A)}
-.knob{position:absolute;width:26px;height:26px;background:white;border-radius:50%;top:4px;left:4px;transition:all 0.3s;box-shadow:0 2px 8px rgba(0,0,0,0.3)}
-.toggle.on .knob{left:34px}
-.earnings-card{background:linear-gradient(135deg,rgba(200,16,46,0.15),rgba(255,199,44,0.08));border:1px solid rgba(255,199,44,0.15);border-radius:20px;padding:24px;margin-bottom:20px}
-.earn-label{font-size:12px;color:rgba(245,240,232,0.4);text-transform:uppercase;letter-spacing:2px}
-.earn-amount{font-family:'Bebas Neue',sans-serif;font-size:52px;color:var(--jaune);line-height:1;margin:8px 0}
-.earn-sub{font-size:13px;color:rgba(245,240,232,0.4)}
-.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
-.stat{background:rgba(245,240,232,0.04);border:1px solid rgba(245,240,232,0.08);border-radius:16px;padding:16px;text-align:center}
-.stat-num{font-size:24px;font-weight:800}
-.stat-label{font-size:11px;color:rgba(245,240,232,0.4);margin-top:4px;text-transform:uppercase;letter-spacing:1px}
-.ride-request{background:rgba(245,240,232,0.04);border:1px solid rgba(255,199,44,0.25);border-radius:20px;padding:20px;margin-bottom:20px;animation:slideIn 0.4s ease}
-@keyframes slideIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-.ride-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-.ride-badge{background:var(--jaune);color:var(--noir);font-size:11px;font-weight:800;padding:6px 14px;border-radius:20px;text-transform:uppercase;animation:blink 1s ease-in-out infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0.6}}
-.ride-price{font-size:24px;font-weight:800;color:var(--jaune)}
-.route{display:flex;gap:12px;background:rgba(245,240,232,0.04);border-radius:14px;padding:14px;margin-bottom:14px}
-.dots{display:flex;flex-direction:column;align-items:center;gap:4px;padding-top:2px}
-.dot-a{width:10px;height:10px;border-radius:50%;background:var(--jaune)}
-.dot-line{width:2px;height:20px;background:rgba(245,240,232,0.2)}
-.dot-b{width:10px;height:10px;border-radius:50%;background:var(--rouge)}
-.route-text{flex:1}
-.route-from{font-size:14px;font-weight:500;margin-bottom:10px}
-.route-to{font-size:14px;color:rgba(245,240,232,0.6)}
-.route-dist{text-align:right;flex-shrink:0}
-.route-dist span{display:block;font-size:13px;color:rgba(245,240,232,0.4)}
-.route-dist strong{font-size:16px;font-weight:700}
-.ride-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.btn{padding:14px;border-radius:14px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;cursor:pointer;border:none;transition:all 0.2s;width:100%}
-.btn-accept{background:linear-gradient(135deg,var(--vert),#16A34A);color:white}
-.btn-refuse{background:rgba(200,16,46,0.1);color:#FF6B6B;border:1px solid rgba(200,16,46,0.2)}
-.btn:hover{transform:translateY(-2px)}
-.history-title{font-size:16px;font-weight:700;margin-bottom:14px;color:rgba(245,240,232,0.7)}
-.history-item{display:flex;justify-content:space-between;align-items:center;padding:14px;background:rgba(245,240,232,0.03);border:1px solid rgba(245,240,232,0.06);border-radius:14px;margin-bottom:10px}
-.hist-info p{font-size:14px;font-weight:500}
-.hist-info span{font-size:12px;color:rgba(245,240,232,0.4);margin-top:2px;display:block}
-.hist-amount{font-size:16px;font-weight:700;color:var(--jaune)}
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:rgba(34,197,94,0.9);color:white;padding:14px 28px;border-radius:16px;font-weight:600;font-size:14px;z-index:999;transition:all 0.4s;white-space:nowrap}
-.toast.show{transform:translateX(-50%) translateY(0)}
-.toast.error{background:rgba(200,16,46,0.9)}
-.waiting{text-align:center;padding:32px;color:rgba(245,240,232,0.3)}
-.waiting-icon{font-size:48px;margin-bottom:12px;display:block}
+:root {
+  --black:#000; --white:#fff; --g50:#F8F8F8; --g100:#F0F0F0;
+  --g200:#E0E0E0; --g400:#9E9E9E; --g600:#5E5E5E;
+  --rouge:#C8102E; --jaune:#F5A623; --vert:#2ECC71; --bleu:#3B82F6;
+  --font:'Plus Jakarta Sans',sans-serif;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;font-family:var(--font);background:var(--black);overflow:hidden;-webkit-font-smoothing:antialiased}
+
+.screen{position:fixed;inset:0;display:none;flex-direction:column;background:var(--white)}
+.screen.show{display:flex}
+
+/* ====== SPLASH ====== */
+#splash{background:var(--black);align-items:center;justify-content:center}
+.sp-icon{font-size:80px;animation:pop 0.7s cubic-bezier(0.34,1.56,0.64,1) both}
+.sp-title{font-size:40px;font-weight:900;color:var(--white);letter-spacing:-1.5px;margin-top:20px;text-align:center}
+.sp-sub{font-size:15px;color:var(--g400);margin-top:8px;text-align:center}
+.sp-bar{width:48px;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;margin:48px auto 0;overflow:hidden}
+.sp-fill{height:100%;background:var(--white);border-radius:2px;animation:fill 2.5s ease forwards}
+@keyframes pop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes fill{from{width:0}to{width:100%}}
+@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* ====== LOGIN ====== */
+#login{background:var(--black);justify-content:flex-end}
+.login-hero{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 32px}
+.login-badge{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:6px 16px;font-size:12px;font-weight:700;color:rgba(255,255,255,0.5);letter-spacing:1px;margin-bottom:20px}
+.login-title{font-size:36px;font-weight:900;color:var(--white);letter-spacing:-1.5px;text-align:center;margin-bottom:8px}
+.login-sub{font-size:15px;color:var(--g400);text-align:center}
+.login-card{background:var(--white);border-radius:28px 28px 0 0;padding:32px 24px 40px}
+.lc-title{font-size:24px;font-weight:900;letter-spacing:-0.5px;margin-bottom:6px}
+.lc-sub{font-size:14px;color:var(--g400);margin-bottom:24px}
+.phone-row{display:flex;gap:10px;margin-bottom:16px}
+.code-box{padding:0 18px;height:58px;background:var(--g50);border:1.5px solid var(--g200);border-radius:16px;font-family:var(--font);font-size:16px;font-weight:700;display:flex;align-items:center;gap:6px;flex-shrink:0}
+.phone-inp{flex:1;height:58px;background:var(--g50);border:1.5px solid var(--g200);border-radius:16px;padding:0 18px;font-family:var(--font);font-size:18px;font-weight:600;outline:none;transition:border-color 0.2s}
+.phone-inp:focus{border-color:var(--black);background:var(--white)}
+.btn{width:100%;height:58px;border:none;border-radius:16px;font-family:var(--font);font-size:17px;font-weight:800;cursor:pointer;letter-spacing:-0.3px;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn:active{transform:scale(0.97)}
+.btn-dark{background:var(--black);color:var(--white)}
+.btn-green{background:var(--vert);color:var(--white)}
+.btn-red{background:var(--rouge);color:var(--white)}
+.btn-outline-dark{background:transparent;color:var(--black);border:2px solid var(--g200)}
+.terms{font-size:12px;color:var(--g400);text-align:center;margin-top:16px;line-height:1.6}
+.otp-hint{font-size:14px;color:var(--g400);margin-bottom:24px}
+.otp-hint b{color:var(--black)}
+.otp-grid{display:flex;gap:8px;margin-bottom:24px}
+.otp-b{flex:1;height:64px;text-align:center;font-size:28px;font-weight:800;background:var(--g50);border:2px solid var(--g200);border-radius:14px;font-family:var(--font);outline:none;transition:all 0.15s;caret-color:var(--vert)}
+.otp-b:focus{border-color:var(--black);background:var(--white);transform:scale(1.04)}
+.otp-b.ok{border-color:var(--black)}
+.resend{text-align:center;margin-top:16px;font-size:14px;font-weight:700;color:var(--black);cursor:pointer;text-decoration:underline}
+
+/* ====== MAIN DRIVER UI ====== */
+#driver{background:var(--g50)}
+
+/* TOP STATUS BAR */
+.status-bar{background:var(--white);border-bottom:1px solid var(--g100);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.driver-info-row{display:flex;align-items:center;gap:12px}
+.drv-ava{width:44px;height:44px;border-radius:50%;background:var(--black);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.drv-hello{font-size:13px;color:var(--g400);font-weight:500}
+.drv-name-top{font-size:16px;font-weight:800;letter-spacing:-0.3px}
+.online-toggle{display:flex;align-items:center;gap:8px;cursor:pointer}
+.toggle-track{width:56px;height:30px;border-radius:15px;background:var(--g200);position:relative;transition:background 0.3s;flex-shrink:0}
+.toggle-track.on{background:var(--vert)}
+.toggle-thumb{position:absolute;width:24px;height:24px;border-radius:50%;background:var(--white);top:3px;left:3px;transition:all 0.3s;box-shadow:0 2px 6px rgba(0,0,0,0.2)}
+.toggle-track.on .toggle-thumb{left:29px}
+.toggle-lbl{font-size:14px;font-weight:800;letter-spacing:-0.2px}
+.toggle-lbl.on{color:var(--vert)}
+.toggle-lbl.off{color:var(--g400)}
+
+/* MAP */
+.map-zone{flex:1;position:relative;overflow:hidden;background:#0a0f1e}
+#driverMap{width:100%;height:100%;display:block}
+
+/* EARNINGS PILL */
+.earn-pill{position:absolute;top:14px;left:50%;transform:translateX(-50%);background:var(--white);border-radius:50px;padding:10px 20px;display:flex;gap:20px;align-items:center;box-shadow:0 4px 20px rgba(0,0,0,0.2);white-space:nowrap}
+.earn-item{text-align:center}
+.earn-val{font-size:20px;font-weight:900;letter-spacing:-0.5px}
+.earn-lbl{font-size:10px;font-weight:700;color:var(--g400);text-transform:uppercase;letter-spacing:0.5px;margin-top:1px}
+.earn-sep{width:1px;height:28px;background:var(--g200)}
+
+/* BOTTOM SHEET — idle */
+.bottom-sheet{position:absolute;bottom:0;left:0;right:0;background:var(--white);border-radius:24px 24px 0 0;box-shadow:0 -4px 30px rgba(0,0,0,0.1);transition:transform 0.4s cubic-bezier(0.32,0.72,0,1)}
+.sheet-handle{width:40px;height:4px;background:var(--g200);border-radius:2px;margin:14px auto 0}
+
+/* Idle sheet */
+.idle-sheet{padding:20px 20px 36px}
+.idle-title{font-size:22px;font-weight:900;letter-spacing:-0.5px;margin-bottom:4px}
+.idle-sub{font-size:14px;color:var(--g400);margin-bottom:20px}
+.stats-row{display:flex;gap:10px;margin-bottom:20px}
+.stat-box{flex:1;background:var(--g50);border-radius:16px;padding:14px;text-align:center}
+.stat-n{font-size:24px;font-weight:900;letter-spacing:-0.5px}
+.stat-l{font-size:11px;font-weight:700;color:var(--g400);text-transform:uppercase;letter-spacing:0.5px;margin-top:3px}
+
+/* RIDE REQUEST SHEET */
+.request-sheet{padding:0 0 32px;display:none}
+.req-urgency{background:var(--rouge);color:var(--white);text-align:center;padding:10px;font-size:13px;font-weight:800;letter-spacing:0.5px}
+.req-body{padding:20px}
+.req-title{font-size:13px;font-weight:700;color:var(--g400);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px}
+.req-passenger{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.req-pass-ava{width:52px;height:52px;border-radius:50%;background:var(--g100);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
+.req-pass-name{font-size:18px;font-weight:800;letter-spacing:-0.3px}
+.req-pass-rating{font-size:13px;color:var(--g400);margin-top:3px}
+.req-price{font-size:32px;font-weight:900;letter-spacing:-1px;margin-left:auto}
+.req-price-lbl{font-size:12px;color:var(--g400);text-align:right}
+.route-block{background:var(--g50);border-radius:16px;padding:16px;margin-bottom:20px}
+.route-point{display:flex;align-items:center;gap:12px;padding:8px 0}
+.route-point+.route-point{border-top:1px solid var(--g200)}
+.route-pip{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.route-pip.a{background:var(--black)}
+.route-pip.b{background:var(--rouge)}
+.route-addr{font-size:14px;font-weight:600;flex:1}
+.route-dist{font-size:13px;color:var(--g400)}
+.req-btns{display:flex;gap:10px;padding:0 20px}
+.timer-bar{height:4px;background:var(--rouge);border-radius:2px;margin:0 20px 16px;transition:width 0.1s linear}
+
+/* ACTIVE RIDE SHEET */
+.active-sheet{padding:20px 20px 32px;display:none}
+.active-title{font-size:13px;font-weight:700;color:var(--g400);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+.active-passenger{display:flex;align-items:center;gap:14px;background:var(--g50);border-radius:16px;padding:16px;margin-bottom:16px}
+.act-ava{width:48px;height:48px;border-radius:50%;background:var(--g200);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.act-name{font-size:16px;font-weight:800;letter-spacing:-0.3px}
+.act-dest{font-size:13px;color:var(--g400);margin-top:3px}
+.act-price{font-size:22px;font-weight:900;letter-spacing:-0.5px;margin-left:auto;color:var(--vert)}
+.act-prog-label{display:flex;justify-content:space-between;margin-bottom:8px}
+.act-prog-txt{font-size:13px;font-weight:700}
+.act-prog-pct{font-size:13px;font-weight:700;color:var(--g400)}
+.act-prog-track{height:6px;background:var(--g100);border-radius:3px;margin-bottom:16px;overflow:hidden}
+.act-prog-fill{height:100%;background:var(--black);border-radius:3px;transition:width 0.5s ease;width:0%}
+.act-btns{display:flex;gap:10px}
+.btn-sm{flex:1;height:50px;border-radius:14px;font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer;border:none;transition:all 0.2s}
+.btn-sm:active{transform:scale(0.96)}
+.btn-arrived{background:var(--vert);color:var(--white)}
+.btn-call-sm{background:var(--g50);color:var(--black);border:1.5px solid var(--g200)}
+.btn-nav{background:var(--black);color:var(--white)}
+
+/* ARRIVED CONFIRM */
+.arrived-sheet{padding:24px 20px 40px;display:none;text-align:center}
+.arr-emoji{font-size:64px;margin-bottom:16px;animation:pop 0.5s cubic-bezier(0.34,1.56,0.64,1) both}
+.arr-title{font-size:28px;font-weight:900;letter-spacing:-1px;margin-bottom:6px}
+.arr-sub{font-size:15px;color:var(--g400);margin-bottom:24px}
+.earn-card{background:var(--black);border-radius:20px;padding:24px;margin-bottom:20px}
+.earn-amount{font-size:52px;font-weight:900;letter-spacing:-2px;color:var(--white);line-height:1}
+.earn-breakdown{display:flex;justify-content:space-between;margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.1)}
+.earn-bd-item{text-align:center}
+.earn-bd-val{font-size:16px;font-weight:800;color:var(--white)}
+.earn-bd-lbl{font-size:11px;color:rgba(255,255,255,0.4);margin-top:3px}
+
+/* PROFILE TAB */
+#driverProfile{background:var(--g50);overflow-y:auto;padding-bottom:80px}
+.prof-header{background:var(--black);padding:48px 24px 32px;display:flex;flex-direction:column;align-items:center}
+.prof-ava{width:80px;height:80px;border-radius:50%;background:var(--white);display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:900;color:var(--black);margin-bottom:14px}
+.prof-name{font-size:24px;font-weight:900;color:var(--white);letter-spacing:-0.5px}
+.prof-phone{font-size:14px;color:rgba(255,255,255,0.4);margin-top:4px}
+.prof-badge{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.08);border-radius:20px;padding:6px 14px;margin-top:12px;font-size:13px;font-weight:700;color:rgba(255,255,255,0.7)}
+.perf-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px}
+.perf-card{background:var(--white);border-radius:16px;padding:16px;text-align:center;box-shadow:0 1px 8px rgba(0,0,0,0.04)}
+.perf-val{font-size:28px;font-weight:900;letter-spacing:-1px}
+.perf-lbl{font-size:12px;font-weight:700;color:var(--g400);margin-top:3px}
+.menu-grp{padding:0 16px;margin-bottom:14px}
+.menu-grp-t{font-size:12px;font-weight:700;color:var(--g400);text-transform:uppercase;letter-spacing:1px;padding:0 4px;margin-bottom:8px}
+.menu-r{display:flex;align-items:center;gap:14px;background:var(--white);border-radius:14px;padding:16px;margin-bottom:6px;cursor:pointer;transition:all 0.2s}
+.menu-r:active{background:var(--g50)}
+.menu-ico{font-size:22px;width:30px}
+.menu-lbl{font-size:15px;font-weight:700;flex:1;letter-spacing:-0.2px}
+.menu-chev{font-size:18px;color:var(--g200)}
+.menu-r.danger .menu-lbl{color:var(--rouge)}
+
+/* BOTTOM NAV */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:72px;background:var(--white);border-top:1px solid var(--g100);display:flex;align-items:center;z-index:300}
+.nav-i{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:8px 0;transition:all 0.2s}
+.nav-i:active{transform:scale(0.9)}
+.nav-ico{font-size:24px}
+.nav-lbl{font-size:11px;font-weight:700;color:var(--g400);letter-spacing:0.3px}
+.nav-i.on .nav-lbl{color:var(--black)}
+
+/* TOAST */
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-80px);z-index:9999;background:var(--black);color:var(--white);padding:14px 24px;border-radius:50px;font-size:14px;font-weight:700;letter-spacing:-0.2px;white-space:nowrap;opacity:0;transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 8px 32px rgba(0,0,0,0.25)}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.green{background:#16A34A}
+.toast.red{background:var(--rouge)}
+.toast.blue{background:var(--bleu)}
 </style>
 </head>
 <body>
-<div class="toast" id="toast"></div>
-<div class="topbar">
-  <div>
-    <div class="topbar-logo">YALANAMCHOU</div>
-    <div style="font-size:12px;color:rgba(245,240,232,0.4)">Tableau de bord chauffeur</div>
-  </div>
-  <div style="font-size:28px;cursor:pointer" onclick="showProfile()">👨</div>
+
+<div class="toast" id="t"></div>
+
+<!-- ====== SPLASH ====== -->
+<div class="screen show" id="splash">
+  <div class="sp-icon">🚕</div>
+  <div class="sp-title">Chauffeur</div>
+  <div class="sp-sub">Yalanamchou Driver</div>
+  <div class="sp-bar"><div class="sp-fill"></div></div>
 </div>
-<div class="content">
-  <div class="status-card">
-    <div class="status-info">
-      <h3 id="statusText">🟢 En ligne</h3>
-      <p id="statusSub">Vous recevez des courses</p>
-    </div>
-    <button class="toggle on" id="toggleBtn" onclick="toggleStatus()">
-      <div class="knob"></div>
-    </button>
+
+<!-- ====== LOGIN ====== -->
+<div class="screen" id="login">
+  <div class="login-hero">
+    <div class="login-badge">👨‍✈️ ESPACE CHAUFFEUR</div>
+    <div style="font-size:60px;margin-bottom:16px">🚗</div>
+    <div class="login-title">Connexion Chauffeur</div>
+    <div class="login-sub">Gagnez de l'argent à votre rythme</div>
   </div>
-  <div class="earnings-card">
-    <div class="earn-label">Gains aujourd'hui</div>
-    <div class="earn-amount" id="totalEarnings">0</div>
-    <div class="earn-sub">FCFA - <span id="todayDate"></span></div>
+  <div class="login-card" id="ls1">
+    <div class="lc-title">Votre numéro</div>
+    <div class="lc-sub">Entrez votre numéro enregistré</div>
+    <div class="phone-row">
+      <div class="code-box">🇹🇩 +235</div>
+      <input class="phone-inp" type="tel" id="ph" placeholder="66 XX XX XX" maxlength="8">
+    </div>
+    <button class="btn btn-dark" onclick="sendOTP()">Continuer →</button>
+    <div class="terms">Réservé aux chauffeurs partenaires Yalanamchou</div>
   </div>
-  <div class="stats-grid">
-    <div class="stat">
-      <div class="stat-num" style="color:var(--jaune)" id="totalRides">0</div>
-      <div class="stat-label">Courses</div>
+  <div class="login-card" id="ls2" style="display:none">
+    <div class="lc-title">Code de vérification</div>
+    <div class="otp-hint">Code envoyé au <b id="phD"></b></div>
+    <div class="otp-grid">
+      <input class="otp-b" type="tel" maxlength="1" id="o0" oninput="oIn(this,0)">
+      <input class="otp-b" type="tel" maxlength="1" id="o1" oninput="oIn(this,1)">
+      <input class="otp-b" type="tel" maxlength="1" id="o2" oninput="oIn(this,2)">
+      <input class="otp-b" type="tel" maxlength="1" id="o3" oninput="oIn(this,3)">
+      <input class="otp-b" type="tel" maxlength="1" id="o4" oninput="oIn(this,4)">
+      <input class="otp-b" type="tel" maxlength="1" id="o5" oninput="oIn(this,5)">
     </div>
-    <div class="stat">
-      <div class="stat-num" style="color:#6B9FFF" id="totalKm">0</div>
-      <div class="stat-label">Km</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num" style="color:#6BFF9E">4.9</div>
-      <div class="stat-label">Note</div>
-    </div>
+    <button class="btn btn-green" onclick="verifyOTP()">Vérifier →</button>
+    <div class="resend" onclick="sendOTP()">Renvoyer le code</div>
   </div>
-  <div id="rideContainer"></div>
-  <div class="history-title">Dernieres courses</div>
-  <div id="historyContainer"></div>
 </div>
+
+<!-- ====== MAIN DRIVER ====== -->
+<div class="screen" id="driver">
+
+  <!-- Status bar -->
+  <div class="status-bar">
+    <div class="driver-info-row">
+      <div class="drv-ava" id="drvAva">👨🏿</div>
+      <div>
+        <div class="drv-hello">Bonjour,</div>
+        <div class="drv-name-top" id="drvNameTop">Chauffeur</div>
+      </div>
+    </div>
+    <div class="online-toggle" onclick="toggleOnline()">
+      <div class="toggle-lbl off" id="toggleLbl">HORS LIGNE</div>
+      <div class="toggle-track" id="toggleTrack">
+        <div class="toggle-thumb"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAP -->
+  <div class="map-zone">
+    <canvas id="driverMap"></canvas>
+
+    <!-- Earnings pill -->
+    <div class="earn-pill">
+      <div class="earn-item"><div class="earn-val" id="earnToday">0</div><div class="earn-lbl">F aujourd'hui</div></div>
+      <div class="earn-sep"></div>
+      <div class="earn-item"><div class="earn-val" id="ridesCount">0</div><div class="earn-lbl">Courses</div></div>
+      <div class="earn-sep"></div>
+      <div class="earn-item"><div class="earn-val" id="drvRating">4.9</div><div class="earn-lbl">Note ⭐</div></div>
+    </div>
+
+    <!-- BOTTOM SHEET -->
+    <div class="bottom-sheet" id="bSheet">
+      <div class="sheet-handle"></div>
+
+      <!-- IDLE -->
+      <div class="idle-sheet" id="shIdle">
+        <div class="idle-title" id="idleTitle">En attente...</div>
+        <div class="idle-sub" id="idleSub">Activez-vous pour recevoir des courses</div>
+        <div class="stats-row">
+          <div class="stat-box"><div class="stat-n" id="s1n">18 700</div><div class="stat-l">FCFA semaine</div></div>
+          <div class="stat-box"><div class="stat-n" id="s2n">12</div><div class="stat-l">Courses</div></div>
+          <div class="stat-box"><div class="stat-n">4.9</div><div class="stat-l">Ma note</div></div>
+        </div>
+        <button class="btn btn-dark" id="goOnlineBtn" onclick="toggleOnline()">Commencer à conduire →</button>
+      </div>
+
+      <!-- RIDE REQUEST -->
+      <div class="request-sheet" id="shRequest">
+        <div class="req-urgency">⚡ NOUVELLE DEMANDE DE COURSE</div>
+        <div class="timer-bar" id="timerBar" style="width:100%"></div>
+        <div class="req-body">
+          <div class="req-title">Passager</div>
+          <div class="req-passenger">
+            <div class="req-pass-ava">😊</div>
+            <div>
+              <div class="req-pass-name" id="reqPassName">Issa Mahamat</div>
+              <div class="req-pass-rating">⭐ 4.8 • 24 courses</div>
+            </div>
+            <div>
+              <div class="req-price" id="reqPrice">1 700</div>
+              <div class="req-price-lbl">FCFA</div>
+            </div>
+          </div>
+          <div class="route-block">
+            <div class="route-point">
+              <div class="route-pip a"></div>
+              <div class="route-addr">Marché Central</div>
+              <div class="route-dist" id="reqDist">1.2 km</div>
+            </div>
+            <div class="route-point">
+              <div class="route-pip b"></div>
+              <div class="route-addr" id="reqDest">Aéroport Hassan Djamous</div>
+              <div class="route-dist" id="reqTotalDist">8.2 km</div>
+            </div>
+          </div>
+        </div>
+        <div class="req-btns">
+          <button class="btn btn-outline-dark" onclick="declineRide()" style="flex:1">✕ Refuser</button>
+          <button class="btn btn-green" onclick="acceptRide()" style="flex:2">✓ Accepter</button>
+        </div>
+      </div>
+
+      <!-- ACTIVE RIDE -->
+      <div class="active-sheet" id="shActive">
+        <div class="active-title">Course en cours</div>
+        <div class="active-passenger">
+          <div class="act-ava">😊</div>
+          <div>
+            <div class="act-name" id="actPassName">Issa Mahamat</div>
+            <div class="act-dest" id="actDest">→ Aéroport Hassan Djamous</div>
+          </div>
+          <div>
+            <div class="act-price" id="actPrice">1 700 F</div>
+          </div>
+        </div>
+        <div class="act-prog-label">
+          <div class="act-prog-txt" id="actProgTxt">En route...</div>
+          <div class="act-prog-pct" id="actProgPct">0%</div>
+        </div>
+        <div class="act-prog-track"><div class="act-prog-fill" id="actProg"></div></div>
+        <div class="act-btns">
+          <button class="btn-sm btn-call-sm" onclick="callPassenger()">📞</button>
+          <button class="btn-sm btn-nav" onclick="toast('Navigation GPS activée','blue')">🗺️ Naviguer</button>
+          <button class="btn-sm btn-arrived" onclick="arriveManual()">✓ Arrivé</button>
+        </div>
+      </div>
+
+      <!-- ARRIVED -->
+      <div class="arrived-sheet" id="shArrived">
+        <div class="arr-emoji">💰</div>
+        <div class="arr-title">Course terminée !</div>
+        <div class="arr-sub" id="arrSub">Course avec Issa Mahamat</div>
+        <div class="earn-card">
+          <div class="earn-amount" id="arrAmount">1 445</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.4);margin-top:6px">FCFA gagnés (85%)</div>
+          <div class="earn-breakdown">
+            <div class="earn-bd-item"><div class="earn-bd-val" id="arrTotal">1 700</div><div class="earn-bd-lbl">Total course</div></div>
+            <div class="earn-bd-item"><div class="earn-bd-val" id="arrComm">255</div><div class="earn-bd-lbl">Commission (15%)</div></div>
+            <div class="earn-bd-item"><div class="earn-bd-val" id="arrGain">1 445</div><div class="earn-bd-lbl">Votre gain</div></div>
+          </div>
+        </div>
+        <button class="btn btn-dark" onclick="finishRide()" style="width:100%">Continuer à conduire →</button>
+      </div>
+
+    </div><!-- /bottom-sheet -->
+  </div><!-- /map-zone -->
+
+  <!-- Bottom nav -->
+  <div class="bottom-nav">
+    <div class="nav-i on" id="navMap" onclick="switchTab('map',this)"><div class="nav-ico">🗺️</div><div class="nav-lbl">Carte</div></div>
+    <div class="nav-i" id="navEarn" onclick="switchTab('earn',this)"><div class="nav-ico">💰</div><div class="nav-lbl">Gains</div></div>
+    <div class="nav-i" id="navProf" onclick="switchTab('prof',this)"><div class="nav-ico">👤</div><div class="nav-lbl">Profil</div></div>
+  </div>
+</div>
+
+<!-- ====== PROFILE ====== -->
+<div class="screen" id="driverProfile">
+  <div class="prof-header">
+    <div class="prof-ava" id="profAva">👨🏿</div>
+    <div class="prof-name" id="profName">Chauffeur</div>
+    <div class="prof-phone" id="profPhone">+235 --</div>
+    <div class="prof-badge">🚕 Chauffeur Partenaire • ⭐ 4.9</div>
+  </div>
+  <div class="perf-grid">
+    <div class="perf-card"><div class="perf-val" style="color:var(--vert)" id="perfEarn">18 700</div><div class="perf-lbl">FCFA cette semaine</div></div>
+    <div class="perf-card"><div class="perf-val" id="perfRides">12</div><div class="perf-lbl">Courses cette semaine</div></div>
+    <div class="perf-card"><div class="perf-val">4.9</div><div class="perf-lbl">Note moyenne ⭐</div></div>
+    <div class="perf-card"><div class="perf-val">156</div><div class="perf-lbl">Total courses</div></div>
+  </div>
+  <div class="menu-grp">
+    <div class="menu-grp-t">Mon véhicule</div>
+    <div class="menu-r"><div class="menu-ico">🚕</div><div class="menu-lbl" id="profCar">Toyota Corolla</div><div class="menu-chev">›</div></div>
+    <div class="menu-r"><div class="menu-ico">🪪</div><div class="menu-lbl" id="profPlate">TD-2847-A</div><div class="menu-chev">›</div></div>
+  </div>
+  <div class="menu-grp">
+    <div class="menu-grp-t">Mon compte</div>
+    <div class="menu-r"><div class="menu-ico">💳</div><div class="menu-lbl">Mes paiements</div><div class="menu-chev">›</div></div>
+    <div class="menu-r"><div class="menu-ico">📋</div><div class="menu-lbl">Historique des courses</div><div class="menu-chev">›</div></div>
+    <div class="menu-r"><div class="menu-ico">🆘</div><div class="menu-lbl">Support</div><div class="menu-chev">›</div></div>
+  </div>
+  <div class="menu-grp">
+    <div class="menu-r danger" onclick="logout()"><div class="menu-ico">🚪</div><div class="menu-lbl">Se déconnecter</div></div>
+  </div>
+  <div class="bottom-nav">
+    <div class="nav-i" onclick="switchTab('map',this);go('driver')"><div class="nav-ico">🗺️</div><div class="nav-lbl">Carte</div></div>
+    <div class="nav-i" onclick="switchTab('earn',this)"><div class="nav-ico">💰</div><div class="nav-lbl">Gains</div></div>
+    <div class="nav-i on"><div class="nav-ico">👤</div><div class="nav-lbl">Profil</div></div>
+  </div>
+</div>
+
 <script>
 const API='http://localhost:5000/api';
-let isOnline=true,totalEarnings=0,totalRides=0,totalKm=0,checkInterval=null;
-document.getElementById('todayDate').textContent=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
-function toast(msg,isError=false){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show'+(isError?' error':'');setTimeout(()=>t.classList.remove('show'),3000)}
-function toggleStatus(){
-  isOnline=!isOnline;
-  const btn=document.getElementById('toggleBtn');
-  btn.classList.toggle('on',isOnline);
-  document.getElementById('statusText').textContent=isOnline?'🟢 En ligne':'🔴 Hors ligne';
-  document.getElementById('statusSub').textContent=isOnline?'Vous recevez des courses':'Vous ne recevez plus de courses';
-  if(isOnline){startChecking();toast('Vous etes en ligne !');}
-  else{stopChecking();toast('Vous etes hors ligne');document.getElementById('rideContainer').innerHTML='';}
+const PASSENGERS=[
+  {name:'Issa Mahamat',    dest:'Aéroport Hassan Djamous',km:8.2,price:2750},
+  {name:'Amina Djibrine', dest:'Université de N\'Djaména',km:4.1,price:1450},
+  {name:'Hassan Ali',     dest:'Hôpital Général',         km:5.2,price:1800},
+  {name:'Fatimé Oumar',   dest:'Quartier Dembé',          km:3.5,price:1200},
+  {name:'Brahim Moussa',  dest:'Préfecture',              km:2.8,price:950},
+];
+
+let user=null,isOnline=false,rideState='idle';
+let curPassenger=null,todayEarn=0,todayRides=0;
+let mapAnim=null,progInt=null,timerInt=null,timerPct=100;
+const dPos=[{x:0.35,y:0.38},{x:0.68,y:0.55},{x:0.25,y:0.68},{x:0.75,y:0.28}];
+const dVel=dPos.map(()=>({dx:(Math.random()-0.5)*0.0018,dy:(Math.random()-0.5)*0.0018}));
+
+// ===== SCREENS =====
+function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('show'));document.getElementById(id).classList.add('show');}
+function switchTab(tab,el){
+  if(el){el.closest('.bottom-nav').querySelectorAll('.nav-i').forEach(n=>n.classList.remove('on'));el.classList.add('on');}
+  if(tab==='prof') go('driverProfile');
+  else go('driver');
 }
-function showProfile(){alert('Mahamat Ibrahim\nNote: 4.9/5\nToyota Corolla Jaune\nTD-2847-A')}
-async function checkPendingRides(){
-  if(!isOnline)return;
+
+// ===== SPLASH =====
+setTimeout(()=>{
+  const u=localStorage.getItem('yala_drv');
+  if(u){user=JSON.parse(u);applyUser();go('driver');startMap();}
+  else go('login');
+},3000);
+
+// ===== AUTH =====
+let savedOTP='',savedPhone='';
+async function sendOTP(){
+  const p=document.getElementById('ph').value.trim();
+  if(p.length<8){toast('Numéro invalide','red');return;}
+  savedPhone='+235'+p;
   try{
-    const r=await fetch(API+'/rides/all');
+    const r=await fetch(API+'/auth/send-otp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone:savedPhone})});
     const d=await r.json();
-    const pending=d.rides.filter(r=>r.status==='pending');
-    const container=document.getElementById('rideContainer');
-    if(pending.length>0){const ride=pending[0];container.innerHTML=renderRide(ride);}
-    else{container.innerHTML=renderWaiting();}
-  }catch(e){}
+    savedOTP=d.debug_otp||'';
+    document.getElementById('phD').textContent=savedPhone;
+    if(savedOTP) savedOTP.split('').forEach((c,i)=>{const b=document.getElementById('o'+i);if(b){b.value=c;b.classList.add('ok');}});
+    document.getElementById('ls1').style.display='none';
+    document.getElementById('ls2').style.display='block';
+    toast('Code envoyé !','green');
+  }catch(e){toast('Erreur réseau','red');}
 }
-function renderWaiting(){return '<div class="waiting"><span class="waiting-icon">⏳</span><div style="font-size:14px">En attente de courses...</div></div>'}
-function renderRide(ride){return '<div class="ride-request"><div class="ride-header"><div class="ride-badge">Nouvelle course</div><div class="ride-price">'+ride.price_fcfa.toLocaleString()+' FCFA</div></div><div class="route"><div class="dots"><div class="dot-a"></div><div class="dot-line"></div><div class="dot-b"></div></div><div class="route-text"><div class="route-from">'+ride.pickup_address+'</div><div class="route-to">'+ride.dropoff_address+'</div></div><div class="route-dist"><span>Distance</span><strong>'+ride.distance_km+' km</strong></div></div><div class="ride-actions"><button class="btn btn-accept" onclick="acceptRide('+ride.id+','+ride.price_fcfa+','+ride.distance_km+')">Accepter</button><button class="btn btn-refuse" onclick="refuseRide()">Refuser</button></div></div>'}
-async function acceptRide(rideId,price,km){
+function oIn(el,i){if(el.value){el.classList.add('ok');if(i<5)document.getElementById('o'+(i+1)).focus();}else el.classList.remove('ok');}
+async function verifyOTP(){
+  const otp=[0,1,2,3,4,5].map(i=>document.getElementById('o'+i).value).join('');
+  if(otp.length<6){toast('Code incomplet','red');return;}
   try{
-    await fetch(API+'/rides/'+rideId+'/accept',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({driver_id:2})});
-    totalEarnings+=Math.floor(price*0.85);totalRides+=1;totalKm+=km;
-    document.getElementById('totalEarnings').textContent=totalEarnings.toLocaleString();
-    document.getElementById('totalRides').textContent=totalRides;
-    document.getElementById('totalKm').textContent=Math.round(totalKm);
-    addToHistory(rideId,price,km);
-    document.getElementById('rideContainer').innerHTML=renderWaiting();
-    toast('Course acceptee !');
-  }catch(e){toast('Erreur',true)}
+    const r=await fetch(API+'/auth/verify-otp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone:savedPhone,otp,name:'Chauffeur',role:'chauffeur'})});
+    const d=await r.json();
+    if(r.ok){user=d.user;localStorage.setItem('yala_drv',JSON.stringify(user));applyUser();toast('Bienvenue !','green');go('driver');startMap();}
+    else toast('Code incorrect','red');
+  }catch(e){toast('Erreur','red');}
 }
-function refuseRide(){document.getElementById('rideContainer').innerHTML=renderWaiting();toast('Course refusee')}
-function addToHistory(rideId,price,km){const c=document.getElementById('historyContainer');const i=document.createElement('div');i.className='history-item';i.innerHTML='<div class="hist-info"><p>Course #'+rideId+'</p><span>'+km+' km</span></div><div class="hist-amount">+'+Math.floor(price*0.85).toLocaleString()+' F</div>';c.insertBefore(i,c.firstChild)}
-function startChecking(){checkPendingRides();checkInterval=setInterval(checkPendingRides,5000)}
-function stopChecking(){if(checkInterval)clearInterval(checkInterval)}
-startChecking();
+function applyUser(){
+  if(!user)return;
+  const n=user.name||'Chauffeur';
+  document.getElementById('drvNameTop').textContent=n.split(' ')[0];
+  document.getElementById('drvAva').textContent=n[0]||'👨🏿';
+  document.getElementById('profName').textContent=n;
+  document.getElementById('profPhone').textContent=user.phone||'';
+  document.getElementById('profAva').textContent=n[0]||'👨🏿';
+}
+function logout(){localStorage.removeItem('yala_drv');user=null;document.getElementById('ls1').style.display='block';document.getElementById('ls2').style.display='none';go('login');}
+
+// ===== TOGGLE ONLINE =====
+function toggleOnline(){
+  isOnline=!isOnline;
+  const track=document.getElementById('toggleTrack');
+  const lbl=document.getElementById('toggleLbl');
+  const btn=document.getElementById('goOnlineBtn');
+  if(isOnline){
+    track.classList.add('on');
+    lbl.textContent='EN LIGNE';lbl.className='toggle-lbl on';
+    document.getElementById('idleTitle').textContent='En attente d\'une course...';
+    document.getElementById('idleSub').textContent='Vous êtes visible par les passagers';
+    btn.textContent='Passer hors ligne';
+    btn.className='btn btn-outline-dark';
+    toast('Vous êtes en ligne ! 🟢','green');
+    // Simulate incoming ride after 4s
+    setTimeout(simulateRequest,4000);
+  } else {
+    track.classList.remove('on');
+    lbl.textContent='HORS LIGNE';lbl.className='toggle-lbl off';
+    document.getElementById('idleTitle').textContent='En attente...';
+    document.getElementById('idleSub').textContent='Activez-vous pour recevoir des courses';
+    btn.textContent='Commencer à conduire →';
+    btn.className='btn btn-dark';
+    toast('Vous êtes hors ligne');
+  }
+}
+
+// ===== SIMULATE REQUEST =====
+function simulateRequest(){
+  if(!isOnline||rideState!=='idle')return;
+  curPassenger=PASSENGERS[Math.floor(Math.random()*PASSENGERS.length)];
+  document.getElementById('reqPassName').textContent=curPassenger.name;
+  document.getElementById('reqPrice').textContent=curPassenger.price.toLocaleString();
+  document.getElementById('reqDest').textContent=curPassenger.dest;
+  document.getElementById('reqDist').textContent='1.2 km';
+  document.getElementById('reqTotalDist').textContent=curPassenger.km+' km';
+
+  showSheet('shRequest');
+  rideState='requesting';
+
+  // Timer 20s
+  timerPct=100;
+  timerInt=setInterval(()=>{
+    timerPct-=0.5;
+    document.getElementById('timerBar').style.width=timerPct+'%';
+    if(timerPct<=0){clearInterval(timerInt);declineRide();}
+  },100);
+}
+
+function acceptRide(){
+  clearInterval(timerInt);
+  rideState='active';
+  document.getElementById('actPassName').textContent=curPassenger.name;
+  document.getElementById('actDest').textContent='→ '+curPassenger.dest;
+  document.getElementById('actPrice').textContent=curPassenger.price.toLocaleString()+' F';
+  showSheet('shActive');
+  toast('Course acceptée ! Allez chercher '+curPassenger.name,'green');
+
+  let step=0,total=60;
+  progInt=setInterval(()=>{
+    step++;
+    const t=step/total;
+    document.getElementById('actProg').style.width=(t*100)+'%';
+    document.getElementById('actProgPct').textContent=Math.round(t*100)+'%';
+    document.getElementById('actProgTxt').textContent=
+      t<0.3?'En route vers le passager':
+      t<0.6?'Passager à bord — En route':
+      t<0.9?'Approche de la destination':
+      'Arrivée imminente...';
+    if(step>=total){clearInterval(progInt);arriveAutomatic();}
+  },300);
+}
+
+function declineRide(){
+  clearInterval(timerInt);
+  rideState='idle';
+  showSheet('shIdle');
+  toast('Course refusée');
+  if(isOnline) setTimeout(simulateRequest,6000);
+}
+
+function arriveManual(){clearInterval(progInt);arriveAutomatic();}
+
+function arriveAutomatic(){
+  rideState='arrived';
+  const total=curPassenger.price;
+  const comm=Math.round(total*0.15);
+  const gain=total-comm;
+  todayEarn+=gain;todayRides++;
+  document.getElementById('arrSub').textContent='Course avec '+curPassenger.name;
+  document.getElementById('arrAmount').textContent=gain.toLocaleString();
+  document.getElementById('arrTotal').textContent=total.toLocaleString();
+  document.getElementById('arrComm').textContent=comm.toLocaleString();
+  document.getElementById('arrGain').textContent=gain.toLocaleString();
+  document.getElementById('earnToday').textContent=todayEarn.toLocaleString();
+  document.getElementById('ridesCount').textContent=todayRides;
+  document.getElementById('s1n').textContent=(18700+todayEarn).toLocaleString();
+  document.getElementById('s2n').textContent=(12+todayRides);
+  document.getElementById('perfEarn').textContent=(18700+todayEarn).toLocaleString();
+  document.getElementById('perfRides').textContent=(12+todayRides);
+  showSheet('shArrived');
+  toast('💰 +'+gain.toLocaleString()+' FCFA gagnés !','green');
+}
+
+function finishRide(){
+  rideState='idle';
+  showSheet('shIdle');
+  if(isOnline) setTimeout(simulateRequest,5000);
+}
+
+function callPassenger(){if(curPassenger)toast('📞 Appel de '+curPassenger.name+'...');}
+function arriveManual(){clearInterval(progInt);arriveAutomatic();}
+
+function showSheet(id){
+  ['shIdle','shRequest','shActive','shArrived'].forEach(s=>{
+    const el=document.getElementById(s);
+    el.style.display=s===id?'block':'none';
+  });
+}
+
+// ===== MAP =====
+function startMap(){
+  const canvas=document.getElementById('driverMap');
+  function draw(){
+    if(!canvas)return;
+    canvas.width=canvas.offsetWidth||window.innerWidth;
+    canvas.height=canvas.offsetHeight||400;
+    const W=canvas.width,H=canvas.height,ctx=canvas.getContext('2d');
+
+    // Background
+    const g=ctx.createLinearGradient(0,0,W,H);
+    g.addColorStop(0,'#0a0f1e');g.addColorStop(1,'#050810');
+    ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+
+    // Grid
+    ctx.strokeStyle='rgba(255,255,255,0.025)';ctx.lineWidth=1;
+    for(let i=0;i<20;i++){ctx.beginPath();ctx.moveTo(i*W/20,0);ctx.lineTo(i*W/20,H);ctx.stroke();ctx.beginPath();ctx.moveTo(0,i*H/20);ctx.lineTo(W,i*H/20);ctx.stroke();}
+
+    // River
+    ctx.beginPath();ctx.moveTo(0,H*0.62);ctx.bezierCurveTo(W*0.3,H*0.52,W*0.6,H*0.64,W,H*0.5);
+    ctx.strokeStyle='rgba(30,100,220,0.2)';ctx.lineWidth=20;ctx.stroke();
+
+    // Roads
+    [[0,0.5,1,0.5,7],[0.5,0,0.5,1,7],[0,0.3,1,0.3,4],[0.3,0,0.3,1,4],[0.7,0,0.7,1,4],[0,0.7,1,0.7,4]].forEach(([x1,y1,x2,y2,w])=>{
+      ctx.beginPath();ctx.moveTo(x1*W,y1*H);ctx.lineTo(x2*W,y2*H);
+      ctx.strokeStyle='rgba(255,255,255,0.11)';ctx.lineWidth=w;ctx.stroke();
+    });
+
+    // Other taxis
+    dPos.forEach((d,i)=>{
+      d.x+=dVel[i].dx;d.y+=dVel[i].dy;
+      if(d.x<0.05||d.x>0.92)dVel[i].dx*=-1;
+      if(d.y<0.06||d.y>0.88)dVel[i].dy*=-1;
+      const px=d.x*W,py=d.y*H;
+      ctx.beginPath();ctx.arc(px,py,10,0,Math.PI*2);ctx.fillStyle='rgba(255,199,44,0.08)';ctx.fill();
+      ctx.font='12px serif';ctx.textAlign='center';ctx.fillText('🚕',px,py+4);
+    });
+
+    // MY position (center) — pulsing green
+    const mx=0.5*W,my=0.5*H;
+    const pulse=0.5+0.5*Math.sin(Date.now()*0.004);
+    ctx.beginPath();ctx.arc(mx,my,28+pulse*10,0,Math.PI*2);
+    ctx.fillStyle=isOnline?`rgba(46,204,113,${0.1+pulse*0.08})`:'rgba(255,255,255,0.05)';ctx.fill();
+    ctx.beginPath();ctx.arc(mx,my,16,0,Math.PI*2);
+    ctx.fillStyle=isOnline?'rgba(46,204,113,0.2)':'rgba(255,255,255,0.08)';ctx.fill();
+    ctx.beginPath();ctx.arc(mx,my,10,0,Math.PI*2);
+    ctx.fillStyle='white';ctx.fill();
+    ctx.beginPath();ctx.arc(mx,my,7,0,Math.PI*2);
+    ctx.fillStyle=isOnline?'#2ECC71':'#9E9E9E';ctx.fill();
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// ===== TOAST =====
+function toast(msg,type=''){
+  const el=document.getElementById('t');
+  el.textContent=msg;el.className='toast on'+(type?' '+type:'');
+  setTimeout(()=>el.classList.remove('on'),3200);
+}
+
+// Init sheets
+window.addEventListener('load',()=>showSheet('shIdle'));
 </script>
 </body>
 </html>
