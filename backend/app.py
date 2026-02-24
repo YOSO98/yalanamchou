@@ -1,26 +1,19 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
-import os
+from routes.auth import auth_bp
+import os, sys
+
+sys.path.insert(0, os.path.dirname(__file__))
 
 app = Flask(__name__)
 CORS(app)
-
-# Base de données SQLite simple
-DB_PATH = os.path.join(os.path.dirname(__file__), '..', 'database', 'yalanamchou.db')
 app.config['SECRET_KEY'] = 'yalanamchou-secret'
+
+app.register_blueprint(auth_bp, url_prefix='/api/auth')
 
 @app.route('/')
 def index():
-    return jsonify({
-        'app': 'Yalanamchou',
-        'version': '1.0',
-        'status': '🚕 Serveur en marche !',
-        'routes': ['/api/auth', '/api/rides', '/api/drivers']
-    })
-
-@app.route('/api/status')
-def status():
-    return jsonify({'status': 'OK', 'message': 'Yalanamchou fonctionne !'})
+    return jsonify({'app': 'Yalanamchou', 'version': '1.0', 'status': '🚕 Serveur en marche !'})
 
 if __name__ == '__main__':
     print("🚕 Yalanamchou démarré sur http://localhost:5000")
