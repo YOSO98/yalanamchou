@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Base de données
+database/*.db
+
+# Variables secrètes
+.env
+
+# Environnement virtuel
+venv/
+env/
+
+# Système
+.DS_Store
+*.log
