@@ -1,6 +1,6 @@
 # 🚕 Yalanamchou — Application de taxi au Tchad
 
-> Yalanamchou » signifie « Allons-y » en arabe tchadien.
+> Yalanamchou signifie « Allons-y » en arabe tchadien.
 
 ## 📱 Description
 Application mobile-first de mise en relation entre passagers et chauffeurs de taxi au Tchad (N'Djaména, Moundou, Abéché).
