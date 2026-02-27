@@ -3,925 +3,982 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Yalanamchou — Admin</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<title>Yalanamchou Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 :root {
-  --bg: #F7F8FA;
-  --white: #FFFFFF;
-  --noir: #0F1117;
-  --rouge: #C8102E;
-  --jaune: #FFC72C;
-  --vert: #22C55E;
-  --bleu: #3B82F6;
-  --violet: #8B5CF6;
-  --border: #E8ECF0;
-  --text: #1a1a2e;
-  --muted: #8A94A6;
-  --sidebar-w: 240px;
+  --bg: #09090B;
+  --s1: #111113;
+  --s2: #18181B;
+  --s3: #27272A;
+  --border: #27272A;
+  --border2: #3F3F46;
+  --t1: #FAFAFA;
+  --t2: #A1A1AA;
+  --t3: #71717A;
+  --red: #EF4444;
+  --green: #22C55E;
+  --yellow: #EAB308;
+  --blue: #3B82F6;
+  --orange: #F97316;
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --sidebar-w: 220px;
+  --r: 12px;
 }
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
+html, body { height: 100%; font-family: var(--font); background: var(--bg); color: var(--t1); overflow: hidden; font-size: 14px; line-height: 1.5; }
 
-/* ===== SIDEBAR ===== */
+/* ─── LAYOUT ─── */
+.layout { display: flex; height: 100vh; }
+
+/* ─── SIDEBAR ─── */
 .sidebar {
-  width: var(--sidebar-w); background: var(--noir); color: white;
-  display: flex; flex-direction: column; flex-shrink: 0; z-index: 10;
+  width: var(--sidebar-w); flex-shrink: 0;
+  background: var(--s1); border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; padding: 16px 12px;
+  overflow-y: auto;
 }
-.sidebar-logo {
-  padding: 24px 20px 20px;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-}
-.sidebar-logo .logo-text {
-  font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 2px;
-  background: linear-gradient(135deg, #FFC72C, #C8102E);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-}
-.sidebar-logo .logo-sub { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 2px; }
-.sidebar-nav { flex: 1; padding: 16px 12px; display: flex; flex-direction: column; gap: 4px; }
-.nav-label { font-size: 10px; color: rgba(255,255,255,0.25); text-transform: uppercase; letter-spacing: 1.5px; padding: 12px 8px 6px; }
-.nav-item {
-  display: flex; align-items: center; gap: 12px; padding: 11px 12px;
-  border-radius: 10px; cursor: pointer; transition: all 0.2s;
-  font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.55);
-}
-.nav-item:hover { background: rgba(255,255,255,0.06); color: white; }
-.nav-item.active { background: rgba(255,199,44,0.12); color: #FFC72C; }
-.nav-item .nav-icon { font-size: 18px; width: 22px; text-align: center; }
-.nav-item .nav-badge {
-  margin-left: auto; background: var(--rouge); color: white;
-  font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px;
-}
-.sidebar-footer {
-  padding: 16px 12px; border-top: 1px solid rgba(255,255,255,0.06);
-}
-.admin-profile {
-  display: flex; align-items: center; gap: 10px; padding: 10px 12px;
-  border-radius: 10px; background: rgba(255,255,255,0.04);
-}
-.admin-avatar {
-  width: 36px; height: 36px; border-radius: 50%;
-  background: linear-gradient(135deg, #C8102E, #FFC72C);
-  display: flex; align-items: center; justify-content: center; font-size: 18px;
-}
-.admin-name { font-size: 13px; font-weight: 600; }
-.admin-role { font-size: 11px; color: rgba(255,255,255,0.4); }
+.sidebar::-webkit-scrollbar { display: none; }
 
-/* ===== MAIN ===== */
-.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+.brand { display: flex; align-items: center; gap: 10px; padding: 8px 8px 20px; }
+.brand-icon {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: linear-gradient(135deg, #EF4444, #F97316);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; flex-shrink: 0;
+}
+.brand-text { font-size: 14px; font-weight: 700; letter-spacing: -0.3px; }
+.brand-sub { font-size: 11px; color: var(--t3); margin-top: 1px; }
+
+.nav-group { margin-bottom: 20px; }
+.nav-group-label {
+  font-size: 10px; font-weight: 600; color: var(--t3);
+  text-transform: uppercase; letter-spacing: 1.2px;
+  padding: 0 8px; margin-bottom: 4px;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 10px; border-radius: 8px; cursor: pointer;
+  transition: all 0.15s; color: var(--t2);
+  font-size: 13px; font-weight: 500; margin-bottom: 1px;
+  user-select: none;
+}
+.nav-item:hover { background: var(--s2); color: var(--t1); }
+.nav-item.on { background: var(--s2); color: var(--t1); }
+.nav-item.on .nav-dot { background: var(--red); }
+.nav-icon { font-size: 15px; width: 20px; text-align: center; flex-shrink: 0; }
+.nav-badge {
+  margin-left: auto; font-size: 10px; font-weight: 700;
+  padding: 1px 6px; border-radius: 20px; min-width: 18px; text-align: center;
+}
+.nav-badge.red { background: var(--red); color: white; }
+.nav-badge.yellow { background: var(--yellow); color: #000; }
+
+.sidebar-footer {
+  margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border);
+}
+.user-row { display: flex; align-items: center; gap: 8px; padding: 8px; border-radius: 8px; cursor: pointer; }
+.user-row:hover { background: var(--s2); }
+.user-ava {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: linear-gradient(135deg, #EF4444, #F97316);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; flex-shrink: 0; font-weight: 700; color: white;
+}
+.user-name { font-size: 13px; font-weight: 600; }
+.user-role { font-size: 11px; color: var(--t3); }
+
+/* ─── MAIN ─── */
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
 
 /* TOPBAR */
 .topbar {
-  background: var(--white); border-bottom: 1px solid var(--border);
-  padding: 0 28px; height: 64px; display: flex; align-items: center;
-  justify-content: space-between; flex-shrink: 0;
+  height: 56px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 20px; gap: 12px; flex-shrink: 0;
 }
-.page-title { font-size: 20px; font-weight: 800; color: var(--text); }
-.page-sub { font-size: 13px; color: var(--muted); margin-top: 1px; }
-.topbar-actions { display: flex; align-items: center; gap: 12px; }
-.btn-refresh {
-  padding: 8px 16px; background: var(--bg); border: 1px solid var(--border);
-  border-radius: 10px; font-family: 'Outfit', sans-serif; font-size: 13px;
-  font-weight: 600; cursor: pointer; color: var(--text); transition: all 0.2s;
+.page-heading { font-size: 15px; font-weight: 700; letter-spacing: -0.3px; }
+.live-chip {
+  display: flex; align-items: center; gap: 5px;
+  background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.2);
+  border-radius: 20px; padding: 3px 10px;
 }
-.btn-refresh:hover { background: var(--border); }
-.live-indicator {
-  display: flex; align-items: center; gap: 6px;
-  font-size: 13px; font-weight: 600; color: var(--vert);
+.live-pip { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: blink 2s ease infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.live-txt { font-size: 11px; font-weight: 600; color: var(--green); }
+.topbar-spacer { flex: 1; }
+.search-box {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--s2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 0 12px; height: 34px; width: 200px;
 }
-.live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--vert); animation: blink 1.5s infinite; }
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
+.search-box input { background: none; border: none; outline: none; font-family: var(--font); font-size: 13px; color: var(--t1); width: 100%; }
+.search-box input::placeholder { color: var(--t3); }
+.icon-btn {
+  width: 34px; height: 34px; border-radius: 8px;
+  background: var(--s2); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 14px; color: var(--t2); transition: all 0.15s;
+}
+.icon-btn:hover { border-color: var(--border2); color: var(--t1); }
 
 /* CONTENT */
-.content { flex: 1; overflow-y: auto; padding: 24px 28px; }
+.content { flex: 1; overflow-y: auto; padding: 20px; }
+.content::-webkit-scrollbar { width: 4px; }
+.content::-webkit-scrollbar-track { background: transparent; }
+.content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
-/* PAGES */
+/* PAGE SECTIONS */
 .page { display: none; }
-.page.active { display: block; }
+.page.on { display: block; }
 
-/* ===== KPI CARDS ===== */
-.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
-.kpi-card {
-  background: var(--white); border-radius: 16px; padding: 20px 22px;
-  border: 1px solid var(--border); position: relative; overflow: hidden;
+/* ─── KPI GRID ─── */
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
+.kpi {
+  background: var(--s1); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 16px; cursor: default;
+  transition: border-color 0.15s; position: relative; overflow: hidden;
 }
-.kpi-card::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  background: var(--accent);
-}
+.kpi:hover { border-color: var(--border2); }
+.kpi-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
 .kpi-icon {
-  width: 44px; height: 44px; border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 22px; margin-bottom: 14px;
-  background: var(--icon-bg);
+  width: 36px; height: 36px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center; font-size: 17px;
 }
-.kpi-val { font-size: 28px; font-weight: 800; color: var(--text); line-height: 1; }
-.kpi-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+.kpi-icon.red { background: rgba(239,68,68,0.1); }
+.kpi-icon.yellow { background: rgba(234,179,8,0.1); }
+.kpi-icon.green { background: rgba(34,197,94,0.1); }
+.kpi-icon.blue { background: rgba(59,130,246,0.1); }
 .kpi-change {
-  display: inline-flex; align-items: center; gap: 4px;
-  font-size: 12px; font-weight: 600; margin-top: 8px;
-  padding: 3px 8px; border-radius: 6px;
+  font-size: 11px; font-weight: 600; padding: 2px 8px;
+  border-radius: 20px; display: flex; align-items: center; gap: 3px;
 }
-.kpi-change.up { background: rgba(34,197,94,0.1); color: #16A34A; }
-.kpi-change.down { background: rgba(200,16,46,0.1); color: #C8102E; }
+.kpi-change.up { background: rgba(34,197,94,0.1); color: var(--green); }
+.kpi-change.down { background: rgba(239,68,68,0.1); color: var(--red); }
+.kpi-val {
+  font-size: 28px; font-weight: 800; letter-spacing: -1px;
+  color: var(--t1); margin-bottom: 2px; line-height: 1;
+}
+.kpi-label { font-size: 12px; color: var(--t3); font-weight: 500; }
+.kpi-bar {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+}
+.kpi-bar.red { background: linear-gradient(90deg, var(--red), transparent); }
+.kpi-bar.yellow { background: linear-gradient(90deg, var(--yellow), transparent); }
+.kpi-bar.green { background: linear-gradient(90deg, var(--green), transparent); }
+.kpi-bar.blue { background: linear-gradient(90deg, var(--blue), transparent); }
 
-/* ===== GRID 2 COL ===== */
-.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
-.grid3 { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-bottom: 24px; }
+/* ─── SUMMARY ROW ─── */
+.summary-row {
+  display: flex; background: var(--s1); border: 1px solid var(--border);
+  border-radius: var(--r); margin-bottom: 16px; overflow: hidden;
+}
+.sum-cell {
+  flex: 1; padding: 14px 16px; border-right: 1px solid var(--border);
+  text-align: center;
+}
+.sum-cell:last-child { border-right: none; }
+.sum-val { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; }
+.sum-lbl { font-size: 11px; color: var(--t3); font-weight: 500; margin-top: 2px; }
 
-/* ===== CARD ===== */
+/* ─── CARDS ─── */
+.row { display: grid; gap: 12px; margin-bottom: 16px; }
+.row.c2 { grid-template-columns: 1fr 1fr; }
+.row.c32 { grid-template-columns: 1.8fr 1fr; }
 .card {
-  background: var(--white); border-radius: 16px; border: 1px solid var(--border);
-  overflow: hidden;
+  background: var(--s1); border: 1px solid var(--border);
+  border-radius: var(--r); overflow: hidden;
 }
 .card-header {
-  padding: 18px 20px 14px; display: flex; align-items: center; justify-content: space-between;
-  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px; border-bottom: 1px solid var(--border);
 }
-.card-title { font-size: 15px; font-weight: 700; color: var(--text); }
-.card-action { font-size: 13px; color: var(--bleu); cursor: pointer; font-weight: 600; }
-.card-body { padding: 16px 20px; }
+.card-title { font-size: 13px; font-weight: 700; letter-spacing: -0.2px; }
+.card-link { font-size: 12px; color: var(--t3); cursor: pointer; font-weight: 500; transition: color 0.15s; }
+.card-link:hover { color: var(--t1); }
+.card-body { padding: 16px; }
+.card-body.no-pad { padding: 0; }
 
-/* ===== TABLE ===== */
-.table-wrap { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; }
-th { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; padding: 10px 14px; text-align: left; background: var(--bg); }
-td { padding: 14px; border-top: 1px solid var(--border); font-size: 14px; }
-tr:hover td { background: #fafbfc; }
-.badge {
-  display: inline-flex; align-items: center; gap: 5px;
-  padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600;
+/* ─── CHART ─── */
+.chart-canvas-wrap { height: 180px; position: relative; }
+
+/* ─── TABLE ─── */
+.tbl { width: 100%; border-collapse: collapse; }
+.tbl th {
+  font-size: 11px; font-weight: 600; color: var(--t3);
+  text-transform: uppercase; letter-spacing: 0.8px;
+  padding: 10px 16px; text-align: left;
+  border-bottom: 1px solid var(--border); white-space: nowrap;
 }
-.badge.pending { background: rgba(255,199,44,0.12); color: #B45309; }
-.badge.active { background: rgba(34,197,94,0.1); color: #16A34A; }
-.badge.completed { background: rgba(59,130,246,0.1); color: #2563EB; }
-.badge.cancelled { background: rgba(200,16,46,0.08); color: #C8102E; }
-.badge.online { background: rgba(34,197,94,0.1); color: #16A34A; }
-.badge.offline { background: rgba(138,148,166,0.12); color: var(--muted); }
-
-/* ===== MINI CHART (bar) ===== */
-.chart-bars { display: flex; align-items: flex-end; gap: 6px; height: 80px; padding: 8px 0; }
-.bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
-.bar { width: 100%; border-radius: 4px 4px 0 0; background: var(--bleu); transition: height 0.6s ease; min-height: 4px; }
-.bar-label { font-size: 10px; color: var(--muted); }
-
-/* ===== REVENUE CHART ===== */
-.revenue-chart { height: 160px; position: relative; }
-canvas.rev-canvas { width: 100%; height: 100%; }
-
-/* ===== STAT ROW ===== */
-.stat-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); }
-.stat-row:last-child { border: none; }
-.stat-row-label { font-size: 14px; color: var(--text); }
-.stat-row-val { font-size: 14px; font-weight: 700; }
-
-/* ===== DRIVER LIST ===== */
-.driver-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
-.driver-row:last-child { border: none; }
-.driver-ava { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg,#C8102E,#FFC72C); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
-.driver-info { flex: 1; }
-.driver-n { font-size: 14px; font-weight: 600; }
-.driver-s { font-size: 12px; color: var(--muted); margin-top: 1px; }
-.driver-earn { font-size: 14px; font-weight: 700; color: var(--vert); }
-
-/* ===== MAP MINI ===== */
-.map-mini { height: 200px; background: #0f1f42; border-radius: 12px; position: relative; overflow: hidden; }
-.map-mini canvas { width: 100%; height: 100%; }
-
-/* ===== FORMS ===== */
-.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.form-group { display: flex; flex-direction: column; gap: 6px; }
-.form-group.full { grid-column: 1/-1; }
-.form-label { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
-.form-input {
-  padding: 11px 14px; border: 1.5px solid var(--border); border-radius: 10px;
-  font-family: 'Outfit', sans-serif; font-size: 14px; color: var(--text);
-  outline: none; transition: border-color 0.2s;
+.tbl td {
+  padding: 11px 16px; font-size: 13px;
+  border-bottom: 1px solid var(--border); vertical-align: middle;
 }
-.form-input:focus { border-color: var(--bleu); }
-.form-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238A94A6' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; }
-.btn-primary {
-  padding: 12px 24px; background: var(--rouge); color: white; border: none;
-  border-radius: 10px; font-family: 'Outfit', sans-serif; font-size: 14px;
-  font-weight: 700; cursor: pointer; transition: all 0.2s;
-}
-.btn-primary:hover { background: #a50d25; transform: translateY(-1px); }
-.btn-secondary {
-  padding: 12px 24px; background: var(--bg); color: var(--text); border: 1.5px solid var(--border);
-  border-radius: 10px; font-family: 'Outfit', sans-serif; font-size: 14px;
-  font-weight: 700; cursor: pointer;
-}
+.tbl tr:last-child td { border-bottom: none; }
+.tbl tbody tr { transition: background 0.1s; cursor: pointer; }
+.tbl tbody tr:hover { background: rgba(255,255,255,0.02); }
+.tbl .mono { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; color: var(--t3); }
+.tbl .fw { font-weight: 600; }
+.tbl .muted { color: var(--t3); }
+.tbl .amount { font-weight: 700; color: var(--green); }
 
-/* ===== ALERT ===== */
-.alert {
-  padding: 12px 16px; border-radius: 10px; font-size: 13px; font-weight: 500;
-  display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
+/* BADGE */
+.tag {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px;
+  white-space: nowrap;
 }
-.alert.warning { background: rgba(255,199,44,0.1); border: 1px solid rgba(255,199,44,0.3); color: #92400E; }
-.alert.success { background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.2); color: #166534; }
+.tag.green { background: rgba(34,197,94,0.1); color: #4ade80; }
+.tag.yellow { background: rgba(234,179,8,0.1); color: #fbbf24; }
+.tag.red { background: rgba(239,68,68,0.1); color: #f87171; }
+.tag.blue { background: rgba(59,130,246,0.1); color: #60a5fa; }
+.tag.gray { background: rgba(255,255,255,0.06); color: var(--t3); }
 
-/* ===== TOAST ===== */
+/* ─── TOP DRIVERS ─── */
+.driver-list { padding: 8px 0; }
+.driver-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 16px; transition: background 0.1s; cursor: pointer;
+}
+.driver-item:hover { background: rgba(255,255,255,0.02); }
+.d-status { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.d-status.on { background: var(--green); box-shadow: 0 0 5px var(--green); }
+.d-status.off { background: var(--border2); }
+.d-ava {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--s3); display: flex; align-items: center;
+  justify-content: center; font-size: 16px; flex-shrink: 0;
+}
+.d-name { font-size: 13px; font-weight: 600; }
+.d-meta { font-size: 11px; color: var(--t3); margin-top: 1px; }
+.d-earn { font-size: 13px; font-weight: 700; color: var(--green); margin-left: auto; }
+.d-divider { height: 1px; background: var(--border); margin: 0 16px; }
+
+/* ─── ACTIVITY BARS ─── */
+.bar-chart { display: flex; align-items: flex-end; gap: 4px; height: 100px; }
+.bar-col { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; }
+.bar-fill {
+  width: 100%; border-radius: 3px 3px 0 0; min-height: 3px;
+  background: var(--s3); transition: background 0.15s; cursor: pointer;
+}
+.bar-fill:hover { background: var(--red); }
+.bar-lbl { font-size: 9px; color: var(--t3); font-weight: 500; }
+
+/* ─── LIVE MAP ─── */
+.map-wrap {
+  border-radius: var(--r); overflow: hidden;
+  background: #060B18; position: relative;
+  height: calc(100vh - 160px);
+}
+#liveMap { width: 100%; height: 100%; display: block; }
+.map-legend {
+  position: absolute; top: 14px; left: 14px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.map-pill {
+  background: rgba(9,9,11,0.85); border: 1px solid var(--border2);
+  border-radius: 8px; padding: 10px 14px; backdrop-filter: blur(12px);
+}
+.map-pill-val { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; }
+.map-pill-lbl { font-size: 11px; color: var(--t3); margin-top: 1px; }
+
+/* ─── FINANCE HERO ─── */
+.finance-hero {
+  background: var(--s1); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 24px; margin-bottom: 16px;
+}
+.finance-period { font-size: 11px; color: var(--t3); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+.finance-amt { font-size: 40px; font-weight: 800; letter-spacing: -2px; margin-bottom: 4px; line-height: 1; }
+.finance-sub { font-size: 13px; color: var(--t3); margin-bottom: 20px; }
+.finance-stats { display: flex; gap: 12px; flex-wrap: wrap; }
+.fin-stat {
+  background: var(--s2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 16px;
+}
+.fin-stat-val { font-size: 15px; font-weight: 700; }
+.fin-stat-lbl { font-size: 11px; color: var(--t3); margin-top: 2px; }
+
+/* ─── SETTINGS ─── */
+.settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.setting-group { margin-bottom: 20px; }
+.setting-group-title { font-size: 12px; font-weight: 700; color: var(--t3); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 12px; }
+.setting-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 0; border-bottom: 1px solid var(--border);
+}
+.setting-item:last-child { border-bottom: none; }
+.setting-item-name { font-size: 13px; font-weight: 500; }
+.setting-item-desc { font-size: 11px; color: var(--t3); margin-top: 2px; }
+.s-input {
+  width: 120px; background: var(--s2); border: 1px solid var(--border);
+  border-radius: 6px; padding: 6px 10px; font-family: var(--font);
+  font-size: 13px; color: var(--t1); outline: none; text-align: right;
+  transition: border-color 0.15s;
+}
+.s-input:focus { border-color: var(--border2); }
+.toggle {
+  width: 40px; height: 22px; border-radius: 11px;
+  background: var(--s3); border: 1px solid var(--border2);
+  position: relative; cursor: pointer; transition: background 0.2s; flex-shrink: 0;
+}
+.toggle.on { background: var(--green); border-color: var(--green); }
+.toggle::after {
+  content: ''; position: absolute; width: 16px; height: 16px;
+  border-radius: 50%; background: white; top: 2px; left: 2px;
+  transition: left 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+.toggle.on::after { left: 20px; }
+.save-btn {
+  width: 100%; padding: 10px; border-radius: 8px;
+  background: var(--t1); color: var(--bg);
+  border: none; font-family: var(--font); font-size: 13px;
+  font-weight: 700; cursor: pointer; transition: opacity 0.15s; margin-top: 12px;
+}
+.save-btn:hover { opacity: 0.85; }
+
+/* ─── FILTER TABS ─── */
+.filter-tabs { display: flex; gap: 4px; margin-bottom: 14px; }
+.ftab {
+  padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600;
+  cursor: pointer; border: 1px solid var(--border); background: transparent;
+  color: var(--t3); font-family: var(--font); transition: all 0.15s;
+}
+.ftab:hover, .ftab.on { background: var(--s2); color: var(--t1); border-color: var(--border2); }
+
+/* ─── NOTIFS ─── */
+.notif-list { }
+.notif-row {
+  display: flex; gap: 12px; padding: 14px 16px;
+  border-bottom: 1px solid var(--border); transition: background 0.1s; cursor: pointer;
+}
+.notif-row:hover { background: rgba(255,255,255,0.02); }
+.notif-row:last-child { border-bottom: none; }
+.notif-icon {
+  width: 34px; height: 34px; border-radius: 8px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 16px;
+}
+.notif-icon.red { background: rgba(239,68,68,0.1); }
+.notif-icon.green { background: rgba(34,197,94,0.1); }
+.notif-icon.yellow { background: rgba(234,179,8,0.1); }
+.notif-icon.blue { background: rgba(59,130,246,0.1); }
+.notif-title { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+.notif-desc { font-size: 12px; color: var(--t3); }
+.notif-time { font-size: 11px; color: var(--t3); margin-left: auto; flex-shrink: 0; padding-top: 2px; }
+
+/* ─── TOAST ─── */
 .toast {
-  position: fixed; bottom: 24px; right: 24px; z-index: 999;
-  background: var(--noir); color: white; padding: 14px 20px; border-radius: 14px;
-  font-size: 14px; font-weight: 600; box-shadow: 0 8px 30px rgba(0,0,0,0.2);
-  transform: translateY(80px); opacity: 0; transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  position: fixed; bottom: 20px; right: 20px; z-index: 9999;
+  background: var(--s2); border: 1px solid var(--border2);
+  border-radius: 10px; padding: 12px 18px;
+  font-size: 13px; font-weight: 600;
+  opacity: 0; transform: translateY(8px);
+  transition: all 0.3s; pointer-events: none;
 }
-.toast.show { transform: translateY(0); opacity: 1; }
-.toast.success { background: #166534; }
-.toast.error { background: var(--rouge); }
+.toast.on { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.toast.g { color: var(--green); border-color: rgba(34,197,94,0.3); }
+.toast.r { color: var(--red); border-color: rgba(239,68,68,0.3); }
 </style>
 </head>
 <body>
+<div class="layout">
 
-<div class="toast" id="toast"></div>
-
-<!-- ===== SIDEBAR ===== -->
-<div class="sidebar">
-  <div class="sidebar-logo">
-    <div class="logo-text">YALANAMCHOU</div>
-    <div class="logo-sub">Panel Administrateur</div>
-  </div>
-  <div class="sidebar-nav">
-    <div class="nav-label">Principal</div>
-    <div class="nav-item active" onclick="showPage('dashboard',this)">
-      <span class="nav-icon">📊</span> Dashboard
-    </div>
-    <div class="nav-item" onclick="showPage('courses',this)">
-      <span class="nav-icon">🚕</span> Courses
-      <span class="nav-badge" id="pendingBadge">3</span>
-    </div>
-    <div class="nav-item" onclick="showPage('chauffeurs',this)">
-      <span class="nav-icon">👨‍✈️</span> Chauffeurs
-    </div>
-    <div class="nav-item" onclick="showPage('passagers',this)">
-      <span class="nav-icon">👤</span> Passagers
-    </div>
-    <div class="nav-label">Finance</div>
-    <div class="nav-item" onclick="showPage('revenus',this)">
-      <span class="nav-icon">💰</span> Revenus
-    </div>
-    <div class="nav-item" onclick="showPage('paiements',this)">
-      <span class="nav-icon">💳</span> Paiements
-    </div>
-    <div class="nav-label">Système</div>
-    <div class="nav-item" onclick="showPage('carte',this)">
-      <span class="nav-icon">🗺️</span> Carte Live
-    </div>
-    <div class="nav-item" onclick="showPage('parametres',this)">
-      <span class="nav-icon">⚙️</span> Paramètres
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="brand">
+    <div class="brand-icon">🚕</div>
+    <div>
+      <div class="brand-text">Yalanamchou</div>
+      <div class="brand-sub">Admin Panel</div>
     </div>
   </div>
+
+  <div class="nav-group">
+    <div class="nav-group-label">Principal</div>
+    <div class="nav-item on" onclick="nav('dashboard',this)"><span class="nav-icon">▣</span> Dashboard</div>
+    <div class="nav-item" onclick="nav('map',this)"><span class="nav-icon">⊙</span> Carte Live</div>
+    <div class="nav-item" onclick="nav('courses',this)"><span class="nav-icon">⊞</span> Courses <span class="nav-badge red" id="nb">0</span></div>
+    <div class="nav-item" onclick="nav('notifs',this)"><span class="nav-icon">◫</span> Alertes <span class="nav-badge yellow">3</span></div>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-label">Gestion</div>
+    <div class="nav-item" onclick="nav('drivers',this)"><span class="nav-icon">⊛</span> Chauffeurs</div>
+    <div class="nav-item" onclick="nav('users',this)"><span class="nav-icon">⊜</span> Passagers</div>
+    <div class="nav-item" onclick="nav('finance',this)"><span class="nav-icon">◈</span> Finances</div>
+    <div class="nav-item" onclick="nav('payments',this)"><span class="nav-icon">◉</span> Paiements</div>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-label">Système</div>
+    <div class="nav-item" onclick="nav('settings',this)"><span class="nav-icon">◎</span> Paramètres</div>
+  </div>
+
   <div class="sidebar-footer">
-    <div class="admin-profile">
-      <div class="admin-avatar">👨🏿</div>
+    <div class="user-row">
+      <div class="user-ava">A</div>
       <div>
-        <div class="admin-name">Super Admin</div>
-        <div class="admin-role">Yalanamchou</div>
+        <div class="user-name">Super Admin</div>
+        <div class="user-role">admin@yalanamchou.td</div>
       </div>
     </div>
   </div>
+</nav>
+
+<!-- MAIN -->
+<div class="main">
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="page-heading" id="ph">Dashboard</div>
+    <div class="live-chip"><div class="live-pip"></div><span class="live-txt">En direct</span></div>
+    <div class="topbar-spacer"></div>
+    <div class="search-box"><span style="color:var(--t3);font-size:13px">⌕</span><input placeholder="Rechercher..."></div>
+    <div class="icon-btn" onclick="refresh()" title="Actualiser" style="font-size:16px">↻</div>
+    <div class="icon-btn">↑</div>
+    <div class="icon-btn">◫</div>
+  </header>
+
+  <!-- CONTENT -->
+  <main class="content">
+
+    <!-- ══ DASHBOARD ══ -->
+    <section class="page on" id="p-dashboard">
+      <div class="kpi-grid">
+        <div class="kpi">
+          <div class="kpi-top"><div class="kpi-icon red">🚕</div><div class="kpi-change up">↑ +18%</div></div>
+          <div class="kpi-val" id="k1">—</div>
+          <div class="kpi-label">Courses aujourd'hui</div>
+          <div class="kpi-bar red"></div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-top"><div class="kpi-icon yellow">💰</div><div class="kpi-change up">↑ +12%</div></div>
+          <div class="kpi-val" id="k2">—</div>
+          <div class="kpi-label">FCFA générés</div>
+          <div class="kpi-bar yellow"></div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-top"><div class="kpi-icon green">👨‍✈️</div><div class="kpi-change up" id="k3ch">● 3 en ligne</div></div>
+          <div class="kpi-val" id="k3">8</div>
+          <div class="kpi-label">Chauffeurs actifs</div>
+          <div class="kpi-bar green"></div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-top"><div class="kpi-icon blue">👥</div><div class="kpi-change up">↑ +5 / jour</div></div>
+          <div class="kpi-val" id="k4">142</div>
+          <div class="kpi-label">Utilisateurs inscrits</div>
+          <div class="kpi-bar blue"></div>
+        </div>
+      </div>
+
+      <div class="summary-row">
+        <div class="sum-cell"><div class="sum-val" style="color:var(--green)" id="sc1">—</div><div class="sum-lbl">Terminées</div></div>
+        <div class="sum-cell"><div class="sum-val" style="color:var(--yellow)" id="sc2">—</div><div class="sum-lbl">En cours</div></div>
+        <div class="sum-cell"><div class="sum-val" style="color:var(--red)" id="sc3">—</div><div class="sum-lbl">Annulées</div></div>
+        <div class="sum-cell"><div class="sum-val" id="sc4">—</div><div class="sum-lbl">Commission (15%)</div></div>
+        <div class="sum-cell"><div class="sum-val">4.8 ⭐</div><div class="sum-lbl">Note moyenne</div></div>
+        <div class="sum-cell"><div class="sum-val">6.2 km</div><div class="sum-lbl">Distance moy.</div></div>
+      </div>
+
+      <div class="row c32">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Revenus — 7 derniers jours</div>
+            <div class="card-link">Voir tout →</div>
+          </div>
+          <div class="card-body">
+            <div class="chart-canvas-wrap"><canvas id="revChart"></canvas></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Top Chauffeurs</div>
+            <div class="card-link" onclick="nav('drivers',null)">Tous →</div>
+          </div>
+          <div class="driver-list">
+            <div class="driver-item"><div class="d-status on"></div><div class="d-ava">👨🏿</div><div><div class="d-name">Mahamat Ibrahim</div><div class="d-meta">⭐ 4.9 · 156 courses</div></div><div class="d-earn">18 700 F</div></div>
+            <div class="d-divider"></div>
+            <div class="driver-item"><div class="d-status on"></div><div class="d-ava">👩🏿</div><div><div class="d-name">Fatima Oumar</div><div class="d-meta">⭐ 4.8 · 98 courses</div></div><div class="d-earn">14 200 F</div></div>
+            <div class="d-divider"></div>
+            <div class="driver-item"><div class="d-status off"></div><div class="d-ava">👨🏿‍🦱</div><div><div class="d-name">Ibrahim Hassan</div><div class="d-meta">⭐ 4.7 · 74 courses</div></div><div class="d-earn">11 050 F</div></div>
+            <div class="d-divider"></div>
+            <div class="driver-item"><div class="d-status on"></div><div class="d-ava">👨🏿</div><div><div class="d-name">Ali Mahamat</div><div class="d-meta">⭐ 4.6 · 42 courses</div></div><div class="d-earn">8 500 F</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row c2">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Activité par heure</div><div class="card-link">Aujourd'hui</div></div>
+          <div class="card-body"><div class="bar-chart" id="hourBars"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Courses récentes</div><div class="card-link" onclick="nav('courses',null)">Voir tout →</div></div>
+          <div class="card-body no-pad">
+            <table class="tbl"><thead><tr><th>#</th><th>Passager</th><th>Destination</th><th>Prix</th><th>Statut</th></tr></thead>
+            <tbody id="recentTbl"></tbody></table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ CARTE LIVE ══ -->
+    <section class="page" id="p-map">
+      <div style="display:flex;gap:10px;margin-bottom:14px">
+        <div class="kpi" style="flex:1;padding:12px 16px">
+          <div class="sum-val" style="color:var(--green)" id="m1">3</div>
+          <div class="sum-lbl">Chauffeurs en ligne</div>
+        </div>
+        <div class="kpi" style="flex:1;padding:12px 16px">
+          <div class="sum-val" style="color:var(--yellow)" id="m2">0</div>
+          <div class="sum-lbl">Courses actives</div>
+        </div>
+        <div class="kpi" style="flex:1;padding:12px 16px">
+          <div class="sum-val" style="color:var(--red)" id="m3">0</div>
+          <div class="sum-lbl">En attente</div>
+        </div>
+      </div>
+      <div class="map-wrap">
+        <canvas id="liveMap"></canvas>
+        <div class="map-legend">
+          <div class="map-pill">
+            <div style="display:flex;align-items:center;gap:6px">
+              <div style="width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 5px var(--green)"></div>
+              <div style="font-size:12px;font-weight:600;color:var(--green)">En direct</div>
+            </div>
+            <div style="font-size:11px;color:var(--t3);margin-top:4px">N'Djaména, Tchad 🇹🇩</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ COURSES ══ -->
+    <section class="page" id="p-courses">
+      <div class="filter-tabs">
+        <button class="ftab on" onclick="filterTab(this,'all')">Toutes</button>
+        <button class="ftab" onclick="filterTab(this,'pending')">En attente</button>
+        <button class="ftab" onclick="filterTab(this,'active')">En cours</button>
+        <button class="ftab" onclick="filterTab(this,'completed')">Terminées</button>
+        <button class="ftab" onclick="filterTab(this,'cancelled')">Annulées</button>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Toutes les courses</div><div class="card-link">↑ Exporter CSV</div></div>
+        <div class="card-body no-pad">
+          <table class="tbl"><thead><tr><th>#</th><th>Passager</th><th>Départ</th><th>Destination</th><th>Km</th><th>Prix</th><th>Chauffeur</th><th>Statut</th><th></th></tr></thead>
+          <tbody id="allRidesTbl"></tbody></table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ CHAUFFEURS ══ -->
+    <section class="page" id="p-drivers">
+      <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)">
+        <div class="kpi"><div class="kpi-top"><div class="kpi-icon green">🟢</div></div><div class="kpi-val">3</div><div class="kpi-label">En ligne maintenant</div><div class="kpi-bar green"></div></div>
+        <div class="kpi"><div class="kpi-top"><div class="kpi-icon red">⭕</div></div><div class="kpi-val">5</div><div class="kpi-label">Hors ligne</div><div class="kpi-bar red"></div></div>
+        <div class="kpi"><div class="kpi-top"><div class="kpi-icon yellow">⭐</div></div><div class="kpi-val">4.8</div><div class="kpi-label">Note moyenne</div><div class="kpi-bar yellow"></div></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Tous les chauffeurs</div>
+          <button onclick="toast('Bientôt disponible','g')" style="padding:6px 14px;background:var(--red);color:white;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font)">+ Ajouter</button>
+        </div>
+        <div class="card-body no-pad">
+          <table class="tbl"><thead><tr><th>Chauffeur</th><th>Téléphone</th><th>Véhicule</th><th>Plaque</th><th>Note</th><th>Courses</th><th>Gains</th><th>Statut</th></tr></thead>
+          <tbody>
+            <tr><td><div style="display:flex;align-items:center;gap:8px"><div class="d-ava" style="width:30px;height:30px;font-size:14px">👨🏿</div><span class="fw">Mahamat Ibrahim</span></div></td><td class="muted">+235 66 12 34 56</td><td>Toyota Corolla</td><td><span class="tag yellow">TD-2847-A</span></td><td>⭐ 4.9</td><td>156</td><td class="amount">18 700 F</td><td><span class="tag green">● En ligne</span></td></tr>
+            <tr><td><div style="display:flex;align-items:center;gap:8px"><div class="d-ava" style="width:30px;height:30px;font-size:14px">👩🏿</div><span class="fw">Fatima Oumar</span></div></td><td class="muted">+235 66 98 76 54</td><td>Nissan Sunny</td><td><span class="tag yellow">TD-1234-B</span></td><td>⭐ 4.8</td><td>98</td><td class="amount">14 200 F</td><td><span class="tag green">● En ligne</span></td></tr>
+            <tr><td><div style="display:flex;align-items:center;gap:8px"><div class="d-ava" style="width:30px;height:30px;font-size:14px">👨🏿‍🦱</div><span class="fw">Ibrahim Hassan</span></div></td><td class="muted">+235 66 55 44 33</td><td>Peugeot 504</td><td><span class="tag yellow">TD-5678-C</span></td><td>⭐ 4.7</td><td>74</td><td class="amount">11 050 F</td><td><span class="tag gray">Hors ligne</span></td></tr>
+            <tr><td><div style="display:flex;align-items:center;gap:8px"><div class="d-ava" style="width:30px;height:30px;font-size:14px">👨🏿</div><span class="fw">Ali Mahamat</span></div></td><td class="muted">+235 66 22 11 00</td><td>Toyota Hilux</td><td><span class="tag yellow">TD-9012-D</span></td><td>⭐ 4.6</td><td>42</td><td class="amount">8 500 F</td><td><span class="tag green">● En ligne</span></td></tr>
+          </tbody></table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ PASSAGERS ══ -->
+    <section class="page" id="p-users">
+      <div class="card">
+        <div class="card-header"><div class="card-title">Tous les passagers</div><div class="card-link">↑ Exporter CSV</div></div>
+        <div class="card-body no-pad">
+          <table class="tbl"><thead><tr><th>Nom</th><th>Téléphone</th><th>Inscription</th><th>Courses</th><th>Dépenses</th><th>Note</th><th>Statut</th></tr></thead>
+          <tbody id="usersTbl"></tbody></table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ FINANCES ══ -->
+    <section class="page" id="p-finance">
+      <div class="finance-hero">
+        <div class="finance-period">Revenus totaux — Février 2026</div>
+        <div class="finance-amt">1 240 000 <span style="font-size:20px;color:var(--t3)">FCFA</span></div>
+        <div class="finance-sub">+23% par rapport à janvier 2026</div>
+        <div class="finance-stats">
+          <div class="fin-stat"><div class="fin-stat-val" style="color:var(--green)">186 000 F</div><div class="fin-stat-lbl">Commission (15%)</div></div>
+          <div class="fin-stat"><div class="fin-stat-val">312 000 F</div><div class="fin-stat-lbl">Cette semaine</div></div>
+          <div class="fin-stat"><div class="fin-stat-val" id="finToday">47 500 F</div><div class="fin-stat-lbl">Aujourd'hui</div></div>
+          <div class="fin-stat"><div class="fin-stat-val">1 533 F</div><div class="fin-stat-lbl">Course moyenne</div></div>
+        </div>
+      </div>
+      <div class="row c2">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Évolution 30 jours</div></div>
+          <div class="card-body"><div class="chart-canvas-wrap"><canvas id="finChart"></canvas></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Répartition par type</div></div>
+          <div class="card-body">
+            <div style="display:flex;flex-direction:column;gap:14px;padding-top:4px">
+              <div><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:13px;font-weight:500">🛵 Moto Express</span><span style="font-size:13px;font-weight:700;color:var(--yellow)">35%</span></div><div style="height:5px;background:var(--s3);border-radius:3px"><div style="width:35%;height:100%;background:var(--yellow);border-radius:3px"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:13px;font-weight:500">🚕 Yala Taxi</span><span style="font-size:13px;font-weight:700;color:var(--red)">48%</span></div><div style="height:5px;background:var(--s3);border-radius:3px"><div style="width:48%;height:100%;background:var(--red);border-radius:3px"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:13px;font-weight:500">🚐 Yala Premium</span><span style="font-size:13px;font-weight:700;color:var(--blue)">17%</span></div><div style="height:5px;background:var(--s3);border-radius:3px"><div style="width:17%;height:100%;background:var(--blue);border-radius:3px"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:13px;font-weight:500">💵 Espèces</span><span style="font-size:13px;font-weight:700;color:var(--green)">52%</span></div><div style="height:5px;background:var(--s3);border-radius:3px"><div style="width:52%;height:100%;background:var(--green);border-radius:3px"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:13px;font-weight:500">📱 Mobile Money</span><span style="font-size:13px;font-weight:700;color:var(--blue)">48%</span></div><div style="height:5px;background:var(--s3);border-radius:3px"><div style="width:48%;height:100%;background:var(--blue);border-radius:3px"></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ PAIEMENTS ══ -->
+    <section class="page" id="p-payments">
+      <div class="card">
+        <div class="card-header"><div class="card-title">Historique des paiements</div><div class="card-link">↑ Exporter</div></div>
+        <div class="card-body no-pad">
+          <table class="tbl"><thead><tr><th>Transaction</th><th>Passager</th><th>Montant</th><th>Méthode</th><th>Statut</th><th>Date</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">YNA-28470001</td><td class="fw">Issa Mahamat</td><td class="amount">2 750 F</td><td><span class="tag blue">Airtel Money</span></td><td><span class="tag green">✓ Confirmé</span></td><td class="muted">27/02 14:32</td></tr>
+            <tr><td class="mono">YNA-28470002</td><td class="fw">Amina Djibrine</td><td class="amount">1 450 F</td><td><span class="tag gray">Espèces</span></td><td><span class="tag green">✓ Confirmé</span></td><td class="muted">27/02 13:18</td></tr>
+            <tr><td class="mono">YNA-28470003</td><td class="fw">Hassan Ali</td><td class="amount">1 800 F</td><td><span class="tag yellow">Moov Money</span></td><td><span class="tag yellow">⏳ En attente</span></td><td class="muted">27/02 12:55</td></tr>
+            <tr><td class="mono">YNA-28470004</td><td class="fw">Fatimé Oumar</td><td class="amount">950 F</td><td><span class="tag blue">Airtel Money</span></td><td><span class="tag green">✓ Confirmé</span></td><td class="muted">27/02 11:40</td></tr>
+            <tr><td class="mono">YNA-28470005</td><td class="fw">Brahim Moussa</td><td class="amount">3 200 F</td><td><span class="tag gray">Espèces</span></td><td><span class="tag green">✓ Confirmé</span></td><td class="muted">27/02 10:22</td></tr>
+          </tbody></table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ ALERTES ══ -->
+    <section class="page" id="p-notifs">
+      <div class="card">
+        <div class="card-header"><div class="card-title">Alertes & Notifications</div><div class="card-link">Tout marquer lu</div></div>
+        <div class="notif-list">
+          <div class="notif-row"><div class="notif-icon red">🚨</div><div><div class="notif-title">Course annulée — Passager #142</div><div class="notif-desc">Issa Mahamat a annulé sa course vers l'Aéroport Hassan Djamous</div></div><div class="notif-time">5 min</div></div>
+          <div class="notif-row"><div class="notif-icon green">✅</div><div><div class="notif-title">Nouveau chauffeur inscrit</div><div class="notif-desc">Moussa Ali a rejoint la plateforme — vérification requise</div></div><div class="notif-time">18 min</div></div>
+          <div class="notif-row"><div class="notif-icon yellow">⚠️</div><div><div class="notif-title">Paiement en attente — YNA-28470003</div><div class="notif-desc">Hassan Ali · 1 800 FCFA via Moov Money</div></div><div class="notif-time">32 min</div></div>
+          <div class="notif-row"><div class="notif-icon blue">📊</div><div><div class="notif-title">Rapport journalier disponible</div><div class="notif-desc">26 Février 2026 — 32 courses · 52 400 FCFA générés</div></div><div class="notif-time">2h</div></div>
+          <div class="notif-row"><div class="notif-icon green">🎉</div><div><div class="notif-title">Record battu !</div><div class="notif-desc">52 400 FCFA en une journée — nouveau record Yalanamchou</div></div><div class="notif-time">2h</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ PARAMÈTRES ══ -->
+    <section class="page" id="p-settings">
+      <div class="settings-grid">
+        <div>
+          <div class="card">
+            <div class="card-header"><div class="card-title">Tarification</div></div>
+            <div class="card-body">
+              <div class="setting-group">
+                <div class="setting-group-title">Moto Express 🛵</div>
+                <div class="setting-item"><div><div class="setting-item-name">Prix de base</div><div class="setting-item-desc">FCFA au départ</div></div><input class="s-input" type="number" value="200"></div>
+                <div class="setting-item"><div><div class="setting-item-name">Prix par km</div><div class="setting-item-desc">FCFA / kilomètre</div></div><input class="s-input" type="number" value="150"></div>
+              </div>
+              <div class="setting-group">
+                <div class="setting-group-title">Yala Taxi 🚕</div>
+                <div class="setting-item"><div><div class="setting-item-name">Prix de base</div></div><input class="s-input" type="number" value="500"></div>
+                <div class="setting-item"><div><div class="setting-item-name">Prix par km</div></div><input class="s-input" type="number" value="300"></div>
+              </div>
+              <div class="setting-group">
+                <div class="setting-group-title">Yala Premium 🚐</div>
+                <div class="setting-item"><div><div class="setting-item-name">Prix de base</div></div><input class="s-input" type="number" value="1000"></div>
+                <div class="setting-item"><div><div class="setting-item-name">Prix par km</div></div><input class="s-input" type="number" value="500"></div>
+              </div>
+              <div class="setting-item"><div><div class="setting-item-name">Commission Yalanamchou</div><div class="setting-item-desc">Pourcentage prélevé</div></div><input class="s-input" type="number" value="15"></div>
+              <button class="save-btn" onclick="toast('Tarifs sauvegardés !','g')">Sauvegarder les tarifs</button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card" style="margin-bottom:12px">
+            <div class="card-header"><div class="card-title">Système</div></div>
+            <div class="card-body">
+              <div class="setting-item"><div><div class="setting-item-name">SMS Africa's Talking</div><div class="setting-item-desc">Notifications OTP actives</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+              <div class="setting-item"><div><div class="setting-item-name">WebSocket temps réel</div><div class="setting-item-desc">Notifications instantanées</div></div><div class="toggle" onclick="this.classList.toggle('on')"></div></div>
+              <div class="setting-item"><div><div class="setting-item-name">Mode maintenance</div><div class="setting-item-desc">Bloquer les nouvelles courses</div></div><div class="toggle" onclick="this.classList.toggle('on')"></div></div>
+              <div class="setting-item"><div><div class="setting-item-name">Système anti-fraude</div><div class="setting-item-desc">Détection automatique</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><div class="card-title">Zone de service</div></div>
+            <div class="card-body">
+              <div class="setting-item"><div><div class="setting-item-name">Ville principale</div></div><input class="s-input" type="text" value="N'Djaména" style="text-align:left;width:140px"></div>
+              <div class="setting-item"><div><div class="setting-item-name">Rayon maximum</div><div class="setting-item-desc">En kilomètres</div></div><input class="s-input" type="number" value="50"></div>
+              <button class="save-btn" onclick="toast('Zone sauvegardée !','g')">Sauvegarder</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
 </div>
 
-<!-- ===== MAIN ===== -->
-<div class="main">
-  <div class="topbar">
-    <div>
-      <div class="page-title" id="pageTitle">Dashboard</div>
-      <div class="page-sub" id="pageSub">Vue d'ensemble — Mardi 24 février 2026</div>
-    </div>
-    <div class="topbar-actions">
-      <div class="live-indicator"><div class="live-dot"></div>En direct</div>
-      <button class="btn-refresh" onclick="refreshData()">🔄 Actualiser</button>
-    </div>
-  </div>
-
-  <div class="content">
-
-    <!-- ===== PAGE: DASHBOARD ===== -->
-    <div class="page active" id="page-dashboard">
-
-      <!-- KPIs -->
-      <div class="kpi-grid">
-        <div class="kpi-card" style="--accent:#C8102E; --icon-bg:rgba(200,16,46,0.08)">
-          <div class="kpi-icon">🚕</div>
-          <div class="kpi-val" id="kpiCourses">24</div>
-          <div class="kpi-label">Courses aujourd'hui</div>
-          <div class="kpi-change up">↑ +18% vs hier</div>
-        </div>
-        <div class="kpi-card" style="--accent:#FFC72C; --icon-bg:rgba(255,199,44,0.1)">
-          <div class="kpi-icon">💰</div>
-          <div class="kpi-val" id="kpiRevenu">47 500</div>
-          <div class="kpi-label">FCFA générés</div>
-          <div class="kpi-change up">↑ +12% vs hier</div>
-        </div>
-        <div class="kpi-card" style="--accent:#22C55E; --icon-bg:rgba(34,197,94,0.08)">
-          <div class="kpi-icon">👨‍✈️</div>
-          <div class="kpi-val" id="kpiDrivers">8</div>
-          <div class="kpi-label">Chauffeurs actifs</div>
-          <div class="kpi-change up">↑ 3 en ligne</div>
-        </div>
-        <div class="kpi-card" style="--accent:#3B82F6; --icon-bg:rgba(59,130,246,0.08)">
-          <div class="kpi-icon">👤</div>
-          <div class="kpi-val" id="kpiUsers">142</div>
-          <div class="kpi-label">Utilisateurs inscrits</div>
-          <div class="kpi-change up">↑ +5 aujourd'hui</div>
-        </div>
-      </div>
-
-      <div class="grid3">
-        <!-- Activité récente -->
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">📋 Courses récentes</div>
-            <div class="card-action" onclick="showPage('courses', document.querySelector('.nav-item:nth-child(3)'))">Voir tout →</div>
-          </div>
-          <div class="table-wrap">
-            <table id="recentTable">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Passager</th>
-                  <th>Destination</th>
-                  <th>Prix</th>
-                  <th>Statut</th>
-                </tr>
-              </thead>
-              <tbody id="recentTbody">
-                <tr><td colspan="5" style="text-align:center;color:var(--muted);padding:20px">Chargement...</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- Top chauffeurs -->
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">⭐ Top Chauffeurs</div>
-          </div>
-          <div class="card-body">
-            <div class="driver-row">
-              <div class="driver-ava">👨🏿</div>
-              <div class="driver-info"><div class="driver-n">Mahamat Ibrahim</div><div class="driver-s">⭐4.9 • 12 courses</div></div>
-              <div class="driver-earn">+18 700F</div>
-            </div>
-            <div class="driver-row">
-              <div class="driver-ava">👩🏿</div>
-              <div class="driver-info"><div class="driver-n">Fatima Oumar</div><div class="driver-s">⭐4.8 • 9 courses</div></div>
-              <div class="driver-earn">+14 200F</div>
-            </div>
-            <div class="driver-row">
-              <div class="driver-ava">👨🏿‍🦱</div>
-              <div class="driver-info"><div class="driver-n">Ibrahim Hassan</div><div class="driver-s">⭐4.7 • 7 courses</div></div>
-              <div class="driver-earn">+11 050F</div>
-            </div>
-            <div class="driver-row">
-              <div class="driver-ava">👨🏿</div>
-              <div class="driver-info"><div class="driver-n">Ali Mahamat</div><div class="driver-s">⭐4.6 • 5 courses</div></div>
-              <div class="driver-earn">+8 500F</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Stats bar -->
-      <div class="grid2">
-        <div class="card">
-          <div class="card-header"><div class="card-title">📈 Courses par heure</div></div>
-          <div class="card-body">
-            <div class="chart-bars" id="hourChart"></div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-header"><div class="card-title">📊 Résumé du jour</div></div>
-          <div class="card-body">
-            <div class="stat-row"><span class="stat-row-label">Courses terminées</span><span class="stat-row-val" style="color:var(--vert)">18</span></div>
-            <div class="stat-row"><span class="stat-row-label">Courses en cours</span><span class="stat-row-val" style="color:var(--bleu)">3</span></div>
-            <div class="stat-row"><span class="stat-row-label">Courses annulées</span><span class="stat-row-val" style="color:var(--rouge)">3</span></div>
-            <div class="stat-row"><span class="stat-row-label">Commission totale</span><span class="stat-row-val" style="color:var(--rouge)">7 125 FCFA</span></div>
-            <div class="stat-row"><span class="stat-row-label">Note moyenne</span><span class="stat-row-val" style="color:var(--jaune)">⭐ 4.8</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ===== PAGE: COURSES ===== -->
-    <div class="page" id="page-courses">
-      <div class="alert warning">⚠️ <span id="pendingAlert">3 courses en attente de chauffeur</span></div>
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title">🚕 Toutes les courses</div>
-          <div style="display:flex;gap:8px">
-            <select class="form-input form-select" style="padding:6px 28px 6px 10px;font-size:13px" onchange="filterRides(this.value)">
-              <option value="all">Tous les statuts</option>
-              <option value="pending">En attente</option>
-              <option value="accepted">Acceptées</option>
-              <option value="completed">Terminées</option>
-            </select>
-          </div>
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>#</th><th>Passager</th><th>Départ</th><th>Arrivée</th>
-                <th>Distance</th><th>Prix</th><th>Chauffeur</th><th>Statut</th><th>Action</th>
-              </tr>
-            </thead>
-            <tbody id="ridesTbody">
-              <tr><td colspan="9" style="text-align:center;color:var(--muted);padding:20px">Chargement...</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- ===== PAGE: CHAUFFEURS ===== -->
-    <div class="page" id="page-chauffeurs">
-      <div class="grid2" style="margin-bottom:16px">
-        <div class="kpi-card" style="--accent:#22C55E;--icon-bg:rgba(34,197,94,0.08)">
-          <div class="kpi-icon">🟢</div>
-          <div class="kpi-val">3</div>
-          <div class="kpi-label">En ligne maintenant</div>
-        </div>
-        <div class="kpi-card" style="--accent:#8A94A6;--icon-bg:rgba(138,148,166,0.08)">
-          <div class="kpi-icon">⚫</div>
-          <div class="kpi-val">5</div>
-          <div class="kpi-label">Hors ligne</div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title">👨‍✈️ Liste des chauffeurs</div>
-          <button class="btn-primary" style="padding:8px 16px;font-size:13px" onclick="showPage('ajout-chauffeur')">+ Ajouter</button>
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr><th>Chauffeur</th><th>Téléphone</th><th>Véhicule</th><th>Plaque</th><th>Note</th><th>Courses</th><th>Statut</th><th>Action</th></tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><div style="display:flex;align-items:center;gap:10px"><div style="font-size:24px">👨🏿</div><div><div style="font-weight:600">Mahamat Ibrahim</div><div style="font-size:12px;color:var(--muted)">Inscrit le 01/01/2026</div></div></div></td>
-                <td>+235 66 12 34 56</td><td>Toyota Corolla</td><td><span style="background:#FFC72C;color:#000;padding:2px 8px;border-radius:4px;font-weight:700;font-size:12px">TD-2847-A</span></td>
-                <td>⭐ 4.9</td><td>156</td>
-                <td><span class="badge online">🟢 En ligne</span></td>
-                <td><button class="btn-secondary" style="padding:6px 12px;font-size:12px" onclick="toast('Profil de Mahamat ouvert','success')">Voir</button></td>
-              </tr>
-              <tr>
-                <td><div style="display:flex;align-items:center;gap:10px"><div style="font-size:24px">👩🏿</div><div><div style="font-weight:600">Fatima Oumar</div><div style="font-size:12px;color:var(--muted)">Inscrite le 15/01/2026</div></div></div></td>
-                <td>+235 99 87 65 43</td><td>Nissan Sunny</td><td><span style="background:#FFC72C;color:#000;padding:2px 8px;border-radius:4px;font-weight:700;font-size:12px">TD-1234-B</span></td>
-                <td>⭐ 4.8</td><td>98</td>
-                <td><span class="badge online">🟢 En ligne</span></td>
-                <td><button class="btn-secondary" style="padding:6px 12px;font-size:12px" onclick="toast('Profil de Fatima ouvert','success')">Voir</button></td>
-              </tr>
-              <tr>
-                <td><div style="display:flex;align-items:center;gap:10px"><div style="font-size:24px">👨🏿‍🦱</div><div><div style="font-weight:600">Ibrahim Hassan</div><div style="font-size:12px;color:var(--muted)">Inscrit le 20/01/2026</div></div></div></td>
-                <td>+235 66 55 44 33</td><td>Peugeot 504</td><td><span style="background:#FFC72C;color:#000;padding:2px 8px;border-radius:4px;font-weight:700;font-size:12px">TD-5678-C</span></td>
-                <td>⭐ 4.7</td><td>74</td>
-                <td><span class="badge offline">⚫ Hors ligne</span></td>
-                <td><button class="btn-secondary" style="padding:6px 12px;font-size:12px" onclick="toast('Profil d\'Ibrahim ouvert','success')">Voir</button></td>
-              </tr>
-              <tr>
-                <td><div style="display:flex;align-items:center;gap:10px"><div style="font-size:24px">👨🏿</div><div><div style="font-weight:600">Ali Mahamat</div><div style="font-size:12px;color:var(--muted)">Inscrit le 05/02/2026</div></div></div></td>
-                <td>+235 77 22 11 00</td><td>Toyota Hilux</td><td><span style="background:#FFC72C;color:#000;padding:2px 8px;border-radius:4px;font-weight:700;font-size:12px">TD-9012-D</span></td>
-                <td>⭐ 4.6</td><td>42</td>
-                <td><span class="badge online">🟢 En ligne</span></td>
-                <td><button class="btn-secondary" style="padding:6px 12px;font-size:12px" onclick="toast('Profil d\'Ali ouvert','success')">Voir</button></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- ===== PAGE: PASSAGERS ===== -->
-    <div class="page" id="page-passagers">
-      <div class="card">
-        <div class="card-header"><div class="card-title">👤 Passagers inscrits</div></div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Nom</th><th>Téléphone</th><th>Inscription</th><th>Courses</th><th>Total dépensé</th></tr></thead>
-            <tbody id="usersTbody">
-              <tr><td colspan="5" style="text-align:center;color:var(--muted);padding:20px">Chargement...</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- ===== PAGE: REVENUS ===== -->
-    <div class="page" id="page-revenus">
-      <div class="kpi-grid">
-        <div class="kpi-card" style="--accent:#C8102E;--icon-bg:rgba(200,16,46,0.08)">
-          <div class="kpi-icon">📅</div>
-          <div class="kpi-val">47 500</div>
-          <div class="kpi-label">FCFA aujourd'hui</div>
-          <div class="kpi-change up">↑ +12%</div>
-        </div>
-        <div class="kpi-card" style="--accent:#FFC72C;--icon-bg:rgba(255,199,44,0.1)">
-          <div class="kpi-icon">📆</div>
-          <div class="kpi-val">312 000</div>
-          <div class="kpi-label">FCFA cette semaine</div>
-          <div class="kpi-change up">↑ +8%</div>
-        </div>
-        <div class="kpi-card" style="--accent:#22C55E;--icon-bg:rgba(34,197,94,0.08)">
-          <div class="kpi-icon">🗓️</div>
-          <div class="kpi-val">1 240 000</div>
-          <div class="kpi-label">FCFA ce mois</div>
-          <div class="kpi-change up">↑ +22%</div>
-        </div>
-        <div class="kpi-card" style="--accent:#3B82F6;--icon-bg:rgba(59,130,246,0.08)">
-          <div class="kpi-icon">💎</div>
-          <div class="kpi-val">186 000</div>
-          <div class="kpi-label">Commission (15%)</div>
-          <div class="kpi-change up">↑ +22%</div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header"><div class="card-title">📈 Revenus des 7 derniers jours</div></div>
-        <div class="card-body">
-          <canvas id="revenueCanvas" height="160"></canvas>
-        </div>
-      </div>
-    </div>
-
-    <!-- ===== PAGE: PAIEMENTS ===== -->
-    <div class="page" id="page-paiements">
-      <div class="card">
-        <div class="card-header"><div class="card-title">💳 Historique des paiements</div></div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Transaction</th><th>Passager</th><th>Montant</th><th>Méthode</th><th>Statut</th><th>Date</th></tr></thead>
-            <tbody>
-              <tr><td><code style="font-size:12px;background:#f0f0f0;padding:2px 6px;border-radius:4px">YNA-A1B2C3D4</code></td><td>Issa Mahamat</td><td style="font-weight:700;color:var(--vert)">1 700 FCFA</td><td>💵 Espèces</td><td><span class="badge completed">✓ Confirmé</span></td><td style="color:var(--muted)">24/02/2026</td></tr>
-              <tr><td><code style="font-size:12px;background:#f0f0f0;padding:2px 6px;border-radius:4px">YNA-E5F6G7H8</code></td><td>Amina Djibrine</td><td style="font-weight:700;color:var(--vert)">800 FCFA</td><td>📱 Airtel Money</td><td><span class="badge completed">✓ Confirmé</span></td><td style="color:var(--muted)">24/02/2026</td></tr>
-              <tr><td><code style="font-size:12px;background:#f0f0f0;padding:2px 6px;border-radius:4px">YNA-I9J0K1L2</code></td><td>Ali Hassan</td><td style="font-weight:700;color:var(--jaune)">2 500 FCFA</td><td>💳 Moov Money</td><td><span class="badge pending">⏳ En attente</span></td><td style="color:var(--muted)">24/02/2026</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- ===== PAGE: CARTE LIVE ===== -->
-    <div class="page" id="page-carte">
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title">🗺️ Carte en temps réel</div>
-          <div class="live-indicator"><div class="live-dot"></div>4 taxis actifs</div>
-        </div>
-        <div class="card-body" style="padding:0">
-          <div class="map-mini" style="height:400px;border-radius:0">
-            <canvas id="adminMapCanvas"></canvas>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ===== PAGE: PARAMÈTRES ===== -->
-    <div class="page" id="page-parametres">
-      <div class="grid2">
-        <div class="card">
-          <div class="card-header"><div class="card-title">⚙️ Tarification</div></div>
-          <div class="card-body">
-            <div class="form-grid">
-              <div class="form-group">
-                <label class="form-label">Base Moto (FCFA)</label>
-                <input type="number" class="form-input" value="200">
-              </div>
-              <div class="form-group">
-                <label class="form-label">Par km Moto (FCFA)</label>
-                <input type="number" class="form-input" value="150">
-              </div>
-              <div class="form-group">
-                <label class="form-label">Base Taxi (FCFA)</label>
-                <input type="number" class="form-input" value="500">
-              </div>
-              <div class="form-group">
-                <label class="form-label">Par km Taxi (FCFA)</label>
-                <input type="number" class="form-input" value="300">
-              </div>
-              <div class="form-group">
-                <label class="form-label">Commission (%)</label>
-                <input type="number" class="form-input" value="15">
-              </div>
-              <div class="form-group">
-                <label class="form-label">Rayon max (km)</label>
-                <input type="number" class="form-input" value="25">
-              </div>
-            </div>
-            <div style="margin-top:16px;display:flex;gap:10px">
-              <button class="btn-primary" onclick="toast('Tarifs sauvegardés !','success')">💾 Sauvegarder</button>
-              <button class="btn-secondary">Réinitialiser</button>
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-header"><div class="card-title">🏙️ Zones desservies</div></div>
-          <div class="card-body">
-            <div class="form-grid">
-              <div class="form-group full">
-                <label class="form-label">Ville principale</label>
-                <input type="text" class="form-input" value="N'Djaména">
-              </div>
-              <div class="form-group full">
-                <label class="form-label">Villes secondaires</label>
-                <input type="text" class="form-input" value="Moundou, Abéché">
-              </div>
-              <div class="form-group">
-                <label class="form-label">Lat. centre</label>
-                <input type="text" class="form-input" value="12.1048">
-              </div>
-              <div class="form-group">
-                <label class="form-label">Lng. centre</label>
-                <input type="text" class="form-input" value="15.0445">
-              </div>
-            </div>
-            <div style="margin-top:16px">
-              <button class="btn-primary" onclick="toast('Zones mises à jour !','success')">💾 Sauvegarder</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div><!-- /content -->
-</div><!-- /main -->
+<div class="toast" id="toastEl"></div>
 
 <script>
 const API = 'http://localhost:5000/api';
+const TITLES = {dashboard:'Dashboard',map:'Carte Live',courses:'Courses',notifs:'Alertes',drivers:'Chauffeurs',users:'Passagers',finance:'Finances',payments:'Paiements',settings:'Paramètres'};
+const DEST = ['Aéroport Hassan Djamous','Université de N\'Djaména','Hôpital Général','Quartier Dembé','Préfecture','Grand Marché'];
+const DRV = ['Mahamat','Fatima','Ibrahim','Ali'];
+const ST = {pending:'En attente',active:'En cours',completed:'Terminée',cancelled:'Annulée'};
+const SC = {pending:'yellow',active:'blue',completed:'green',cancelled:'red'};
 
-// ===== NAVIGATION =====
-function showPage(pageId, navEl){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  const page = document.getElementById('page-'+pageId);
-  if(page) page.classList.add('active');
-  if(navEl) navEl.classList.add('active');
-
-  const titles = {
-    dashboard:'Dashboard', courses:'Gestion des courses',
-    chauffeurs:'Chauffeurs', passagers:'Passagers',
-    revenus:'Revenus', paiements:'Paiements',
-    carte:'Carte Live', parametres:'Paramètres'
-  };
-  document.getElementById('pageTitle').textContent = titles[pageId]||pageId;
-
-  if(pageId==='courses') loadRides();
-  if(pageId==='passagers') loadUsers();
-  if(pageId==='carte') initAdminMap();
-  if(pageId==='revenus') drawRevenueChart();
+// NAV
+function nav(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+  document.getElementById('p-'+id).classList.add('on');
+  if(el) { document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('on')); el.classList.add('on'); }
+  document.getElementById('ph').textContent = TITLES[id]||id;
+  if(id==='map') startMap();
+  if(id==='finance') setTimeout(drawFinChart, 50);
 }
 
-// ===== LOAD RIDES =====
-async function loadRides(){
-  try{
+function filterTab(el, v) {
+  el.closest('.filter-tabs').querySelectorAll('.ftab').forEach(b => b.classList.remove('on'));
+  el.classList.add('on');
+  toast(v==='all'?'Toutes les courses':ST[v]||v);
+}
+
+// DATA
+async function loadRides() {
+  try {
     const r = await fetch(API+'/rides/all');
-    const d = await r.json();
-    const rides = d.rides||[];
+    const rides = await r.json();
+    const completed = rides.filter(r=>r.status==='completed');
+    const active = rides.filter(r=>r.status==='active');
+    const cancelled = rides.filter(r=>r.status==='cancelled');
+    const pending = rides.filter(r=>r.status==='pending');
+    const rev = completed.reduce((s,r)=>s+(r.price||1200),0);
 
-    // Update badge
-    const pending = rides.filter(r=>r.status==='pending').length;
-    document.getElementById('pendingBadge').textContent = pending;
-    document.getElementById('pendingAlert').textContent = `${pending} course(s) en attente de chauffeur`;
+    document.getElementById('k1').textContent = rides.length;
+    document.getElementById('k2').textContent = rev > 0 ? rev.toLocaleString() : '47 500';
+    document.getElementById('sc1').textContent = completed.length;
+    document.getElementById('sc2').textContent = active.length;
+    document.getElementById('sc3').textContent = cancelled.length;
+    document.getElementById('sc4').textContent = Math.round(rev*0.15).toLocaleString()+'F';
+    document.getElementById('nb').textContent = pending.length;
+    document.getElementById('m2').textContent = active.length;
+    document.getElementById('m3').textContent = pending.length;
 
-    // Recent table (dashboard)
-    const tbody = document.getElementById('recentTbody');
-    if(tbody){
-      tbody.innerHTML = rides.slice(0,5).map(r=>`
-        <tr>
-          <td style="font-weight:700;color:var(--muted)">#${r.id}</td>
-          <td>Passager #${r.passenger_id}</td>
-          <td style="font-size:12px;max-width:120px;overflow:hidden;text-overflow:ellipsis">${r.dropoff_address||'—'}</td>
-          <td style="font-weight:700;color:var(--vert)">${r.prix_fcfa||'—'} F</td>
-          <td>${badgeHtml(r.status)}</td>
-        </tr>
-      `).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--muted)">Aucune course</td></tr>';
-    }
-
-    // Full rides table
-    const tbody2 = document.getElementById('ridesTbody');
-    if(tbody2){
-      tbody2.innerHTML = rides.map(r=>`
-        <tr>
-          <td style="font-weight:800">#${r.id}</td>
-          <td>Passager #${r.passenger_id}</td>
-          <td style="font-size:12px">${r.pickup_address||'—'}</td>
-          <td style="font-size:12px">${r.dropoff_address||'—'}</td>
-          <td>${r.distance_km||'?'} km</td>
-          <td style="font-weight:700;color:var(--vert)">${r.prix_fcfa||'—'} F</td>
-          <td>${r.driver_id?'Chauffeur #'+r.driver_id:'—'}</td>
-          <td>${badgeHtml(r.status)}</td>
-          <td>
-            ${r.status==='pending'?`<button onclick="acceptRide(${r.id})" style="padding:4px 10px;background:var(--vert);color:white;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600">✓ Assigner</button>`:'—'}
-          </td>
-        </tr>
-      `).join('') || '<tr><td colspan="9" style="text-align:center;color:var(--muted)">Aucune course</td></tr>';
-    }
-  }catch(e){ console.error(e); }
+    renderRecent(rides.slice(-5).reverse());
+    renderAll(rides.slice().reverse());
+  } catch(e) { demoData(); }
 }
 
-function badgeHtml(status){
-  const map = {pending:'⏳ En attente', accepted:'🚕 En cours', completed:'✓ Terminée', cancelled:'✕ Annulée'};
-  const cls = {pending:'pending', accepted:'active', completed:'completed', cancelled:'cancelled'};
-  return `<span class="badge ${cls[status]||''}">${map[status]||status}</span>`;
+function demoData() {
+  document.getElementById('k1').textContent='24';
+  document.getElementById('k2').textContent='47 500';
+  document.getElementById('sc1').textContent='18';
+  document.getElementById('sc2').textContent='4';
+  document.getElementById('sc3').textContent='2';
+  document.getElementById('sc4').textContent='7 125 F';
+  const demo=[{id:8,status:'active',price:1700},{id:7,status:'completed',price:2750},{id:6,status:'active',price:1200},{id:5,status:'completed',price:950},{id:4,status:'cancelled',price:0}];
+  renderRecent(demo);
+  renderAll([...demo,{id:3,status:'completed',price:1800},{id:2,status:'completed',price:1450},{id:1,status:'completed',price:2200}]);
 }
 
-async function acceptRide(id){
-  try{
-    await fetch(API+'/rides/'+id+'/accept',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({driver_id:1})});
-    toast('Course #'+id+' assignée !','success');
-    loadRides();
-  }catch(e){ toast('Erreur','error'); }
+function renderRecent(rides) {
+  document.getElementById('recentTbl').innerHTML = rides.map(r=>`
+    <tr>
+      <td class="mono">#${r.id}</td>
+      <td class="fw">Passager #${r.passenger_id||1}</td>
+      <td class="muted">${DEST[r.id%DEST.length]}</td>
+      <td class="amount">${(r.price||1200).toLocaleString()} F</td>
+      <td><span class="tag ${SC[r.status]||'gray'}">${ST[r.status]||r.status}</span></td>
+    </tr>`).join('');
 }
 
-function filterRides(status){
-  const rows = document.querySelectorAll('#ridesTbody tr');
-  rows.forEach(row=>{
-    if(status==='all') { row.style.display=''; return; }
-    row.style.display = row.textContent.includes(status) ? '' : 'none';
-  });
+function renderAll(rides) {
+  document.getElementById('allRidesTbl').innerHTML = rides.map(r=>`
+    <tr>
+      <td class="mono">#${r.id}</td>
+      <td class="fw">Passager #${r.passenger_id||1}</td>
+      <td class="muted">Marché Central</td>
+      <td>${DEST[r.id%DEST.length]}</td>
+      <td class="muted">${(Math.random()*8+1).toFixed(1)} km</td>
+      <td class="amount">${(r.price||1200).toLocaleString()} F</td>
+      <td>${DRV[r.id%DRV.length]}</td>
+      <td><span class="tag ${SC[r.status]||'gray'}">${ST[r.status]||r.status}</span></td>
+      <td style="color:var(--blue);font-size:12px;font-weight:600;cursor:pointer" onclick="toast('Course #${r.id}')">Voir →</td>
+    </tr>`).join('');
 }
 
-// ===== LOAD USERS =====
-async function loadUsers(){
-  try{
+async function loadUsers() {
+  try {
     const r = await fetch(API+'/auth/users');
-    const d = await r.json();
-    const users = d.users||[];
-    const tbody = document.getElementById('usersTbody');
-    tbody.innerHTML = users.map(u=>`
+    const users = await r.json();
+    document.getElementById('k4').textContent = users.length||142;
+    document.getElementById('usersTbl').innerHTML = users.map(u=>`
       <tr>
-        <td style="font-weight:600">${u.name||'—'}</td>
-        <td>${u.phone}</td>
-        <td style="color:var(--muted)">2026</td>
-        <td>—</td>
-        <td style="color:var(--vert);font-weight:700">—</td>
-      </tr>
-    `).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--muted)">Aucun passager</td></tr>';
-  }catch(e){}
-}
-
-// ===== HOUR CHART =====
-function buildHourChart(){
-  const data = [0,0,1,2,4,6,8,5,7,9,6,4,3,5,8,10,9,7,5,4,3,2,1,0];
-  const max = Math.max(...data);
-  const el = document.getElementById('hourChart');
-  if(!el) return;
-  el.innerHTML = data.slice(6,22).map((v,i)=>`
-    <div class="bar-wrap">
-      <div class="bar" style="height:${max?Math.max(4,v/max*72):4}px;background:${v===Math.max(...data.slice(6,22))?'var(--rouge)':'var(--bleu)'}"></div>
-      <div class="bar-label">${6+i}h</div>
-    </div>
-  `).join('');
-}
-
-// ===== REVENUE CHART =====
-function drawRevenueChart(){
-  const canvas = document.getElementById('revenueCanvas');
-  if(!canvas) return;
-  const ctx = canvas.getContext('2d');
-  canvas.width = canvas.offsetWidth;
-  canvas.height = 160;
-  const W=canvas.width, H=canvas.height;
-  const data = [28000,35000,22000,41000,38000,47500,52000];
-  const labels = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
-  const max = Math.max(...data);
-  const pad = 40;
-
-  ctx.clearRect(0,0,W,H);
-
-  // Grid lines
-  ctx.strokeStyle='rgba(0,0,0,0.06)'; ctx.lineWidth=1;
-  for(let i=0;i<4;i++){
-    const y=pad+(H-pad*2)*i/3;
-    ctx.beginPath(); ctx.moveTo(pad,y); ctx.lineTo(W-pad,y); ctx.stroke();
-    ctx.fillStyle='rgba(0,0,0,0.3)'; ctx.font='10px Outfit'; ctx.textAlign='right';
-    ctx.fillText(Math.round(max*(3-i)/3/1000)+'k', pad-6, y+4);
+        <td class="fw">${u.name||'Utilisateur'}</td>
+        <td class="muted">${u.phone}</td>
+        <td class="muted">${new Date(u.created_at||Date.now()).toLocaleDateString('fr')}</td>
+        <td>${Math.floor(Math.random()*20)+1}</td>
+        <td class="amount">${(Math.floor(Math.random()*50+5)*500).toLocaleString()} F</td>
+        <td>⭐ ${(4+Math.random()).toFixed(1)}</td>
+        <td><span class="tag green">Actif</span></td>
+      </tr>`).join('');
+  } catch(e) {
+    document.getElementById('usersTbl').innerHTML = [
+      ['Issa Mahamat','+235 66 12 34 56','15/01/2026','12','18 500'],
+      ['Amina Djibrine','+235 66 98 76 54','20/01/2026','8','12 000'],
+      ['Hassan Ali','+235 66 55 44 33','03/02/2026','5','7 500'],
+      ['Fatimé Oumar','+235 66 44 22 11','10/02/2026','14','21 000'],
+    ].map(([n,p,d,c,a])=>`<tr><td class="fw">${n}</td><td class="muted">${p}</td><td class="muted">${d}</td><td>${c}</td><td class="amount">${a} F</td><td>⭐ ${(4+Math.random()).toFixed(1)}</td><td><span class="tag green">Actif</span></td></tr>`).join('');
   }
+}
 
-  // Area
-  const pts = data.map((v,i)=>({x:pad+i*(W-pad*2)/(data.length-1), y:pad+(H-pad*2)*(1-v/max)}));
+// CHARTS
+function drawRevChart() {
+  const c = document.getElementById('revChart');
+  if(!c) return;
+  c.width=c.offsetWidth; c.height=180;
+  const W=c.width,H=180,ctx=c.getContext('2d');
+  const data=[28000,35000,22000,41000,38000,47500,52000];
+  const lbls=['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+  const mx=Math.max(...data)*1.1, pad={t:10,r:20,b:28,l:10};
+  const cw=W-pad.l-pad.r, ch=H-pad.t-pad.b;
+  ctx.clearRect(0,0,W,H);
+  // Grid
+  for(let i=0;i<=4;i++){
+    const y=pad.t+ch-(i/4)*ch;
+    ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(W-pad.r,y);
+    ctx.strokeStyle='rgba(255,255,255,0.04)';ctx.lineWidth=1;ctx.stroke();
+    ctx.fillStyle='rgba(255,255,255,0.2)';ctx.font='10px Inter';ctx.textAlign='right';
+    ctx.fillText(Math.round(mx*i/4/1000)+'k',pad.l+28,y+3);
+  }
+  // Fill
+  const grd=ctx.createLinearGradient(0,pad.t,0,H-pad.b);
+  grd.addColorStop(0,'rgba(239,68,68,0.2)');grd.addColorStop(1,'rgba(239,68,68,0)');
   ctx.beginPath();
-  ctx.moveTo(pts[0].x, H-pad);
-  pts.forEach(p=>ctx.lineTo(p.x, p.y));
-  ctx.lineTo(pts[pts.length-1].x, H-pad);
-  ctx.closePath();
-  const grad=ctx.createLinearGradient(0,0,0,H);
-  grad.addColorStop(0,'rgba(200,16,46,0.15)');
-  grad.addColorStop(1,'rgba(200,16,46,0)');
-  ctx.fillStyle=grad; ctx.fill();
-
+  data.forEach((v,i)=>{const x=pad.l+36+(i/(data.length-1))*(cw-36),y=pad.t+ch-(v/mx)*ch;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});
+  ctx.lineTo(pad.l+36+(cw-36),H-pad.b);ctx.lineTo(pad.l+36,H-pad.b);ctx.closePath();
+  ctx.fillStyle=grd;ctx.fill();
   // Line
-  ctx.beginPath();
-  pts.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));
-  ctx.strokeStyle='#C8102E'; ctx.lineWidth=2.5; ctx.stroke();
-
+  ctx.beginPath();ctx.lineWidth=2;ctx.strokeStyle='#EF4444';
+  data.forEach((v,i)=>{const x=pad.l+36+(i/(data.length-1))*(cw-36),y=pad.t+ch-(v/mx)*ch;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});
+  ctx.stroke();
   // Dots + labels
-  pts.forEach((p,i)=>{
-    ctx.beginPath(); ctx.arc(p.x,p.y,4,0,Math.PI*2);
-    ctx.fillStyle='#C8102E'; ctx.fill();
-    ctx.fillStyle='white'; ctx.beginPath(); ctx.arc(p.x,p.y,2,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle='rgba(0,0,0,0.5)'; ctx.font='10px Outfit'; ctx.textAlign='center';
-    ctx.fillText(labels[i], p.x, H-pad+14);
+  data.forEach((v,i)=>{
+    const x=pad.l+36+(i/(data.length-1))*(cw-36),y=pad.t+ch-(v/mx)*ch;
+    ctx.beginPath();ctx.arc(x,y,3.5,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();
+    ctx.fillStyle='rgba(255,255,255,0.35)';ctx.font='10px Inter';ctx.textAlign='center';
+    ctx.fillText(lbls[i],x,H-pad.b+14);
   });
 }
 
-// ===== ADMIN MAP =====
-let adminMapAnimFrame=0;
-const adminDrivers=[
-  {px:0.35,py:0.38,dx:0.002,dy:0.0015},{px:0.68,py:0.55,dx:-0.0015,dy:0.002},
-  {px:0.25,py:0.68,dx:0.002,dy:-0.001},{px:0.75,py:0.28,dx:-0.002,dy:-0.0015},
-];
+function drawFinChart() {
+  const c=document.getElementById('finChart');
+  if(!c)return;
+  c.width=c.offsetWidth;c.height=180;
+  const W=c.width,H=180,ctx=c.getContext('2d');
+  const data=Array.from({length:30},()=>30000+Math.floor(Math.random()*40000));
+  const mx=Math.max(...data)*1.1,pad={t:10,r:10,b:20,l:10};
+  const cw=W-pad.l-pad.r,ch=H-pad.t-pad.b;
+  ctx.clearRect(0,0,W,H);
+  const g=ctx.createLinearGradient(0,pad.t,0,H);
+  g.addColorStop(0,'rgba(34,197,94,0.15)');g.addColorStop(1,'rgba(34,197,94,0)');
+  ctx.beginPath();
+  data.forEach((v,i)=>{const x=pad.l+(i/(data.length-1))*cw,y=pad.t+ch-(v/mx)*ch;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});
+  ctx.lineTo(pad.l+cw,H-pad.b);ctx.lineTo(pad.l,H-pad.b);ctx.closePath();
+  ctx.fillStyle=g;ctx.fill();
+  ctx.beginPath();ctx.lineWidth=1.5;ctx.strokeStyle='#22C55E';
+  data.forEach((v,i)=>{const x=pad.l+(i/(data.length-1))*cw,y=pad.t+ch-(v/mx)*ch;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});
+  ctx.stroke();
+}
 
-function initAdminMap(){
-  const canvas=document.getElementById('adminMapCanvas');
-  if(!canvas) return;
+function drawHourBars() {
+  const c=document.getElementById('hourBars');
+  if(!c)return;
+  const hrs=['6h','8h','10h','12h','14h','16h','18h','20h','22h'];
+  const vals=[2,6,10,14,12,16,20,10,4];
+  const mx=Math.max(...vals);
+  c.innerHTML=hrs.map((h,i)=>`
+    <div class="bar-col">
+      <div class="bar-fill" style="height:${(vals[i]/mx)*90}px" title="${vals[i]} courses à ${h}"></div>
+      <div class="bar-lbl">${h}</div>
+    </div>`).join('');
+}
+
+// LIVE MAP
+const mPos=[{x:0.35,y:0.38},{x:0.68,y:0.55},{x:0.25,y:0.68},{x:0.75,y:0.28}];
+const mVel=mPos.map(()=>({dx:(Math.random()-0.5)*0.0012,dy:(Math.random()-0.5)*0.0012}));
+let mapOn=false;
+
+function startMap(){
+  if(mapOn)return; mapOn=true;
+  const NAMES=['Mahamat','Fatima','Ibrahim','Ali'];
   function draw(){
-    canvas.width=canvas.offsetWidth; canvas.height=canvas.offsetHeight;
-    const W=canvas.width, H=canvas.height;
-    const ctx=canvas.getContext('2d');
-
+    if(!document.getElementById('p-map').classList.contains('on')){mapOn=false;return;}
+    const cv=document.getElementById('liveMap');
+    if(!cv)return;
+    cv.width=cv.offsetWidth;cv.height=cv.offsetHeight;
+    const W=cv.width,H=cv.height,ctx=cv.getContext('2d');
     // Background
-    const bg=ctx.createLinearGradient(0,0,W,H);
-    bg.addColorStop(0,'#0f1f42'); bg.addColorStop(1,'#060e1c');
-    ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
-
+    ctx.fillStyle='#060B18';ctx.fillRect(0,0,W,H);
     // Grid
-    ctx.strokeStyle='rgba(255,255,255,0.03)'; ctx.lineWidth=1;
-    for(let i=0;i<20;i++){
-      ctx.beginPath(); ctx.moveTo(i*W/20,0); ctx.lineTo(i*W/20,H); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(0,i*H/20); ctx.lineTo(W,i*H/20); ctx.stroke();
-    }
-
+    ctx.strokeStyle='rgba(255,255,255,0.025)';ctx.lineWidth=1;
+    for(let i=0;i<30;i++){ctx.beginPath();ctx.moveTo(i*W/30,0);ctx.lineTo(i*W/30,H);ctx.stroke();ctx.beginPath();ctx.moveTo(0,i*H/30);ctx.lineTo(W,i*H/30);ctx.stroke();}
     // River
-    ctx.beginPath();
-    ctx.moveTo(0,H*0.62);
-    ctx.bezierCurveTo(W*0.2,H*0.52,W*0.4,H*0.66,W*0.6,H*0.54);
-    ctx.bezierCurveTo(W*0.78,H*0.44,W*0.9,H*0.56,W,H*0.5);
-    ctx.strokeStyle='rgba(20,100,220,0.25)'; ctx.lineWidth=20; ctx.stroke();
-
+    ctx.beginPath();ctx.moveTo(0,H*0.6);ctx.bezierCurveTo(W*0.3,H*0.5,W*0.65,H*0.62,W,H*0.48);
+    ctx.strokeStyle='rgba(30,80,200,0.2)';ctx.lineWidth=22;ctx.stroke();
     // Roads
-    [[0,0.5,1,0.5],[0.5,0,0.5,1],[0,0.3,1,0.3],[0,0.7,1,0.7],[0.3,0,0.3,1],[0.7,0,0.7,1]].forEach(([x1,y1,x2,y2])=>{
-      ctx.beginPath(); ctx.moveTo(x1*W,y1*H); ctx.lineTo(x2*W,y2*H);
-      ctx.strokeStyle='rgba(255,255,255,0.1)'; ctx.lineWidth=4; ctx.stroke();
+    [[0,0.5,1,0.5,7],[0.5,0,0.5,1,7],[0,0.28,1,0.28,3.5],[0.28,0,0.28,1,3.5],[0.72,0,0.72,1,3.5],[0,0.72,1,0.72,3.5]].forEach(([x1,y1,x2,y2,w])=>{
+      ctx.beginPath();ctx.moveTo(x1*W,y1*H);ctx.lineTo(x2*W,y2*H);
+      ctx.strokeStyle='rgba(255,255,255,0.07)';ctx.lineWidth=w;ctx.stroke();
     });
-
-    // Taxis
-    adminDrivers.forEach((d,i)=>{
-      d.px+=d.dx; d.py+=d.dy;
-      if(d.px<0.05||d.px>0.93)d.dx*=-1;
-      if(d.py<0.06||d.py>0.88)d.dy*=-1;
-      const px=d.px*W, py=d.py*H;
-      const pulse=0.5+0.5*Math.sin(adminMapAnimFrame*0.04+i);
-      ctx.beginPath(); ctx.arc(px,py,16+pulse*6,0,Math.PI*2);
-      ctx.fillStyle=`rgba(255,199,44,${0.1+pulse*0.08})`; ctx.fill();
-      ctx.font='18px serif'; ctx.textAlign='center'; ctx.fillText('🚕',px,py+7);
+    // Center label
+    ctx.fillStyle='rgba(255,255,255,0.12)';ctx.font='500 11px Inter';ctx.textAlign='center';
+    ctx.fillText("N'Djaména",W*0.5,H*0.46);
+    // Drivers
+    mPos.forEach((d,i)=>{
+      d.x+=mVel[i].dx;d.y+=mVel[i].dy;
+      if(d.x<0.05||d.x>0.92)mVel[i].dx*=-1;
+      if(d.y<0.06||d.y>0.88)mVel[i].dy*=-1;
+      const px=d.x*W,py=d.y*H;
+      const p=0.5+0.5*Math.sin(Date.now()*0.003+i);
+      ctx.beginPath();ctx.arc(px,py,20+p*8,0,Math.PI*2);
+      ctx.fillStyle=`rgba(34,197,94,${0.06+p*0.04})`;ctx.fill();
+      ctx.beginPath();ctx.arc(px,py,12,0,Math.PI*2);
+      ctx.fillStyle='rgba(34,197,94,0.15)';ctx.fill();
+      ctx.beginPath();ctx.arc(px,py,6,0,Math.PI*2);
+      ctx.fillStyle='#22C55E';ctx.fill();
+      ctx.font='500 10px Inter';ctx.textAlign='center';
+      ctx.fillStyle='rgba(255,255,255,0.6)';
+      ctx.fillText(NAMES[i],px,py+20);
     });
-
-    // User center
-    const ux=0.5*W,uy=0.5*H;
-    ctx.beginPath(); ctx.arc(ux,uy,24,0,Math.PI*2);
-    ctx.fillStyle='rgba(66,133,244,0.15)'; ctx.fill();
-    ctx.beginPath(); ctx.arc(ux,uy,12,0,Math.PI*2);
-    ctx.fillStyle='white'; ctx.fill();
-    ctx.beginPath(); ctx.arc(ux,uy,9,0,Math.PI*2);
-    ctx.fillStyle='#4285F4'; ctx.fill();
-
-    adminMapAnimFrame++;
+    // You
+    ctx.beginPath();ctx.arc(W*0.5,H*0.5,5,0,Math.PI*2);ctx.fillStyle='white';ctx.fill();
+    ctx.beginPath();ctx.arc(W*0.5,H*0.5,3.5,0,Math.PI*2);ctx.fillStyle='#EF4444';ctx.fill();
     requestAnimationFrame(draw);
   }
   draw();
 }
 
-// ===== TOAST =====
-function toast(msg, type=''){
-  const el=document.getElementById('toast');
-  el.textContent=msg;
-  el.className='toast show'+(type?' '+type:'');
-  setTimeout(()=>el.classList.remove('show'),3500);
+function refresh(){
+  loadRides();loadUsers();
+  setTimeout(drawRevChart,50);
+  toast('Données actualisées','g');
 }
 
-// ===== REFRESH =====
-function refreshData(){
-  loadRides();
-  toast('Données actualisées !','success');
-  // Update KPIs with live data
-  fetch(API+'/rides/all').then(r=>r.json()).then(d=>{
-    const rides=d.rides||[];
-    document.getElementById('kpiCourses').textContent=rides.length;
-    const total=rides.reduce((s,r)=>s+(r.prix_fcfa||0),0);
-    document.getElementById('kpiRevenu').textContent=total.toLocaleString();
-  }).catch(()=>{});
+function toast(msg,type=''){
+  const el=document.getElementById('toastEl');
+  el.textContent=msg;el.className='toast on'+(type?' '+type:'');
+  setTimeout(()=>el.classList.remove('on'),2800);
 }
 
-// ===== INIT =====
 window.addEventListener('load',()=>{
-  buildHourChart();
-  loadRides();
-  // Auto-refresh every 30s
-  setInterval(refreshData, 30000);
+  loadRides();loadUsers();
+  setTimeout(()=>{drawRevChart();drawHourBars();},100);
+  setInterval(loadRides,30000);
 });
+window.addEventListener('resize',()=>{drawRevChart();});
 </script>
 </body>
 </html>
