@@ -2,801 +2,752 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Yalanamchou</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root {
-  --black: #000000;
-  --white: #FFFFFF;
-  --gray-50: #F8F8F8;
-  --gray-100: #F0F0F0;
-  --gray-200: #E0E0E0;
-  --gray-400: #9E9E9E;
-  --gray-600: #5E5E5E;
-  --rouge: #C8102E;
-  --jaune: #F5A623;
-  --vert: #2ECC71;
-  --font: 'Plus Jakarta Sans', sans-serif;
+:root{
+  --black:#000;--white:#fff;--g50:#F7F7F7;--g100:#F0F0F0;--g200:#E0E0E0;
+  --g300:#C8C8C8;--g400:#9E9E9E;--g600:#5E5E5E;--g800:#2A2A2A;
+  --red:#E8294A;--green:#16A34A;--yellow:#F5A623;--blue:#2563EB;
+  --font:'Plus Jakarta Sans',sans-serif;
 }
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;font-family:var(--font);background:var(--black);overflow:hidden;-webkit-font-smoothing:antialiased}
 
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html { height: 100%; }
-body {
-  font-family: var(--font); background: var(--black);
-  height: 100%; overflow: hidden; color: var(--black);
-  -webkit-font-smoothing: antialiased;
-}
+/* ── SCREENS ── */
+.sc{position:fixed;inset:0;display:none;flex-direction:column}
+.sc.on{display:flex}
 
-/* ========== SCREENS ========== */
-.screen {
-  position: fixed; inset: 0; display: none;
-  flex-direction: column; background: var(--white);
-}
-.screen.show { display: flex; }
+/* ── SPLASH ── */
+#splash{background:var(--black);align-items:center;justify-content:center}
+.sp-logo{font-size:72px;animation:pop .7s cubic-bezier(.34,1.56,.64,1) both}
+.sp-name{font-size:38px;font-weight:900;color:var(--white);letter-spacing:-1.5px;margin-top:16px}
+.sp-tag{font-size:14px;color:var(--g400);margin-top:6px}
+.sp-bar{width:48px;height:3px;background:rgba(255,255,255,.1);border-radius:2px;margin-top:48px;overflow:hidden}
+.sp-fill{height:100%;background:var(--white);border-radius:2px;animation:bar 2.6s ease forwards}
+@keyframes pop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes bar{from{width:0}to{width:100%}}
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slide{from{transform:translateY(100%)}to{transform:translateY(0)}}
 
-/* ========== SPLASH ========== */
-#splash {
-  background: var(--black);
-  align-items: center; justify-content: center;
-}
-.splash-inner { text-align: center; }
-.splash-car {
-  font-size: 80px; display: block;
-  animation: splashBounce 0.8s cubic-bezier(0.34,1.56,0.64,1) both;
-}
-@keyframes splashBounce { from { transform: scale(0) translateY(30px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
-.splash-title {
-  font-size: 42px; font-weight: 900; color: var(--white);
-  letter-spacing: -1px; margin-top: 20px;
-  animation: fadeUp 0.6s ease 0.4s both;
-}
-.splash-sub {
-  font-size: 16px; color: var(--gray-400); margin-top: 8px;
-  animation: fadeUp 0.6s ease 0.6s both;
-}
-.splash-bar {
-  width: 48px; height: 4px; background: rgba(255,255,255,0.1);
-  border-radius: 2px; margin: 48px auto 0; overflow: hidden;
-  animation: fadeUp 0.6s ease 0.8s both;
-}
-.splash-bar-fill {
-  height: 100%; background: var(--white); border-radius: 2px;
-  animation: fillBar 2.4s ease forwards;
-}
-@keyframes fillBar { from { width: 0; } to { width: 100%; } }
-@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+/* ── LOGIN ── */
+#login{background:var(--black);justify-content:flex-end}
+.login-top{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px}
+.login-top .emoji{font-size:56px;margin-bottom:16px}
+.login-title{font-size:32px;font-weight:900;color:var(--white);letter-spacing:-1px;text-align:center}
+.login-sub{font-size:14px;color:var(--g400);text-align:center;margin-top:8px}
+.card{background:var(--white);border-radius:24px 24px 0 0;padding:28px 22px 40px;animation:slide .4s cubic-bezier(.32,.72,0,1) both}
+.card-title{font-size:22px;font-weight:900;letter-spacing:-.5px;margin-bottom:4px}
+.card-sub{font-size:13px;color:var(--g400);margin-bottom:22px}
+.ph-row{display:flex;gap:10px;margin-bottom:14px}
+.ph-code{display:flex;align-items:center;gap:6px;padding:0 14px;height:54px;background:var(--g50);border:1.5px solid var(--g200);border-radius:14px;font-size:15px;font-weight:700;flex-shrink:0}
+.ph-inp{flex:1;height:54px;background:var(--g50);border:1.5px solid var(--g200);border-radius:14px;padding:0 16px;font-family:var(--font);font-size:17px;font-weight:600;outline:none;transition:border-color .2s}
+.ph-inp:focus{border-color:var(--black);background:var(--white)}
+.btn{width:100%;height:54px;border:none;border-radius:14px;font-family:var(--font);font-size:16px;font-weight:800;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:-.3px}
+.btn:active{transform:scale(.97)}
+.btn-black{background:var(--black);color:var(--white)}
+.btn-green{background:var(--green);color:var(--white)}
+.btn-red{background:var(--red);color:var(--white)}
+.btn-outline{background:transparent;border:2px solid var(--g200);color:var(--black)}
+.btn-gray{background:var(--g100);color:var(--black)}
+.otp-grid{display:flex;gap:8px;margin-bottom:20px}
+.otp-b{flex:1;height:60px;text-align:center;font-size:26px;font-weight:800;background:var(--g50);border:2px solid var(--g200);border-radius:14px;font-family:var(--font);outline:none;transition:all .15s;caret-color:var(--green)}
+.otp-b:focus{border-color:var(--black);background:var(--white);transform:scale(1.04)}
+.otp-b.ok{border-color:var(--black)}
+.terms{font-size:11px;color:var(--g400);text-align:center;margin-top:14px;line-height:1.6}
+.resend{text-align:center;margin-top:12px;font-size:13px;font-weight:700;color:var(--black);cursor:pointer;text-decoration:underline}
 
-/* ========== LOGIN ========== */
-#login { background: var(--black); justify-content: flex-end; }
-.login-hero {
-  flex: 1; display: flex; flex-direction: column;
-  align-items: center; justify-content: center; padding: 40px 32px;
-}
-.login-logo {
-  font-size: 36px; font-weight: 900; color: var(--white);
-  letter-spacing: -1.5px; text-align: center; margin-bottom: 12px;
-}
-.login-tagline { font-size: 15px; color: var(--gray-400); text-align: center; }
-.login-card {
-  background: var(--white); border-radius: 28px 28px 0 0;
-  padding: 32px 24px 40px; animation: slideUp 0.5s cubic-bezier(0.32,0.72,0,1);
-}
-@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-.login-card-title { font-size: 24px; font-weight: 800; margin-bottom: 6px; letter-spacing: -0.5px; }
-.login-card-sub { font-size: 14px; color: var(--gray-400); margin-bottom: 24px; }
-.phone-row { display: flex; gap: 10px; margin-bottom: 16px; }
-.code-btn {
-  padding: 0 18px; height: 58px; background: var(--gray-50);
-  border: 1.5px solid var(--gray-200); border-radius: 16px;
-  font-family: var(--font); font-size: 16px; font-weight: 700;
-  color: var(--black); display: flex; align-items: center; gap: 6px; flex-shrink: 0;
-}
-.phone-field {
-  flex: 1; height: 58px; background: var(--gray-50);
-  border: 1.5px solid var(--gray-200); border-radius: 16px;
-  padding: 0 18px; font-family: var(--font); font-size: 18px;
-  font-weight: 600; color: var(--black); outline: none; transition: border-color 0.2s;
-}
-.phone-field:focus { border-color: var(--black); background: var(--white); }
-.btn-cta {
-  width: 100%; height: 58px; background: var(--black); color: var(--white);
-  border: none; border-radius: 16px; font-family: var(--font);
-  font-size: 17px; font-weight: 800; cursor: pointer; letter-spacing: -0.3px;
-  transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;
-}
-.btn-cta:active { transform: scale(0.97); }
-.btn-cta.red { background: var(--rouge); }
-.btn-cta.green { background: var(--vert); }
-.terms-txt { font-size: 12px; color: var(--gray-400); text-align: center; margin-top: 16px; line-height: 1.6; }
-.terms-txt u { color: var(--gray-600); }
+/* ── HOME ── */
+#home{background:var(--g50)}
+.home-header{background:var(--white);padding:52px 20px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.home-greeting{font-size:12px;color:var(--g400);font-weight:500}
+.home-name{font-size:20px;font-weight:900;letter-spacing:-.5px;margin-top:1px}
+.home-header-right{display:flex;align-items:center;gap:10px}
+.hdr-btn{width:40px;height:40px;border-radius:50%;background:var(--g100);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;position:relative}
+.notif-dot{position:absolute;top:4px;right:4px;width:8px;height:8px;border-radius:50%;background:var(--red);border:2px solid var(--white)}
+.where-card{margin:14px 16px;background:var(--white);border-radius:18px;padding:14px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 12px rgba(0,0,0,.06);cursor:pointer;transition:all .2s}
+.where-card:active{transform:scale(.99)}
+.where-icon{width:40px;height:40px;border-radius:12px;background:var(--black);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.where-text{font-size:16px;font-weight:700;letter-spacing:-.2px}
+.where-sub{font-size:12px;color:var(--g400);margin-top:2px}
+.home-scroll{flex:1;overflow-y:auto;padding:0 16px 100px}
+.home-scroll::-webkit-scrollbar{display:none}
+/* Wallet card */
+.wallet-card{background:var(--black);border-radius:18px;padding:18px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
+.wallet-left .wl-lbl{font-size:11px;color:rgba(255,255,255,.5);font-weight:600;text-transform:uppercase;letter-spacing:.8px}
+.wallet-left .wl-amt{font-size:28px;font-weight:900;color:var(--white);letter-spacing:-1px;margin-top:4px}
+.wallet-left .wl-sub{font-size:12px;color:rgba(255,255,255,.4);margin-top:4px}
+.wallet-right{display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+.wallet-badge{background:rgba(255,255,255,.1);border-radius:10px;padding:6px 12px;font-size:12px;font-weight:700;color:rgba(255,255,255,.7);cursor:pointer;transition:all .2s}
+.wallet-badge:active{background:rgba(255,255,255,.15)}
+/* Promo banner */
+.promo-banner{background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:18px;padding:16px;margin-bottom:14px;display:flex;align-items:center;gap:14px;cursor:pointer}
+.promo-ico{font-size:32px}
+.promo-tag{background:var(--yellow);color:var(--black);font-size:10px;font-weight:900;padding:2px 8px;border-radius:4px;letter-spacing:.5px;margin-bottom:6px;display:inline-block}
+.promo-title{font-size:15px;font-weight:800;color:var(--white);letter-spacing:-.3px}
+.promo-sub{font-size:12px;color:rgba(255,255,255,.5);margin-top:2px}
+/* Section */
+.sec-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.sec-title{font-size:15px;font-weight:800;letter-spacing:-.3px}
+.sec-link{font-size:13px;font-weight:700;color:var(--g400);cursor:pointer}
+/* Quick destinations */
+.dest-row{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px}
+.dest-row::-webkit-scrollbar{display:none}
+.dest-chip{flex-shrink:0;background:var(--white);border-radius:50px;padding:8px 16px;display:flex;align-items:center;gap:8px;cursor:pointer;transition:all .2s;box-shadow:0 1px 6px rgba(0,0,0,.05)}
+.dest-chip:active{background:var(--g100)}
+.dest-chip-ico{font-size:16px}
+.dest-chip-name{font-size:13px;font-weight:700;white-space:nowrap}
+/* Recent rides */
+.ride-item{background:var(--white);border-radius:16px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s}
+.ride-item:active{background:var(--g50)}
+.ride-ico{width:42px;height:42px;border-radius:12px;background:var(--g100);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.ride-dest{font-size:14px;font-weight:700;letter-spacing:-.2px}
+.ride-meta{font-size:12px;color:var(--g400);margin-top:2px}
+.ride-price{font-size:15px;font-weight:900;margin-left:auto;letter-spacing:-.3px}
+/* Bottom nav */
+.bnav{position:fixed;bottom:0;left:0;right:0;height:70px;background:var(--white);border-top:1px solid var(--g100);display:flex;align-items:center;z-index:200}
+.bnav-i{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:8px 0;transition:all .2s}
+.bnav-i:active{transform:scale(.9)}
+.bnav-ico{font-size:22px}
+.bnav-lbl{font-size:10px;font-weight:700;color:var(--g400);letter-spacing:.3px}
+.bnav-i.on .bnav-lbl{color:var(--black)}
+.bnav-i.on .bnav-ico{filter:none}
 
-/* OTP */
-.otp-hint { font-size: 14px; color: var(--gray-400); margin-bottom: 24px; }
-.otp-hint span { color: var(--black); font-weight: 700; }
-.otp-grid { display: flex; gap: 8px; margin-bottom: 24px; }
-.otp-box {
-  flex: 1; height: 64px; text-align: center; font-size: 28px; font-weight: 800;
-  background: var(--gray-50); border: 2px solid var(--gray-200);
-  border-radius: 14px; font-family: var(--font); color: var(--black);
-  outline: none; transition: all 0.15s; caret-color: var(--rouge);
-}
-.otp-box:focus { border-color: var(--black); background: var(--white); transform: scale(1.04); }
-.otp-box.done { border-color: var(--black); color: var(--black); }
-.resend-row { text-align: center; margin-top: 16px; }
-.resend-link { font-size: 14px; font-weight: 700; color: var(--black); cursor: pointer; text-decoration: underline; }
+/* ── BOOKING ── */
+#booking{background:var(--white)}
+.booking-header{padding:52px 20px 14px;display:flex;align-items:center;gap:14px;flex-shrink:0;border-bottom:1px solid var(--g100)}
+.back-btn{width:40px;height:40px;border-radius:50%;background:var(--g100);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.route-inputs{flex:1;display:flex;flex-direction:column;gap:8px}
+.route-inp-row{display:flex;align-items:center;gap:10px}
+.route-pip{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.route-pip.a{background:var(--black)}
+.route-pip.b{background:var(--red)}
+.route-line{width:1px;height:16px;background:var(--g200);margin-left:4px}
+.route-inp{flex:1;border:none;outline:none;font-family:var(--font);font-size:15px;font-weight:600;color:var(--black);background:var(--g50);border-radius:10px;padding:10px 14px}
+.route-inp::placeholder{color:var(--g300);font-weight:500}
+/* Price estimate bar */
+.price-est{margin:14px 20px;background:var(--g50);border-radius:14px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
+.pe-label{font-size:13px;color:var(--g400);font-weight:600}
+.pe-price{font-size:20px;font-weight:900;letter-spacing:-.5px;color:var(--black)}
+.pe-dist{font-size:12px;color:var(--g400);margin-top:2px;text-align:right}
+/* Suggestions */
+.suggestions{flex:1;overflow-y:auto;padding:0 20px}
+.suggestions::-webkit-scrollbar{display:none}
+.sug-item{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--g100);cursor:pointer;transition:background .15s}
+.sug-item:last-child{border-bottom:none}
+.sug-ico{width:40px;height:40px;border-radius:12px;background:var(--g100);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.sug-name{font-size:14px;font-weight:700;letter-spacing:-.2px}
+.sug-addr{font-size:12px;color:var(--g400);margin-top:2px}
+.sug-dist{font-size:12px;font-weight:700;color:var(--g400);margin-left:auto;flex-shrink:0}
+/* Promo input */
+.promo-inp-row{margin:0 20px 14px;display:flex;gap:8px}
+.promo-inp{flex:1;height:46px;background:var(--g50);border:1.5px solid var(--g200);border-radius:12px;padding:0 14px;font-family:var(--font);font-size:14px;font-weight:600;outline:none;transition:border-color .2s}
+.promo-inp:focus{border-color:var(--black)}
+.promo-apply{height:46px;padding:0 18px;background:var(--black);color:var(--white);border:none;border-radius:12px;font-family:var(--font);font-size:14px;font-weight:800;cursor:pointer}
 
-/* ========== HOME ========== */
-#home { background: var(--gray-50); }
-.home-header {
-  background: var(--white); padding: 18px 20px 16px;
-  border-bottom: 1px solid var(--gray-100);
-  display: flex; align-items: center; justify-content: space-between;
-}
-.header-logo { font-size: 22px; font-weight: 900; letter-spacing: -1px; color: var(--black); }
-.header-right { display: flex; align-items: center; gap: 10px; }
-.notif-btn {
-  width: 40px; height: 40px; border-radius: 50%; background: var(--gray-50);
-  border: none; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center;
-}
-.avatar-btn {
-  width: 40px; height: 40px; border-radius: 50%;
-  background: var(--black); color: var(--white);
-  font-size: 16px; font-weight: 800; border: none; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-}
+/* ── VEHICLES ── */
+#vehicles{background:var(--white)}
+.map-preview{height:220px;background:#0a0f1e;position:relative;overflow:hidden;flex-shrink:0}
+.map-preview canvas{width:100%;height:100%;display:block}
+.map-overlay-dest{position:absolute;bottom:12px;left:12px;right:12px;background:rgba(0,0,0,.7);backdrop-filter:blur(10px);border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:10px}
+.mod-dest{font-size:13px;font-weight:700;color:var(--white);flex:1}
+.mod-dist{font-size:12px;color:rgba(255,255,255,.5)}
+.vehicles-list{flex:1;overflow-y:auto;padding:14px 16px}
+.vehicles-list::-webkit-scrollbar{display:none}
+.vehicle-card{border:2px solid var(--g200);border-radius:18px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:14px}
+.vehicle-card:active{transform:scale(.99)}
+.vehicle-card.on{border-color:var(--black);background:var(--black)}
+.vehicle-card.on .vc-name,.vehicle-card.on .vc-desc,.vehicle-card.on .vc-price,.vehicle-card.on .vc-eta{color:var(--white)}
+.vc-ico{font-size:32px;flex-shrink:0}
+.vc-name{font-size:16px;font-weight:800;letter-spacing:-.3px;transition:color .2s}
+.vc-desc{font-size:12px;color:var(--g400);margin-top:2px;transition:color .2s}
+.vc-eta{font-size:12px;font-weight:700;color:var(--g400);margin-top:4px;transition:color .2s}
+.vc-price{font-size:20px;font-weight:900;letter-spacing:-.5px;margin-left:auto;flex-shrink:0;transition:color .2s}
+.veh-bottom{padding:14px 16px 32px;background:var(--white);border-top:1px solid var(--g100);flex-shrink:0}
+.veh-confirm-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.veh-total-lbl{font-size:13px;color:var(--g400);font-weight:600}
+.veh-total{font-size:24px;font-weight:900;letter-spacing:-1px}
 
-.home-scroll { flex: 1; overflow-y: auto; padding-bottom: 88px; }
-.home-scroll::-webkit-scrollbar { display: none; }
+/* ── TRACKING ── */
+#tracking{background:var(--g50)}
+.track-map{height:42vh;background:#0a0f1e;position:relative;overflow:hidden;flex-shrink:0}
+.track-map canvas{width:100%;height:100%;display:block}
+.track-sheet{flex:1;background:var(--white);border-radius:24px 24px 0 0;margin-top:-24px;padding:20px 20px 0;overflow-y:auto;position:relative;z-index:10}
+.track-sheet::-webkit-scrollbar{display:none}
+.status-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(22,163,74,.1);border-radius:20px;padding:6px 14px;margin-bottom:14px}
+.status-pip{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 1.5s ease infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+.status-txt{font-size:13px;font-weight:700;color:var(--green)}
+.track-title{font-size:22px;font-weight:900;letter-spacing:-.5px;margin-bottom:4px}
+.track-sub{font-size:13px;color:var(--g400);margin-bottom:16px}
+.eta-row{display:flex;gap:10px;margin-bottom:16px}
+.eta-box{flex:1;background:var(--g50);border-radius:14px;padding:12px;text-align:center}
+.eta-val{font-size:22px;font-weight:900;letter-spacing:-.5px}
+.eta-lbl{font-size:11px;color:var(--g400);font-weight:600;margin-top:2px}
+.prog-track{height:5px;background:var(--g200);border-radius:3px;margin-bottom:16px;overflow:hidden}
+.prog-fill{height:100%;background:var(--black);border-radius:3px;transition:width .5s ease;width:0%}
+/* Driver card */
+.driver-card{background:var(--g50);border-radius:18px;padding:14px;margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.drv-ava{width:52px;height:52px;border-radius:50%;background:var(--g200);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.drv-name{font-size:16px;font-weight:800;letter-spacing:-.3px}
+.drv-car{font-size:13px;color:var(--g400);margin-top:2px}
+.drv-rating{font-size:13px;font-weight:700;margin-top:3px}
+.drv-plate{background:var(--yellow);color:var(--black);font-size:12px;font-weight:900;padding:3px 10px;border-radius:6px;margin-left:auto;letter-spacing:.5px}
+.action-row{display:flex;gap:10px;margin-bottom:14px}
+.act-btn{flex:1;height:48px;border-radius:14px;font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer;border:none;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.act-btn:active{transform:scale(.96)}
+.act-btn.black{background:var(--black);color:var(--white)}
+.act-btn.outline{background:var(--g50);color:var(--black);border:1.5px solid var(--g200)}
+.act-btn.red{background:var(--red);color:var(--white)}
+.act-btn.blue{background:var(--blue);color:var(--white)}
+/* SOS button */
+.sos-btn{width:100%;height:50px;border-radius:14px;background:rgba(232,41,74,.1);border:2px solid rgba(232,41,74,.3);color:var(--red);font-family:var(--font);font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:14px;transition:all .2s}
+.sos-btn:active{background:rgba(232,41,74,.2)}
 
-/* WHERE TO CARD */
-.where-card {
-  margin: 16px; background: var(--white); border-radius: 20px;
-  padding: 6px; box-shadow: 0 2px 20px rgba(0,0,0,0.06);
-}
-.where-row {
-  display: flex; align-items: center; gap: 14px;
-  padding: 14px 16px; cursor: pointer; border-radius: 14px; transition: background 0.15s;
-}
-.where-row:hover { background: var(--gray-50); }
-.where-pip { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-.where-pip.from { background: var(--black); }
-.where-pip.to { background: var(--rouge); }
-.where-line { height: 1px; background: var(--gray-100); margin: 0 16px; }
-.where-label { font-size: 16px; font-weight: 600; flex: 1; }
-.where-label.muted { color: var(--gray-400); font-weight: 500; }
-.where-arrow { font-size: 20px; color: var(--gray-400); }
+/* ── CHAT ── */
+#chat{background:var(--white)}
+.chat-header{padding:52px 20px 14px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--g100);flex-shrink:0}
+.chat-drv-info{flex:1}
+.chat-drv-name{font-size:16px;font-weight:800;letter-spacing:-.3px}
+.chat-drv-status{font-size:12px;color:var(--green);font-weight:600;margin-top:2px}
+.chat-messages{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:10px}
+.chat-messages::-webkit-scrollbar{display:none}
+.msg{max-width:75%;padding:10px 14px;border-radius:18px;font-size:14px;font-weight:500;line-height:1.5}
+.msg.me{background:var(--black);color:var(--white);border-radius:18px 18px 4px 18px;align-self:flex-end}
+.msg.them{background:var(--g100);color:var(--black);border-radius:18px 18px 18px 4px;align-self:flex-start}
+.msg-time{font-size:10px;color:rgba(255,255,255,.4);margin-top:4px;text-align:right}
+.msg.them .msg-time{color:var(--g400);text-align:left}
+.chat-input-row{padding:12px 20px 32px;border-top:1px solid var(--g100);display:flex;gap:10px;flex-shrink:0}
+.chat-inp{flex:1;height:46px;background:var(--g100);border:none;border-radius:24px;padding:0 18px;font-family:var(--font);font-size:14px;outline:none;color:var(--black)}
+.chat-send{width:46px;height:46px;border-radius:50%;background:var(--black);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+/* Quick replies */
+.quick-replies{display:flex;gap:8px;padding:8px 20px;overflow-x:auto}
+.quick-replies::-webkit-scrollbar{display:none}
+.qr{flex-shrink:0;padding:7px 14px;background:var(--g100);border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;border:none;font-family:var(--font);transition:all .15s}
+.qr:active{background:var(--g200)}
 
-/* GREETING */
-.greeting-wrap { padding: 8px 20px 16px; }
-.greeting-txt { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; color: var(--black); }
-.greeting-sub { font-size: 14px; color: var(--gray-400); margin-top: 3px; }
+/* ── ARRIVED ── */
+#arrived{background:var(--white);align-items:center;justify-content:center;padding:32px 24px 48px}
+.arr-emoji{font-size:72px;margin-bottom:20px;animation:pop .5s cubic-bezier(.34,1.56,.64,1) both}
+.arr-title{font-size:28px;font-weight:900;letter-spacing:-1px;margin-bottom:6px;text-align:center}
+.arr-sub{font-size:14px;color:var(--g400);text-align:center;margin-bottom:24px}
+.price-card{background:var(--black);border-radius:20px;padding:22px;width:100%;margin-bottom:20px}
+.price-big{font-size:52px;font-weight:900;letter-spacing:-2px;color:var(--white);line-height:1;text-align:center}
+.price-lbl{font-size:13px;color:rgba(255,255,255,.4);text-align:center;margin-top:6px}
+.breakdown{display:flex;justify-content:space-between;margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1)}
+.bd-item{text-align:center}
+.bd-val{font-size:14px;font-weight:800;color:var(--white)}
+.bd-lbl{font-size:10px;color:rgba(255,255,255,.4);margin-top:3px}
+/* Rating */
+.rating-row{display:flex;gap:10px;margin-bottom:20px;justify-content:center}
+.star{font-size:38px;cursor:pointer;transition:transform .15s;filter:grayscale(1)}
+.star.on{filter:none;transform:scale(1.15)}
+/* Payment methods */
+.pay-methods{display:flex;gap:10px;width:100%;margin-bottom:16px}
+.pay-btn{flex:1;height:50px;border-radius:14px;border:2px solid var(--g200);background:transparent;font-family:var(--font);font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.pay-btn.on{border-color:var(--black);background:var(--black);color:var(--white)}
 
-/* PROMO */
-.promo-card {
-  margin: 0 16px 20px; border-radius: 20px; overflow: hidden;
-  background: var(--black); padding: 22px 24px; position: relative;
-}
-.promo-card::before {
-  content: ''; position: absolute; right: -20px; top: -20px;
-  width: 120px; height: 120px; border-radius: 50%;
-  background: rgba(255,255,255,0.04);
-}
-.promo-pill {
-  display: inline-block; background: var(--jaune); color: var(--black);
-  font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 20px;
-  margin-bottom: 10px; letter-spacing: 0.5px;
-}
-.promo-title { font-size: 20px; font-weight: 800; color: var(--white); letter-spacing: -0.5px; margin-bottom: 4px; }
-.promo-sub { font-size: 13px; color: rgba(255,255,255,0.45); }
-.promo-emoji { position: absolute; right: 24px; top: 50%; transform: translateY(-50%); font-size: 52px; opacity: 0.25; }
+/* ── HISTORY ── */
+#history{background:var(--g50)}
+.hist-header{background:var(--white);padding:52px 20px 16px;border-bottom:1px solid var(--g100);flex-shrink:0}
+.hist-title{font-size:24px;font-weight:900;letter-spacing:-.5px;margin-bottom:14px}
+.hist-stats{display:flex;gap:12px}
+.hist-stat{flex:1;background:var(--g50);border-radius:14px;padding:12px;text-align:center}
+.hist-stat-val{font-size:20px;font-weight:900;letter-spacing:-.5px}
+.hist-stat-lbl{font-size:11px;color:var(--g400);font-weight:600;margin-top:2px}
+.hist-list{flex:1;overflow-y:auto;padding:14px 16px 90px}
+.hist-list::-webkit-scrollbar{display:none}
+.hist-item{background:var(--white);border-radius:16px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px;cursor:pointer}
+.hist-ico{width:44px;height:44px;border-radius:12px;background:var(--g100);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.hist-dest{font-size:14px;font-weight:700;letter-spacing:-.2px}
+.hist-meta{font-size:12px;color:var(--g400);margin-top:2px}
+.hist-right{margin-left:auto;text-align:right}
+.hist-price{font-size:15px;font-weight:900}
+.hist-status{font-size:11px;font-weight:700;margin-top:2px}
+.hist-status.ok{color:var(--green)}
+.hist-status.ko{color:var(--red)}
 
-/* SECTION */
-.section-head { display: flex; align-items: center; justify-content: space-between; padding: 0 20px; margin-bottom: 12px; }
-.section-title { font-size: 17px; font-weight: 800; letter-spacing: -0.3px; }
-.section-link { font-size: 14px; font-weight: 700; color: var(--gray-400); cursor: pointer; }
+/* ── PROFILE ── */
+#profile{background:var(--g50);overflow-y:auto}
+.prof-header{background:var(--black);padding:52px 24px 28px;display:flex;flex-direction:column;align-items:center}
+.prof-ava{width:80px;height:80px;border-radius:50%;background:var(--g200);display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:900;color:var(--black);margin-bottom:14px}
+.prof-name{font-size:22px;font-weight:900;color:var(--white);letter-spacing:-.5px}
+.prof-phone{font-size:14px;color:rgba(255,255,255,.4);margin-top:4px}
+.prof-verify{display:flex;align-items:center;gap:6px;background:rgba(22,163,74,.15);border-radius:20px;padding:5px 14px;margin-top:12px}
+.prof-verify-txt{font-size:12px;font-weight:700;color:var(--green)}
+.prof-stats{display:flex;gap:0;margin:14px 16px;background:var(--white);border-radius:18px;overflow:hidden}
+.ps-item{flex:1;padding:14px;text-align:center;border-right:1px solid var(--g100)}
+.ps-item:last-child{border-right:none}
+.ps-val{font-size:20px;font-weight:900;letter-spacing:-.5px}
+.ps-lbl{font-size:11px;color:var(--g400);font-weight:600;margin-top:2px}
+.menu-section{margin:0 16px 14px}
+.menu-lbl{font-size:11px;font-weight:700;color:var(--g400);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;padding:0 4px}
+.menu-item{display:flex;align-items:center;gap:14px;background:var(--white);border-radius:14px;padding:14px;margin-bottom:6px;cursor:pointer;transition:all .2s}
+.menu-item:active{background:var(--g50)}
+.mi-ico{font-size:20px;width:28px;text-align:center;flex-shrink:0}
+.mi-txt{font-size:15px;font-weight:600;flex:1;letter-spacing:-.2px}
+.mi-chev{font-size:16px;color:var(--g300)}
+.mi-badge{background:var(--red);color:white;font-size:10px;font-weight:800;padding:2px 7px;border-radius:20px}
+.menu-item.danger .mi-txt{color:var(--red)}
 
-/* QUICK SCROLL */
-.quick-scroll { display: flex; gap: 10px; padding: 0 16px; overflow-x: auto; margin-bottom: 24px; }
-.quick-scroll::-webkit-scrollbar { display: none; }
-.quick-chip {
-  display: flex; align-items: center; gap: 10px;
-  background: var(--white); border-radius: 50px; padding: 12px 18px;
-  white-space: nowrap; cursor: pointer; flex-shrink: 0;
-  box-shadow: 0 1px 8px rgba(0,0,0,0.06); transition: all 0.2s;
-  border: 1.5px solid transparent;
-}
-.quick-chip:hover { border-color: var(--black); }
-.quick-chip:active { transform: scale(0.96); }
-.chip-icon { font-size: 20px; }
-.chip-name { font-size: 14px; font-weight: 700; }
-.chip-dist { font-size: 12px; color: var(--gray-400); margin-top: 1px; }
+/* ── SOS MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;display:none;align-items:flex-end;justify-content:center}
+.modal-overlay.on{display:flex}
+.modal-sheet{background:var(--white);border-radius:24px 24px 0 0;padding:24px 24px 40px;width:100%;max-width:480px;animation:slide .3s cubic-bezier(.32,.72,0,1) both}
+.modal-handle{width:40px;height:4px;background:var(--g200);border-radius:2px;margin:0 auto 20px}
+.modal-title{font-size:22px;font-weight:900;letter-spacing:-.5px;margin-bottom:6px;text-align:center}
+.modal-sub{font-size:14px;color:var(--g400);text-align:center;margin-bottom:20px}
+.sos-options{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.sos-opt{padding:16px;border-radius:16px;border:2px solid var(--g200);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:12px}
+.sos-opt:active{background:var(--g50)}
+.sos-opt-ico{font-size:24px;flex-shrink:0}
+.sos-opt-name{font-size:15px;font-weight:700}
+.sos-opt-desc{font-size:12px;color:var(--g400);margin-top:2px}
 
-/* RECENT */
-.recent-list { padding: 0 16px; }
-.recent-card {
-  background: var(--white); border-radius: 16px;
-  padding: 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 14px;
-  cursor: pointer; transition: all 0.2s; box-shadow: 0 1px 8px rgba(0,0,0,0.04);
-}
-.recent-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
-.recent-card:active { transform: scale(0.98); }
-.recent-icon {
-  width: 48px; height: 48px; border-radius: 14px; background: var(--gray-50);
-  display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;
-}
-.recent-name { font-size: 15px; font-weight: 700; letter-spacing: -0.2px; }
-.recent-meta { font-size: 13px; color: var(--gray-400); margin-top: 3px; }
-.recent-price { font-size: 15px; font-weight: 800; color: var(--black); }
-.recent-arrow { font-size: 18px; color: var(--gray-200); }
+/* ── WALLET MODAL ── */
+#walletModal .modal-sheet{padding-bottom:48px}
+.wallet-detail-card{background:var(--black);border-radius:18px;padding:20px;margin-bottom:16px;text-align:center}
+.wd-amount{font-size:44px;font-weight:900;color:var(--white);letter-spacing:-2px}
+.wd-lbl{font-size:12px;color:rgba(255,255,255,.4);margin-top:6px}
+.topup-btns{display:flex;gap:10px;margin-bottom:14px}
+.topup-btn{flex:1;height:44px;border-radius:12px;background:var(--g100);border:none;font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer;transition:all .2s}
+.topup-btn:active{background:var(--g200)}
 
-/* BOTTOM NAV */
-.bottom-nav {
-  position: fixed; bottom: 0; left: 0; right: 0; height: 80px;
-  background: var(--white); border-top: 1px solid var(--gray-100);
-  display: flex; align-items: center; z-index: 200;
-  padding-bottom: env(safe-area-inset-bottom);
-}
-.nav-item {
-  flex: 1; display: flex; flex-direction: column; align-items: center;
-  gap: 4px; cursor: pointer; padding: 8px 0; transition: all 0.2s;
-}
-.nav-item:active { transform: scale(0.9); }
-.nav-ico { font-size: 24px; }
-.nav-lbl { font-size: 11px; font-weight: 700; color: var(--gray-400); letter-spacing: 0.3px; }
-.nav-item.on .nav-lbl { color: var(--black); }
-.nav-item.on .nav-ico { filter: none; }
-
-/* ========== BOOKING ========== */
-#booking { background: var(--white); }
-.booking-top {
-  padding: 16px 20px; display: flex; align-items: center; gap: 14px;
-  border-bottom: 1px solid var(--gray-100);
-}
-.back-circle {
-  width: 42px; height: 42px; border-radius: 50%; background: var(--gray-50);
-  border: none; cursor: pointer; font-size: 20px; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center; transition: all 0.15s;
-}
-.back-circle:active { background: var(--gray-200); }
-.booking-inputs { flex: 1; }
-.b-inp-wrap { display: flex; align-items: center; gap: 10px; padding: 8px 0; }
-.b-inp-wrap + .b-inp-wrap { border-top: 1px solid var(--gray-100); }
-.b-pip { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.b-inp {
-  flex: 1; border: none; outline: none; font-family: var(--font);
-  font-size: 16px; font-weight: 600; color: var(--black); background: transparent;
-}
-.b-inp::placeholder { color: var(--gray-400); font-weight: 500; }
-.booking-scroll { flex: 1; overflow-y: auto; }
-.booking-scroll::-webkit-scrollbar { display: none; }
-.sugg-head { font-size: 12px; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 1px; padding: 20px 20px 10px; }
-.sugg-item {
-  display: flex; align-items: center; gap: 14px;
-  padding: 14px 20px; cursor: pointer; transition: background 0.15s;
-}
-.sugg-item:hover { background: var(--gray-50); }
-.sugg-item:active { background: var(--gray-100); }
-.sugg-ico {
-  width: 44px; height: 44px; border-radius: 14px; background: var(--gray-100);
-  display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;
-}
-.sugg-name { font-size: 15px; font-weight: 700; letter-spacing: -0.2px; }
-.sugg-sub { font-size: 13px; color: var(--gray-400); margin-top: 2px; }
-.sugg-km { font-size: 13px; color: var(--gray-400); margin-left: auto; flex-shrink: 0; }
-.sugg-div { height: 1px; background: var(--gray-100); margin: 0 20px; }
-
-/* ========== VEHICLES ========== */
-#vehicles { background: var(--white); }
-.vehicle-map {
-  height: 200px; background: #0a0f1e; overflow: hidden; position: relative; flex-shrink: 0;
-}
-.vehicle-map canvas { width: 100%; height: 100%; display: block; }
-.vehicle-dest-label {
-  position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
-  background: var(--white); padding: 8px 18px; border-radius: 24px;
-  font-size: 13px; font-weight: 700; box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-  white-space: nowrap;
-}
-.vehicles-scroll { flex: 1; overflow-y: auto; padding: 16px 16px 0; }
-.vehicles-scroll::-webkit-scrollbar { display: none; }
-.vehicle-card {
-  display: flex; align-items: center; gap: 14px;
-  padding: 18px 16px; border-radius: 18px; margin-bottom: 10px;
-  border: 2px solid var(--gray-100); cursor: pointer; transition: all 0.2s;
-  background: var(--white);
-}
-.vehicle-card.sel { border-color: var(--black); background: var(--black); }
-.vehicle-card:active { transform: scale(0.98); }
-.v-emoji { font-size: 42px; width: 56px; text-align: center; flex-shrink: 0; }
-.v-info { flex: 1; }
-.v-name { font-size: 16px; font-weight: 800; letter-spacing: -0.3px; }
-.v-desc { font-size: 13px; margin-top: 2px; }
-.v-eta { display: inline-block; font-size: 12px; font-weight: 700; margin-top: 6px; padding: 3px 10px; border-radius: 20px; }
-.v-right { text-align: right; }
-.v-price { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; }
-.v-fcfa { font-size: 12px; margin-top: 2px; }
-/* Default colors */
-.vehicle-card .v-name, .vehicle-card .v-desc, .vehicle-card .v-fcfa { color: var(--black); }
-.vehicle-card .v-desc { color: var(--gray-400); }
-.vehicle-card .v-eta { background: rgba(46,204,113,0.1); color: #16A34A; }
-.vehicle-card .v-price { color: var(--black); }
-.vehicle-card .v-fcfa { color: var(--gray-400); }
-/* Selected state */
-.vehicle-card.sel .v-name, .vehicle-card.sel .v-price { color: var(--white); }
-.vehicle-card.sel .v-desc, .vehicle-card.sel .v-fcfa { color: rgba(255,255,255,0.5); }
-.vehicle-card.sel .v-eta { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.9); }
-/* Bottom confirm */
-.v-confirm {
-  padding: 16px 16px 32px; border-top: 1px solid var(--gray-100);
-  background: var(--white);
-}
-.v-confirm-row { display: flex; justify-content: space-between; margin-bottom: 14px; }
-.v-confirm-lbl { font-size: 14px; color: var(--gray-400); font-weight: 500; }
-.v-confirm-val { font-size: 15px; font-weight: 800; }
-
-/* ========== TRACKING ========== */
-#tracking { background: var(--white); }
-.track-map { height: 42vh; background: #0a0f1e; flex-shrink: 0; position: relative; overflow: hidden; }
-.track-map canvas { width: 100%; height: 100%; display: block; }
-.track-sheet {
-  flex: 1; overflow-y: auto; padding: 0 20px 32px;
-  border-radius: 28px 28px 0 0; background: var(--white);
-  margin-top: -28px; position: relative; z-index: 10;
-}
-.track-sheet::-webkit-scrollbar { display: none; }
-.track-handle { width: 40px; height: 4px; background: var(--gray-200); border-radius: 2px; margin: 16px auto 20px; }
-.track-status {
-  text-align: center; padding: 20px; background: var(--gray-50);
-  border-radius: 18px; margin-bottom: 16px;
-}
-.track-status-title { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 4px; }
-.track-status-sub { font-size: 14px; color: var(--gray-400); }
-.track-eta-row { display: flex; gap: 10px; margin-bottom: 16px; }
-.track-eta-box {
-  flex: 1; background: var(--gray-50); border-radius: 16px;
-  padding: 16px; text-align: center;
-}
-.track-eta-num { font-size: 30px; font-weight: 900; letter-spacing: -1px; }
-.track-eta-lbl { font-size: 11px; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
-.track-prog { height: 4px; background: var(--gray-100); border-radius: 2px; margin-bottom: 20px; overflow: hidden; }
-.track-prog-fill { height: 100%; background: var(--black); border-radius: 2px; transition: width 0.6s ease; }
-.driver-block {
-  display: flex; align-items: center; gap: 14px;
-  background: var(--gray-50); border-radius: 18px; padding: 16px; margin-bottom: 14px;
-}
-.driver-ava {
-  width: 60px; height: 60px; border-radius: 50%;
-  background: var(--black); display: flex; align-items: center;
-  justify-content: center; font-size: 30px; flex-shrink: 0;
-}
-.driver-n { font-size: 18px; font-weight: 800; letter-spacing: -0.3px; }
-.driver-car-info { font-size: 13px; color: var(--gray-400); margin-top: 3px; }
-.driver-pl {
-  display: inline-block; background: var(--jaune); color: var(--black);
-  font-size: 11px; font-weight: 900; padding: 3px 10px; border-radius: 6px; margin-top: 6px;
-  letter-spacing: 0.5px;
-}
-.driver-rating { margin-left: auto; text-align: center; }
-.driver-stars { font-size: 14px; color: var(--jaune); }
-.driver-num { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; }
-.track-btns { display: flex; gap: 10px; }
-.btn-outline {
-  flex: 1; height: 52px; border: 2px solid var(--gray-200);
-  border-radius: 14px; background: var(--white); font-family: var(--font);
-  font-size: 15px; font-weight: 700; cursor: pointer; color: var(--black); transition: all 0.2s;
-}
-.btn-outline:active { background: var(--gray-50); }
-.btn-outline.danger { border-color: rgba(200,16,46,0.2); color: var(--rouge); }
-
-/* ========== ARRIVED ========== */
-#arrived { background: var(--white); align-items: center; justify-content: center; padding: 40px 24px; }
-.arrived-anim { font-size: 80px; margin-bottom: 20px; animation: pop 0.5s cubic-bezier(0.34,1.56,0.64,1) both; }
-@keyframes pop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-.arrived-h { font-size: 30px; font-weight: 900; letter-spacing: -1px; text-align: center; margin-bottom: 6px; }
-.arrived-s { font-size: 15px; color: var(--gray-400); text-align: center; margin-bottom: 28px; }
-.price-big { font-size: 64px; font-weight: 900; letter-spacing: -3px; text-align: center; line-height: 1; margin-bottom: 4px; }
-.price-curr { font-size: 16px; color: var(--gray-400); text-align: center; margin-bottom: 28px; }
-.rate-section { width: 100%; margin-bottom: 24px; text-align: center; }
-.rate-label { font-size: 14px; color: var(--gray-400); font-weight: 600; margin-bottom: 12px; }
-.rate-stars { display: flex; gap: 6px; justify-content: center; }
-.rate-star { font-size: 40px; cursor: pointer; transition: all 0.15s; filter: grayscale(1) opacity(0.25); }
-.rate-star.on { filter: none; transform: scale(1.15); }
-.pay-row { display: flex; gap: 8px; width: 100%; margin-bottom: 20px; }
-.pay-btn {
-  flex: 1; padding: 14px 8px; border: 2px solid var(--gray-100); border-radius: 14px;
-  cursor: pointer; text-align: center; transition: all 0.2s;
-}
-.pay-btn.on { border-color: var(--black); background: var(--black); }
-.pay-btn .p-ico { font-size: 28px; margin-bottom: 4px; }
-.pay-btn .p-lbl { font-size: 12px; font-weight: 700; color: var(--black); }
-.pay-btn.on .p-lbl { color: var(--white); }
-
-/* ========== PROFILE ========== */
-#profile { background: var(--gray-50); overflow-y: auto; padding-bottom: 80px; }
-.profile-top {
-  background: var(--black); padding: 48px 24px 32px;
-  display: flex; flex-direction: column; align-items: center;
-}
-.profile-ava-big {
-  width: 80px; height: 80px; border-radius: 50%; background: var(--white);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 36px; font-weight: 900; color: var(--black); margin-bottom: 14px;
-}
-.profile-n { font-size: 24px; font-weight: 900; color: var(--white); letter-spacing: -0.5px; }
-.profile-p { font-size: 14px; color: rgba(255,255,255,0.4); margin-top: 4px; }
-.stats-row { display: flex; margin: 16px; gap: 10px; }
-.stat-card {
-  flex: 1; background: var(--white); border-radius: 16px; padding: 16px;
-  text-align: center; box-shadow: 0 1px 8px rgba(0,0,0,0.04);
-}
-.stat-n { font-size: 26px; font-weight: 900; letter-spacing: -1px; }
-.stat-l { font-size: 12px; color: var(--gray-400); font-weight: 600; margin-top: 2px; }
-.menu-grp { padding: 0 16px; margin-bottom: 14px; }
-.menu-grp-title { font-size: 12px; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 1px; padding: 0 4px; margin-bottom: 8px; }
-.menu-row {
-  display: flex; align-items: center; gap: 14px;
-  background: var(--white); border-radius: 14px; padding: 16px;
-  margin-bottom: 6px; cursor: pointer; transition: all 0.2s;
-}
-.menu-row:active { background: var(--gray-50); }
-.menu-ico { font-size: 22px; width: 30px; }
-.menu-lbl { font-size: 15px; font-weight: 700; flex: 1; letter-spacing: -0.2px; }
-.menu-chev { font-size: 18px; color: var(--gray-200); }
-.menu-row.danger .menu-lbl { color: var(--rouge); }
-
-/* ========== TOAST ========== */
-.toast {
-  position: fixed; top: 20px; left: 50%;
-  transform: translateX(-50%) translateY(-80px);
-  z-index: 9999; background: var(--black); color: var(--white);
-  padding: 14px 24px; border-radius: 50px;
-  font-size: 14px; font-weight: 700; letter-spacing: -0.2px;
-  white-space: nowrap; opacity: 0;
-  transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
-}
-.toast.on { opacity: 1; transform: translateX(-50%) translateY(0); }
-.toast.green { background: #16A34A; }
-.toast.red { background: var(--rouge); }
-.toast.blue { background: #2563EB; }
+/* ── TOAST ── */
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-60px);z-index:9999;background:var(--black);color:var(--white);padding:12px 22px;border-radius:50px;font-size:13px;font-weight:700;white-space:nowrap;opacity:0;transition:all .35s cubic-bezier(.34,1.56,.64,1);box-shadow:0 8px 32px rgba(0,0,0,.25)}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.green{background:var(--green)}
+.toast.red{background:var(--red)}
+.toast.blue{background:var(--blue)}
 </style>
 </head>
 <body>
 
-<div class="toast" id="t"></div>
+<div class="toast" id="toast"></div>
 
-<!-- ====== SPLASH ====== -->
-<div class="screen show" id="splash">
-  <div class="splash-inner">
-    <span class="splash-car">🚕</span>
-    <div class="splash-title">Yalanamchou</div>
-    <div class="splash-sub">Le taxi intelligent du Tchad</div>
-    <div class="splash-bar"><div class="splash-bar-fill"></div></div>
+<!-- SOS MODAL -->
+<div class="modal-overlay" id="sosModal" onclick="closeSOS(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">🆘 Urgence SOS</div>
+    <div class="modal-sub">Choisissez le type d'urgence</div>
+    <div class="sos-options">
+      <div class="sos-opt" onclick="sendSOS('police')"><div class="sos-opt-ico">🚔</div><div><div class="sos-opt-name">Police / Sécurité</div><div class="sos-opt-desc">Problème de sécurité avec le chauffeur</div></div></div>
+      <div class="sos-opt" onclick="sendSOS('medical')"><div class="sos-opt-ico">🚑</div><div><div class="sos-opt-name">Urgence médicale</div><div class="sos-opt-desc">Besoin d'assistance médicale</div></div></div>
+      <div class="sos-opt" onclick="sendSOS('accident')"><div class="sos-opt-ico">🚗</div><div><div class="sos-opt-name">Accident de route</div><div class="sos-opt-desc">Accident ou panne véhicule</div></div></div>
+    </div>
+    <button class="btn btn-outline" onclick="document.getElementById('sosModal').classList.remove('on')">Annuler</button>
   </div>
 </div>
 
-<!-- ====== LOGIN ====== -->
-<div class="screen" id="login">
-  <div class="login-hero">
-    <div style="font-size:64px;margin-bottom:20px">🚕</div>
-    <div class="login-logo">Yalanamchou</div>
-    <div class="login-tagline">Votre taxi partout à N'Djaména</div>
-  </div>
-  <!-- Step 1: Phone -->
-  <div class="login-card" id="s1">
-    <div class="login-card-title">Entrez votre numéro</div>
-    <div class="login-card-sub">Nous vous enverrons un code de vérification</div>
-    <div class="phone-row">
-      <div class="code-btn">🇹🇩 +235</div>
-      <input class="phone-field" type="tel" id="ph" placeholder="66 XX XX XX" maxlength="8">
+<!-- WALLET MODAL -->
+<div class="modal-overlay" id="walletModal" onclick="closeWallet(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="wallet-detail-card">
+      <div class="wd-amount" id="walletAmt">15 000</div>
+      <div class="wd-lbl">FCFA disponibles</div>
     </div>
-    <button class="btn-cta" onclick="doSendOTP()">Continuer →</button>
-    <div class="terms-txt">En continuant, vous acceptez nos <u>Conditions</u> et <u>Politique de confidentialité</u></div>
+    <div class="topup-btns">
+      <button class="topup-btn" onclick="topup(1000)">+1 000 F</button>
+      <button class="topup-btn" onclick="topup(5000)">+5 000 F</button>
+      <button class="topup-btn" onclick="topup(10000)">+10 000 F</button>
+    </div>
+    <button class="btn btn-black" onclick="toast('Rechargement via Mobile Money','green');closeWallet()">Recharger via Mobile Money</button>
   </div>
-  <!-- Step 2: OTP -->
-  <div class="login-card" id="s2" style="display:none">
-    <div class="login-card-title">Code de vérification</div>
-    <div class="otp-hint">Entrez le code envoyé au <span id="phDisp"></span></div>
+</div>
+
+<!-- ════ SPLASH ════ -->
+<div class="sc on" id="splash">
+  <div class="sp-logo">🚕</div>
+  <div class="sp-name">Yalanamchou</div>
+  <div class="sp-tag">N'Djaména, Tchad 🇹🇩</div>
+  <div class="sp-bar"><div class="sp-fill"></div></div>
+</div>
+
+<!-- ════ LOGIN ════ -->
+<div class="sc" id="login">
+  <div class="login-top">
+    <div class="emoji">🚕</div>
+    <div class="login-title">Bienvenue sur Yalanamchou</div>
+    <div class="login-sub">Vos courses, votre façon</div>
+  </div>
+  <div class="card" id="ls1">
+    <div class="card-title">Votre numéro</div>
+    <div class="card-sub">Entrez votre numéro de téléphone</div>
+    <div class="ph-row">
+      <div class="ph-code">🇹🇩 +235</div>
+      <input class="ph-inp" type="tel" id="ph" placeholder="66 XX XX XX" maxlength="8">
+    </div>
+    <button class="btn btn-black" onclick="sendOTP()">Continuer →</button>
+    <div class="terms">En continuant, vous acceptez nos Conditions d'utilisation et Politique de confidentialité</div>
+  </div>
+  <div class="card" id="ls2" style="display:none">
+    <div class="card-title">Code de vérification</div>
+    <div class="card-sub">Code envoyé au <b id="phDisp"></b></div>
     <div class="otp-grid">
-      <input class="otp-box" type="tel" maxlength="1" id="o0" oninput="otpIn(this,0)">
-      <input class="otp-box" type="tel" maxlength="1" id="o1" oninput="otpIn(this,1)">
-      <input class="otp-box" type="tel" maxlength="1" id="o2" oninput="otpIn(this,2)">
-      <input class="otp-box" type="tel" maxlength="1" id="o3" oninput="otpIn(this,3)">
-      <input class="otp-box" type="tel" maxlength="1" id="o4" oninput="otpIn(this,4)">
-      <input class="otp-box" type="tel" maxlength="1" id="o5" oninput="otpIn(this,5)">
+      <input class="otp-b" type="tel" maxlength="1" id="o0" oninput="otpIn(this,0)">
+      <input class="otp-b" type="tel" maxlength="1" id="o1" oninput="otpIn(this,1)">
+      <input class="otp-b" type="tel" maxlength="1" id="o2" oninput="otpIn(this,2)">
+      <input class="otp-b" type="tel" maxlength="1" id="o3" oninput="otpIn(this,3)">
+      <input class="otp-b" type="tel" maxlength="1" id="o4" oninput="otpIn(this,4)">
+      <input class="otp-b" type="tel" maxlength="1" id="o5" oninput="otpIn(this,5)">
     </div>
-    <button class="btn-cta green" onclick="doVerifyOTP()">Vérifier →</button>
-    <div class="resend-row"><span class="resend-link" onclick="doSendOTP()">Renvoyer le code</span></div>
+    <button class="btn btn-black" onclick="verifyOTP()">Vérifier →</button>
+    <div class="resend" onclick="sendOTP()">Renvoyer le code</div>
   </div>
 </div>
 
-<!-- ====== HOME ====== -->
-<div class="screen" id="home">
+<!-- ════ HOME ════ -->
+<div class="sc" id="home">
   <div class="home-header">
-    <div class="header-logo">Yalanamchou</div>
-    <div class="header-right">
-      <button class="notif-btn">🔔</button>
-      <button class="avatar-btn" id="avatarBtn" onclick="go('profile')">M</button>
+    <div>
+      <div class="home-greeting">Bonjour 👋</div>
+      <div class="home-name" id="homeName">—</div>
     </div>
+    <div class="home-header-right">
+      <button class="hdr-btn" onclick="goTo('history')">📋</button>
+      <button class="hdr-btn" onclick="showNotif()"><span id="notifIco">🔔</span><div class="notif-dot" id="notifDot"></div></button>
+    </div>
+  </div>
+  <div class="where-card" onclick="goTo('booking')">
+    <div class="where-icon">📍</div>
+    <div>
+      <div class="where-text">Où voulez-vous aller ?</div>
+      <div class="where-sub">Entrez votre destination</div>
+    </div>
+    <div style="margin-left:auto;font-size:20px;color:var(--g300)">›</div>
   </div>
   <div class="home-scroll">
-    <!-- Greeting -->
-    <div class="greeting-wrap" style="padding:16px 20px 12px">
-      <div class="greeting-txt" id="greetTxt">Bonjour 👋</div>
-      <div class="greeting-sub">📍 Marché Central, N'Djaména</div>
-    </div>
-    <!-- Where to -->
-    <div class="where-card" onclick="go('booking')">
-      <div class="where-row">
-        <div class="where-pip from"></div>
-        <div class="where-label muted">Où voulez-vous aller ?</div>
-        <div class="where-arrow">›</div>
+    <!-- Wallet -->
+    <div class="wallet-card">
+      <div class="wallet-left">
+        <div class="wl-lbl">Mon portefeuille</div>
+        <div class="wl-amt" id="walletDisplay">15 000 F</div>
+        <div class="wl-sub">Solde disponible</div>
+      </div>
+      <div class="wallet-right">
+        <div class="wallet-badge" onclick="document.getElementById('walletModal').classList.add('on')">+ Recharger</div>
+        <div class="wallet-badge" onclick="toast('Historique des transactions','blue')">Transactions</div>
       </div>
     </div>
     <!-- Promo -->
-    <div class="promo-card" style="margin:16px">
-      <div class="promo-pill">🎁 OFFRE</div>
-      <div class="promo-title">Première course à -50%</div>
-      <div class="promo-sub">Code : YALA2026</div>
-      <div class="promo-emoji">🚕</div>
-    </div>
-    <!-- Quick -->
-    <div class="section-head">
-      <div class="section-title">Destinations rapides</div>
-    </div>
-    <div class="quick-scroll">
-      <div class="quick-chip" onclick="pick('Aéroport Hassan Djamous',8.2,12)"><div class="chip-icon">✈️</div><div><div class="chip-name">Aéroport</div><div class="chip-dist">8.2 km</div></div></div>
-      <div class="quick-chip" onclick="pick('Université de N\'Djaména',4.1,6)"><div class="chip-icon">🎓</div><div><div class="chip-name">Université</div><div class="chip-dist">4.1 km</div></div></div>
-      <div class="quick-chip" onclick="pick('Hôpital Général',5.2,8)"><div class="chip-icon">🏥</div><div><div class="chip-name">Hôpital</div><div class="chip-dist">5.2 km</div></div></div>
-      <div class="quick-chip" onclick="pick('Marché de Dembé',3.8,6)"><div class="chip-icon">🛒</div><div><div class="chip-name">Marché</div><div class="chip-dist">3.8 km</div></div></div>
-      <div class="quick-chip" onclick="pick('Quartier Moursal',2.5,4)"><div class="chip-icon">🏘️</div><div><div class="chip-name">Moursal</div><div class="chip-dist">2.5 km</div></div></div>
-    </div>
-    <!-- Recent -->
-    <div class="section-head"><div class="section-title">Récents</div></div>
-    <div class="recent-list">
-      <div class="recent-card" onclick="pick('Aéroport Hassan Djamous',8.2,12)">
-        <div class="recent-icon">✈️</div>
-        <div style="flex:1">
-          <div class="recent-name">Aéroport Hassan Djamous</div>
-          <div class="recent-meta">Hier • 8.2 km • Mahamat</div>
-        </div>
-        <div style="text-align:right">
-          <div class="recent-price">2 750F</div>
-          <div class="recent-arrow">›</div>
-        </div>
-      </div>
-      <div class="recent-card" onclick="pick('Université de N\'Djaména',4.1,6)">
-        <div class="recent-icon">🎓</div>
-        <div style="flex:1">
-          <div class="recent-name">Université de N'Djaména</div>
-          <div class="recent-meta">Lun 23 fév • 4.1 km • Fatima</div>
-        </div>
-        <div style="text-align:right">
-          <div class="recent-price">1 450F</div>
-          <div class="recent-arrow">›</div>
-        </div>
-      </div>
-      <div class="recent-card" onclick="pick('Hôpital Général',5.2,8)">
-        <div class="recent-icon">🏥</div>
-        <div style="flex:1">
-          <div class="recent-name">Hôpital Général</div>
-          <div class="recent-meta">Dim 22 fév • 5.2 km • Ali</div>
-        </div>
-        <div style="text-align:right">
-          <div class="recent-price">1 800F</div>
-          <div class="recent-arrow">›</div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="bottom-nav">
-    <div class="nav-item on" onclick="nav(this);go('home')"><div class="nav-ico">🏠</div><div class="nav-lbl">Accueil</div></div>
-    <div class="nav-item" onclick="nav(this);go('booking')"><div class="nav-ico">🚕</div><div class="nav-lbl">Commander</div></div>
-    <div class="nav-item" onclick="nav(this)"><div class="nav-ico">📋</div><div class="nav-lbl">Courses</div></div>
-    <div class="nav-item" onclick="nav(this);go('profile')"><div class="nav-ico">👤</div><div class="nav-lbl">Profil</div></div>
-  </div>
-</div>
-
-<!-- ====== BOOKING ====== -->
-<div class="screen" id="booking">
-  <div class="booking-top">
-    <button class="back-circle" onclick="go('home')">←</button>
-    <div class="booking-inputs">
-      <div class="b-inp-wrap">
-        <div class="b-pip" style="background:var(--black)"></div>
-        <input class="b-inp" type="text" value="Ma position actuelle" readonly style="color:var(--gray-400)">
-      </div>
-      <div class="b-inp-wrap">
-        <div class="b-pip" style="background:var(--rouge)"></div>
-        <input class="b-inp" type="text" id="destInp" placeholder="Destination..." autofocus>
-      </div>
-    </div>
-  </div>
-  <div class="booking-scroll">
-    <div class="sugg-head">Suggestions</div>
-    <div class="sugg-item" onclick="pick('Aéroport Hassan Djamous',8.2,12)"><div class="sugg-ico">✈️</div><div><div class="sugg-name">Aéroport Hassan Djamous</div><div class="sugg-sub">N'Djaména International</div></div><div class="sugg-km">8.2 km</div></div>
-    <div class="sugg-div"></div>
-    <div class="sugg-item" onclick="pick('Université de N\'Djaména',4.1,6)"><div class="sugg-ico">🎓</div><div><div class="sugg-name">Université de N'Djaména</div><div class="sugg-sub">Quartier Farcha</div></div><div class="sugg-km">4.1 km</div></div>
-    <div class="sugg-div"></div>
-    <div class="sugg-item" onclick="pick('Hôpital Général de Référence',5.2,8)"><div class="sugg-ico">🏥</div><div><div class="sugg-name">Hôpital Général de Référence</div><div class="sugg-sub">Centre-ville</div></div><div class="sugg-km">5.2 km</div></div>
-    <div class="sugg-div"></div>
-    <div class="sugg-item" onclick="pick('Marché de Dembé',3.8,6)"><div class="sugg-ico">🛒</div><div><div class="sugg-name">Marché de Dembé</div><div class="sugg-sub">Dembé</div></div><div class="sugg-km">3.8 km</div></div>
-    <div class="sugg-div"></div>
-    <div class="sugg-item" onclick="pick('Préfecture de N\'Djaména',2.8,4)"><div class="sugg-ico">🏛️</div><div><div class="sugg-name">Préfecture de N'Djaména</div><div class="sugg-sub">Centre administratif</div></div><div class="sugg-km">2.8 km</div></div>
-    <div class="sugg-div"></div>
-    <div class="sugg-item" onclick="pick('Quartier Moursal',2.5,4)"><div class="sugg-ico">🏘️</div><div><div class="sugg-name">Quartier Moursal</div><div class="sugg-sub">N'Djaména</div></div><div class="sugg-km">2.5 km</div></div>
-    <div class="sugg-div"></div>
-    <div class="sugg-item" onclick="pick('Grand Marché de N\'Djaména',1.8,3)"><div class="sugg-ico">🏪</div><div><div class="sugg-name">Grand Marché</div><div class="sugg-sub">Centre-ville</div></div><div class="sugg-km">1.8 km</div></div>
-  </div>
-</div>
-
-<!-- ====== VEHICLES ====== -->
-<div class="screen" id="vehicles">
-  <div class="vehicle-map">
-    <canvas id="vMapC"></canvas>
-    <div class="vehicle-dest-label" id="vDestLbl">Destination</div>
-    <button class="back-circle" style="position:absolute;top:12px;left:12px;background:rgba(255,255,255,0.9)" onclick="go('booking')">←</button>
-  </div>
-  <div class="vehicles-scroll">
-    <div class="vehicle-card sel" id="vc0" onclick="selV(this,0)">
-      <div class="v-emoji">🛵</div>
-      <div class="v-info"><div class="v-name">Moto Express</div><div class="v-desc">Rapide · 1 personne</div><div class="v-eta" id="ve0">⏱ 3 min</div></div>
-      <div class="v-right"><div class="v-price" id="vp0">500</div><div class="v-fcfa">FCFA</div></div>
-    </div>
-    <div class="vehicle-card" id="vc1" onclick="selV(this,1)">
-      <div class="v-emoji">🚕</div>
-      <div class="v-info"><div class="v-name">Yala Taxi</div><div class="v-desc">Confort · 1–4 personnes</div><div class="v-eta" id="ve1">⏱ 5 min</div></div>
-      <div class="v-right"><div class="v-price" id="vp1">1 200</div><div class="v-fcfa">FCFA</div></div>
-    </div>
-    <div class="vehicle-card" id="vc2" onclick="selV(this,2)">
-      <div class="v-emoji">🚐</div>
-      <div class="v-info"><div class="v-name">Yala Premium</div><div class="v-desc">Climatisé · 1–6 personnes</div><div class="v-eta" id="ve2">⏱ 8 min</div></div>
-      <div class="v-right"><div class="v-price" id="vp2">2 500</div><div class="v-fcfa">FCFA</div></div>
-    </div>
-  </div>
-  <div class="v-confirm">
-    <div class="v-confirm-row">
-      <div class="v-confirm-lbl">💳 Total estimé</div>
-      <div class="v-confirm-val" id="vTotal">500 FCFA</div>
-    </div>
-    <button class="btn-cta" onclick="doConfirm()">Commander maintenant →</button>
-  </div>
-</div>
-
-<!-- ====== TRACKING ====== -->
-<div class="screen" id="tracking">
-  <div class="track-map"><canvas id="tMapC"></canvas></div>
-  <div class="track-sheet">
-    <div class="track-handle"></div>
-    <div class="track-status">
-      <div class="track-status-title" id="tTitle">Chauffeur en route</div>
-      <div class="track-status-sub" id="tSub">Arrive dans quelques minutes...</div>
-    </div>
-    <div class="track-eta-row">
-      <div class="track-eta-box"><div class="track-eta-num" id="tMin">5</div><div class="track-eta-lbl">Minutes</div></div>
-      <div class="track-eta-box"><div class="track-eta-num" id="tKm">—</div><div class="track-eta-lbl">Km</div></div>
-      <div class="track-eta-box"><div class="track-eta-num" id="tPrix">—</div><div class="track-eta-lbl">FCFA</div></div>
-    </div>
-    <div class="track-prog"><div class="track-prog-fill" id="tProg" style="width:0%"></div></div>
-    <div class="driver-block">
-      <div class="driver-ava" id="dAva">👨🏿</div>
+    <div class="promo-banner" onclick="goTo('booking')">
+      <div class="promo-ico">🎁</div>
       <div>
-        <div class="driver-n" id="dName">Mahamat Ibrahim</div>
-        <div class="driver-car-info" id="dCar">Toyota Corolla</div>
-        <div class="driver-pl" id="dPlate">TD-2847-A</div>
-      </div>
-      <div class="driver-rating">
-        <div class="driver-stars">★★★★★</div>
-        <div class="driver-num" id="dRat">4.9</div>
+        <div class="promo-tag">CODE PROMO</div>
+        <div class="promo-title">YALA20 — 20% de réduction</div>
+        <div class="promo-sub">Valable jusqu'au 31 mars 2026</div>
       </div>
     </div>
-    <div class="track-btns">
-      <button class="btn-outline" onclick="callDrv()">📞 Appeler</button>
-      <button class="btn-outline danger" onclick="cancelRide()">✕ Annuler</button>
+    <!-- Quick destinations -->
+    <div class="sec-hd"><div class="sec-title">Destinations rapides</div></div>
+    <div class="dest-row">
+      <div class="dest-chip" onclick="quickDest('Aéroport Hassan Djamous')"><div class="dest-chip-ico">✈️</div><div class="dest-chip-name">Aéroport</div></div>
+      <div class="dest-chip" onclick="quickDest('Université de N\'Djaména')"><div class="dest-chip-ico">🎓</div><div class="dest-chip-name">Université</div></div>
+      <div class="dest-chip" onclick="quickDest('Hôpital Général')"><div class="dest-chip-ico">🏥</div><div class="dest-chip-name">Hôpital</div></div>
+      <div class="dest-chip" onclick="quickDest('Grand Marché')"><div class="dest-chip-ico">🛒</div><div class="dest-chip-name">Marché</div></div>
+      <div class="dest-chip" onclick="quickDest('Préfecture')"><div class="dest-chip-ico">🏛️</div><div class="dest-chip-name">Préfecture</div></div>
     </div>
+    <!-- Recent rides -->
+    <div class="sec-hd"><div class="sec-title">Courses récentes</div><div class="sec-link" onclick="goTo('history')">Voir tout</div></div>
+    <div class="ride-item" onclick="quickDest('Aéroport Hassan Djamous')">
+      <div class="ride-ico">✈️</div>
+      <div><div class="ride-dest">Aéroport Hassan Djamous</div><div class="ride-meta">Hier · 8.2 km · Mahamat</div></div>
+      <div class="ride-price">2 750F</div>
+    </div>
+    <div class="ride-item" onclick="quickDest('Université de N\'Djaména')">
+      <div class="ride-ico">🎓</div>
+      <div><div class="ride-dest">Université de N'Djaména</div><div class="ride-meta">Lun · 4.1 km · Fatima</div></div>
+      <div class="ride-price">1 450F</div>
+    </div>
+    <div class="ride-item" onclick="quickDest('Hôpital Général')">
+      <div class="ride-ico">🏥</div>
+      <div><div class="ride-dest">Hôpital Général</div><div class="ride-meta">Dim · 5.2 km · Ibrahim</div></div>
+      <div class="ride-price">1 800F</div>
+    </div>
+  </div>
+  <div class="bnav">
+    <div class="bnav-i on" id="bn1" onclick="bnav('home',this)"><div class="bnav-ico">🏠</div><div class="bnav-lbl">Accueil</div></div>
+    <div class="bnav-i" id="bn2" onclick="goTo('booking')"><div class="bnav-ico">🚕</div><div class="bnav-lbl">Commander</div></div>
+    <div class="bnav-i" id="bn3" onclick="bnav('history',this)"><div class="bnav-ico">📋</div><div class="bnav-lbl">Courses</div></div>
+    <div class="bnav-i" id="bn4" onclick="bnav('profile',this)"><div class="bnav-ico">👤</div><div class="bnav-lbl">Profil</div></div>
   </div>
 </div>
 
-<!-- ====== ARRIVED ====== -->
-<div class="screen" id="arrived">
-  <div class="arrived-anim">🎉</div>
-  <div class="arrived-h">Vous êtes arrivé !</div>
-  <div class="arrived-s" id="arrivedSub">Course avec Mahamat Ibrahim</div>
-  <div class="price-big" id="arrivedAmt">1 200</div>
-  <div class="price-curr">FCFA à payer</div>
-  <div class="rate-section">
-    <div class="rate-label">Notez votre chauffeur</div>
-    <div class="rate-stars">
-      <div class="rate-star on" onclick="rate(1)">★</div>
-      <div class="rate-star on" onclick="rate(2)">★</div>
-      <div class="rate-star on" onclick="rate(3)">★</div>
-      <div class="rate-star on" onclick="rate(4)">★</div>
-      <div class="rate-star on" onclick="rate(5)">★</div>
+<!-- ════ BOOKING ════ -->
+<div class="sc" id="booking">
+  <div class="booking-header">
+    <button class="back-btn" onclick="goTo('home')">←</button>
+    <div class="route-inputs">
+      <div class="route-inp-row">
+        <div class="route-pip a"></div>
+        <input class="route-inp" id="pickup" placeholder="Votre position" value="Marché Central" readonly>
+      </div>
+      <div style="display:flex;gap:0;margin-left:4px"><div class="route-line"></div></div>
+      <div class="route-inp-row">
+        <div class="route-pip b"></div>
+        <input class="route-inp" id="dropoff" placeholder="Destination" id="destInp" oninput="updateEstimate()">
+      </div>
     </div>
   </div>
-  <div class="pay-row">
-    <div class="pay-btn on" onclick="selPay(this)"><div class="p-ico">💵</div><div class="p-lbl">Espèces</div></div>
-    <div class="pay-btn" onclick="selPay(this)"><div class="p-ico">📱</div><div class="p-lbl">Airtel</div></div>
-    <div class="pay-btn" onclick="selPay(this)"><div class="p-ico">💳</div><div class="p-lbl">Moov</div></div>
+  <div class="price-est">
+    <div><div class="pe-label">Estimation</div><div class="pe-price" id="estPrice">— FCFA</div></div>
+    <div><div class="pe-dist" id="estDist">— km</div><div class="pe-dist" id="estTime">— min</div></div>
   </div>
-  <button class="btn-cta green" onclick="doPay()" style="width:100%;margin-top:auto">✅ Confirmer le paiement</button>
+  <!-- Promo code -->
+  <div class="promo-inp-row">
+    <input class="promo-inp" id="promoCode" placeholder="🎁 Code promo (ex: YALA20)" value="">
+    <button class="promo-apply" onclick="applyPromo()">Appliquer</button>
+  </div>
+  <div class="suggestions" id="suggestions">
+    <div class="sug-item" onclick="selectDest('Aéroport Hassan Djamous',8.2)"><div class="sug-ico">✈️</div><div><div class="sug-name">Aéroport Hassan Djamous</div><div class="sug-addr">Route de l'Aéroport, N'Djaména</div></div><div class="sug-dist">8.2 km</div></div>
+    <div class="sug-item" onclick="selectDest('Université de N\'Djaména',4.1)"><div class="sug-ico">🎓</div><div><div class="sug-name">Université de N'Djaména</div><div class="sug-addr">Avenue Charles de Gaulle</div></div><div class="sug-dist">4.1 km</div></div>
+    <div class="sug-item" onclick="selectDest('Hôpital Général',5.2)"><div class="sug-ico">🏥</div><div><div class="sug-name">Hôpital Général</div><div class="sug-addr">Boulevard du 1er Août</div></div><div class="sug-dist">5.2 km</div></div>
+    <div class="sug-item" onclick="selectDest('Grand Marché',2.1)"><div class="sug-ico">🛒</div><div><div class="sug-name">Grand Marché</div><div class="sug-addr">Centre-ville, N'Djaména</div></div><div class="sug-dist">2.1 km</div></div>
+    <div class="sug-item" onclick="selectDest('Préfecture',3.8)"><div class="sug-ico">🏛️</div><div><div class="sug-name">Préfecture</div><div class="sug-addr">Avenue de France</div></div><div class="sug-dist">3.8 km</div></div>
+    <div class="sug-item" onclick="selectDest('Quartier Moursal',6.5)"><div class="sug-ico">🏘️</div><div><div class="sug-name">Quartier Moursal</div><div class="sug-addr">N'Djaména Est</div></div><div class="sug-dist">6.5 km</div></div>
+    <div class="sug-item" onclick="selectDest('Palais Présidentiel',4.8)"><div class="sug-ico">🏰</div><div><div class="sug-name">Palais Présidentiel</div><div class="sug-addr">Avenue Mobutu</div></div><div class="sug-dist">4.8 km</div></div>
+  </div>
 </div>
 
-<!-- ====== PROFILE ====== -->
-<div class="screen" id="profile">
-  <div class="profile-top">
-    <div class="profile-ava-big" id="profAva">M</div>
-    <div class="profile-n" id="profName">Mon Profil</div>
-    <div class="profile-p" id="profPhone">+235 --</div>
+<!-- ════ VEHICLES ════ -->
+<div class="sc" id="vehicles">
+  <div class="map-preview">
+    <canvas id="mapPrev"></canvas>
+    <div class="map-overlay-dest">
+      <span style="font-size:16px">📍</span>
+      <div class="mod-dest" id="vehDest">Destination</div>
+      <div class="mod-dist" id="vehDist">— km</div>
+    </div>
   </div>
-  <div class="stats-row">
-    <div class="stat-card"><div class="stat-n">8</div><div class="stat-l">Courses</div></div>
-    <div class="stat-card"><div class="stat-n">4.9</div><div class="stat-l">Ma note</div></div>
-    <div class="stat-card"><div class="stat-n">32km</div><div class="stat-l">Distance</div></div>
+  <div class="vehicles-list">
+    <div class="vehicle-card on" id="v0" onclick="selectVeh(0)">
+      <div class="vc-ico">🛵</div>
+      <div>
+        <div class="vc-name">Moto Express</div>
+        <div class="vc-desc">Rapide · 1 personne</div>
+        <div class="vc-eta" id="veta0">⏱ 3 min</div>
+      </div>
+      <div class="vc-price" id="vp0">500 F</div>
+    </div>
+    <div class="vehicle-card" id="v1" onclick="selectVeh(1)">
+      <div class="vc-ico">🚕</div>
+      <div>
+        <div class="vc-name">Yala Taxi</div>
+        <div class="vc-desc">Confort · 1-4 personnes</div>
+        <div class="vc-eta" id="veta1">⏱ 5 min</div>
+      </div>
+      <div class="vc-price" id="vp1">1 200 F</div>
+    </div>
+    <div class="vehicle-card" id="v2" onclick="selectVeh(2)">
+      <div class="vc-ico">🚐</div>
+      <div>
+        <div class="vc-name">Yala Premium</div>
+        <div class="vc-desc">Luxe · 1-6 personnes</div>
+        <div class="vc-eta" id="veta2">⏱ 8 min</div>
+      </div>
+      <div class="vc-price" id="vp2">2 500 F</div>
+    </div>
   </div>
-  <div class="menu-grp">
-    <div class="menu-grp-title">Mon compte</div>
-    <div class="menu-row"><div class="menu-ico">👤</div><div class="menu-lbl">Informations personnelles</div><div class="menu-chev">›</div></div>
-    <div class="menu-row"><div class="menu-ico">💳</div><div class="menu-lbl">Modes de paiement</div><div class="menu-chev">›</div></div>
-    <div class="menu-row"><div class="menu-ico">📋</div><div class="menu-lbl">Historique des courses</div><div class="menu-chev">›</div></div>
-    <div class="menu-row"><div class="menu-ico">🎁</div><div class="menu-lbl">Mes promotions</div><div class="menu-chev">›</div></div>
+  <div class="veh-bottom">
+    <div class="veh-confirm-row">
+      <div><div class="veh-total-lbl">Total estimé</div><div class="veh-total" id="vehTotal">500 F</div></div>
+      <div style="text-align:right"><div class="veh-total-lbl">Portefeuille</div><div style="font-size:14px;font-weight:700;color:var(--green)" id="walletBal">15 000 F</div></div>
+    </div>
+    <button class="btn btn-black" onclick="confirmRide()">Confirmer la course →</button>
   </div>
-  <div class="menu-grp">
-    <div class="menu-grp-title">Support</div>
-    <div class="menu-row"><div class="menu-ico">🆘</div><div class="menu-lbl">Centre d'aide</div><div class="menu-chev">›</div></div>
-    <div class="menu-row"><div class="menu-ico">⭐</div><div class="menu-lbl">Noter l'application</div><div class="menu-chev">›</div></div>
+</div>
+
+<!-- ════ TRACKING ════ -->
+<div class="sc" id="tracking">
+  <div class="track-map">
+    <canvas id="trackMap"></canvas>
   </div>
-  <div class="menu-grp">
-    <div class="menu-row danger" onclick="doLogout()"><div class="menu-ico">🚪</div><div class="menu-lbl">Se déconnecter</div></div>
+  <div class="track-sheet">
+    <div class="status-badge"><div class="status-pip"></div><div class="status-txt" id="trackStatus">Chauffeur en route</div></div>
+    <div class="track-title" id="trackTitle">Mahamat arrive dans 5 min</div>
+    <div class="track-sub" id="trackSub">→ Aéroport Hassan Djamous</div>
+    <div class="eta-row">
+      <div class="eta-box"><div class="eta-val" id="etaMin">5</div><div class="eta-lbl">minutes</div></div>
+      <div class="eta-box"><div class="eta-val" id="etaKm">8.2</div><div class="eta-lbl">km</div></div>
+      <div class="eta-box"><div class="eta-val" id="etaPrice">2 750</div><div class="eta-lbl">FCFA</div></div>
+    </div>
+    <div class="prog-track"><div class="prog-fill" id="trackProg"></div></div>
+    <div class="driver-card">
+      <div class="drv-ava">👨🏿</div>
+      <div>
+        <div class="drv-name" id="drvName">Mahamat Ibrahim</div>
+        <div class="drv-car" id="drvCar">Toyota Corolla · Gris</div>
+        <div class="drv-rating">⭐ 4.9 · 156 courses</div>
+      </div>
+      <div class="drv-plate" id="drvPlate">TD-2847-A</div>
+    </div>
+    <div class="action-row">
+      <button class="act-btn outline" onclick="goTo('chat')">💬 Chat</button>
+      <button class="act-btn black" onclick="callDriver()">📞 Appeler</button>
+      <button class="act-btn outline" onclick="toast('Course annulée','red');goTo('home')">✕ Annuler</button>
+    </div>
+    <button class="sos-btn" onclick="document.getElementById('sosModal').classList.add('on')">🆘 URGENCE SOS — Appuyer en cas de danger</button>
   </div>
-  <div class="bottom-nav">
-    <div class="nav-item" onclick="nav(this);go('home')"><div class="nav-ico">🏠</div><div class="nav-lbl">Accueil</div></div>
-    <div class="nav-item" onclick="nav(this);go('booking')"><div class="nav-ico">🚕</div><div class="nav-lbl">Commander</div></div>
-    <div class="nav-item" onclick="nav(this)"><div class="nav-ico">📋</div><div class="nav-lbl">Courses</div></div>
-    <div class="nav-item on" onclick="nav(this)"><div class="nav-ico">👤</div><div class="nav-lbl">Profil</div></div>
+</div>
+
+<!-- ════ CHAT ════ -->
+<div class="sc" id="chat">
+  <div class="chat-header">
+    <button class="back-btn" onclick="goTo('tracking')">←</button>
+    <div class="drv-ava" style="width:40px;height:40px;font-size:18px;flex-shrink:0">👨🏿</div>
+    <div class="chat-drv-info">
+      <div class="chat-drv-name" id="chatDrvName">Mahamat Ibrahim</div>
+      <div class="chat-drv-status">● En route vers vous</div>
+    </div>
+    <button class="act-btn black" style="width:auto;padding:0 16px;height:36px;font-size:13px" onclick="callDriver()">📞</button>
+  </div>
+  <div class="chat-messages" id="chatMsgs">
+    <div class="msg them">Bonjour ! Je suis en route, j'arrive dans 5 minutes 🚕<div class="msg-time">14:32</div></div>
+    <div class="msg them">Je suis au carrefour du marché central<div class="msg-time">14:33</div></div>
+  </div>
+  <div class="quick-replies">
+    <button class="qr" onclick="sendMsg('OK, je vous attends 👍')">👍 J'attends</button>
+    <button class="qr" onclick="sendMsg('Je suis devant l\'entrée principale')">📍 Entrée principale</button>
+    <button class="qr" onclick="sendMsg('Merci !')">🙏 Merci</button>
+    <button class="qr" onclick="sendMsg('Pouvez-vous me rappeler ?')">📞 Rappeler</button>
+    <button class="qr" onclick="sendMsg('Combien de temps encore ?')">⏱ ETA ?</button>
+  </div>
+  <div class="chat-input-row">
+    <input class="chat-inp" id="chatInp" placeholder="Écrire un message..." onkeydown="if(event.key==='Enter')sendMsg()">
+    <button class="chat-send" onclick="sendMsg()">↑</button>
+  </div>
+</div>
+
+<!-- ════ ARRIVED ════ -->
+<div class="sc" id="arrived">
+  <div class="arr-emoji">🎉</div>
+  <div class="arr-title">Vous êtes arrivé !</div>
+  <div class="arr-sub" id="arrSub">Course avec Mahamat Ibrahim</div>
+  <div class="price-card">
+    <div class="price-big" id="arrPrice">2 750</div>
+    <div class="price-lbl">FCFA</div>
+    <div class="breakdown">
+      <div class="bd-item"><div class="bd-val" id="bdDist">8.2 km</div><div class="bd-lbl">Distance</div></div>
+      <div class="bd-item"><div class="bd-val" id="bdTime">24 min</div><div class="bd-lbl">Durée</div></div>
+      <div class="bd-item"><div class="bd-val" id="bdType">🚕 Taxi</div><div class="bd-lbl">Véhicule</div></div>
+    </div>
+  </div>
+  <div class="rating-row" id="ratingRow">
+    <span class="star" onclick="rate(1)">⭐</span>
+    <span class="star" onclick="rate(2)">⭐</span>
+    <span class="star" onclick="rate(3)">⭐</span>
+    <span class="star on" onclick="rate(4)">⭐</span>
+    <span class="star on" onclick="rate(5)">⭐</span>
+  </div>
+  <div class="pay-methods" id="payMethods">
+    <button class="pay-btn on" onclick="selectPay(this,'Espèces')">💵 Espèces</button>
+    <button class="pay-btn" onclick="selectPay(this,'Airtel')">📱 Airtel</button>
+    <button class="pay-btn" onclick="selectPay(this,'Moov')">💳 Moov</button>
+  </div>
+  <button class="btn btn-black" onclick="finishRide()" style="width:100%">Terminer la course →</button>
+</div>
+
+<!-- ════ HISTORY ════ -->
+<div class="sc" id="history">
+  <div class="hist-header">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+      <button class="back-btn" onclick="goTo('home')">←</button>
+      <div class="hist-title" style="margin-bottom:0">Mes courses</div>
+    </div>
+    <div class="hist-stats">
+      <div class="hist-stat"><div class="hist-stat-val">24</div><div class="hist-stat-lbl">Total</div></div>
+      <div class="hist-stat"><div class="hist-stat-val" style="color:var(--green)">42 500F</div><div class="hist-stat-lbl">Dépenses</div></div>
+      <div class="hist-stat"><div class="hist-stat-val">⭐ 4.8</div><div class="hist-stat-lbl">Ma note</div></div>
+    </div>
+  </div>
+  <div class="hist-list">
+    <div class="hist-item"><div class="hist-ico">✈️</div><div><div class="hist-dest">Aéroport Hassan Djamous</div><div class="hist-meta">27/02 · 8.2 km · Mahamat</div></div><div class="hist-right"><div class="hist-price">2 750F</div><div class="hist-status ok">✓ Terminée</div></div></div>
+    <div class="hist-item"><div class="hist-ico">🎓</div><div><div class="hist-dest">Université de N'Djaména</div><div class="hist-meta">26/02 · 4.1 km · Fatima</div></div><div class="hist-right"><div class="hist-price">1 450F</div><div class="hist-status ok">✓ Terminée</div></div></div>
+    <div class="hist-item"><div class="hist-ico">🏥</div><div><div class="hist-dest">Hôpital Général</div><div class="hist-meta">25/02 · 5.2 km · Ibrahim</div></div><div class="hist-right"><div class="hist-price">1 800F</div><div class="hist-status ok">✓ Terminée</div></div></div>
+    <div class="hist-item"><div class="hist-ico">🛒</div><div><div class="hist-dest">Grand Marché</div><div class="hist-meta">24/02 · 2.1 km · Ali</div></div><div class="hist-right"><div class="hist-price">950F</div><div class="hist-status ko">✕ Annulée</div></div></div>
+    <div class="hist-item"><div class="hist-ico">🏛️</div><div><div class="hist-dest">Préfecture</div><div class="hist-meta">23/02 · 3.8 km · Mahamat</div></div><div class="hist-right"><div class="hist-price">1 350F</div><div class="hist-status ok">✓ Terminée</div></div></div>
+    <div class="hist-item"><div class="hist-ico">🏘️</div><div><div class="hist-dest">Quartier Moursal</div><div class="hist-meta">22/02 · 6.5 km · Ibrahim</div></div><div class="hist-right"><div class="hist-price">2 200F</div><div class="hist-status ok">✓ Terminée</div></div></div>
+  </div>
+</div>
+
+<!-- ════ PROFILE ════ -->
+<div class="sc" id="profile">
+  <div class="prof-header">
+    <div class="prof-ava" id="profAva">👤</div>
+    <div class="prof-name" id="profName">—</div>
+    <div class="prof-phone" id="profPhone">—</div>
+    <div class="prof-verify"><span>✓</span><span class="prof-verify-txt">Compte vérifié</span></div>
+  </div>
+  <div class="prof-stats">
+    <div class="ps-item"><div class="ps-val">24</div><div class="ps-lbl">Courses</div></div>
+    <div class="ps-item"><div class="ps-val" style="color:var(--green)">15 000F</div><div class="ps-lbl">Solde</div></div>
+    <div class="ps-item"><div class="ps-val">⭐ 4.8</div><div class="ps-lbl">Ma note</div></div>
+  </div>
+  <div class="menu-section">
+    <div class="menu-lbl">Mon compte</div>
+    <div class="menu-item" onclick="document.getElementById('walletModal').classList.add('on')"><div class="mi-ico">💰</div><div class="mi-txt">Mon portefeuille</div><div style="font-size:13px;font-weight:800;color:var(--green)">15 000F</div><div class="mi-chev">›</div></div>
+    <div class="menu-item" onclick="goTo('history')"><div class="mi-ico">📋</div><div class="mi-txt">Historique des courses</div><div class="mi-chev">›</div></div>
+    <div class="menu-item" onclick="toast('Codes promo','blue')"><div class="mi-ico">🎁</div><div class="mi-txt">Codes promo</div><div class="mi-badge">YALA20</div><div class="mi-chev">›</div></div>
+    <div class="menu-item" onclick="toast('Notifications','blue')"><div class="mi-ico">🔔</div><div class="mi-txt">Notifications</div><div class="mi-chev">›</div></div>
+  </div>
+  <div class="menu-section">
+    <div class="menu-lbl">Sécurité</div>
+    <div class="menu-item" onclick="toast('Contacts d\'urgence mis à jour','green')"><div class="mi-ico">🆘</div><div class="mi-txt">Contacts d'urgence</div><div class="mi-chev">›</div></div>
+    <div class="menu-item" onclick="toast('Support contacté','green')"><div class="mi-ico">💬</div><div class="mi-txt">Support client</div><div class="mi-chev">›</div></div>
+  </div>
+  <div class="menu-section">
+    <div class="menu-item danger" onclick="logout()"><div class="mi-ico">🚪</div><div class="mi-txt">Se déconnecter</div></div>
+  </div>
+  <div style="height:80px"></div>
+  <div class="bnav">
+    <div class="bnav-i" onclick="goTo('home')"><div class="bnav-ico">🏠</div><div class="bnav-lbl">Accueil</div></div>
+    <div class="bnav-i" onclick="goTo('booking')"><div class="bnav-ico">🚕</div><div class="bnav-lbl">Commander</div></div>
+    <div class="bnav-i" onclick="goTo('history')"><div class="bnav-ico">📋</div><div class="bnav-lbl">Courses</div></div>
+    <div class="bnav-i on"><div class="bnav-ico">👤</div><div class="bnav-lbl">Profil</div></div>
   </div>
 </div>
 
 <script>
 const API='http://localhost:5000/api';
-const DRVS=[
-  {n:'Mahamat Ibrahim',e:'👨🏿',r:4.9,c:'Toyota Corolla',p:'TD-2847-A'},
-  {n:'Fatima Oumar',   e:'👩🏿',r:4.8,c:'Nissan Sunny',  p:'TD-1234-B'},
-  {n:'Ibrahim Hassan', e:'👨🏿‍🦱',r:4.7,c:'Peugeot 504',  p:'TD-5678-C'},
-  {n:'Ali Mahamat',    e:'👨🏿',r:4.6,c:'Toyota Hilux', p:'TD-9012-D'},
+let user=null,wallet=15000,selectedVeh=0,selectedDest='',selectedDist=0,promoApplied=false;
+let trackInterval=null,progVal=0;
+const DRIVERS=[
+  {name:'Mahamat Ibrahim',car:'Toyota Corolla · Gris',rating:'4.9',rides:156,plate:'TD-2847-A',ava:'👨🏿'},
+  {name:'Fatima Oumar',car:'Nissan Sunny · Blanc',rating:'4.8',rides:98,plate:'TD-1234-B',ava:'👩🏿'},
+  {name:'Ibrahim Hassan',car:'Peugeot 504 · Bleu',rating:'4.7',rides:74,plate:'TD-5678-C',ava:'👨🏿‍🦱'},
 ];
-let user=null,destN='',destKm=0,destEta=0,selVeh=0,selPrice=500,drv=null;
-let pInv=null,eInv=null,etaS=0,destPt=null;
-const prices=[
-  (km)=>Math.round((200+km*150)/50)*50,
-  (km)=>Math.round((500+km*300)/50)*50,
-  (km)=>Math.round((1000+km*500)/50)*50,
+const VEHICLES=[
+  {name:'Moto Express',ico:'🛵',base:200,pkm:100},
+  {name:'Yala Taxi',ico:'🚕',base:500,pkm:180},
+  {name:'Yala Premium',ico:'🚐',base:1000,pkm:280},
 ];
-const etaMins=[0,0,3];
 
-// ===== SCREENS =====
-function go(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('show'));
-  document.getElementById(id).classList.add('show');
-  if(id==='vehicles') startVMap();
-  if(id==='tracking') startTMap();
+// ── SCREENS ──
+function goTo(id){
+  document.querySelectorAll('.sc').forEach(s=>s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  if(id==='vehicles') startMapPrev();
+  if(id==='tracking') startTrackMap();
 }
-function nav(el){
-  el.closest('.bottom-nav').querySelectorAll('.nav-item').forEach(n=>n.classList.remove('on'));
+function bnav(id,el){
+  document.querySelectorAll('.bnav-i').forEach(b=>b.classList.remove('on'));
   el.classList.add('on');
+  goTo(id);
 }
 
-// ===== SPLASH =====
+// ── SPLASH ──
 setTimeout(()=>{
-  const u=localStorage.getItem('yala_u');
-  if(u){ user=JSON.parse(u); applyUser(); go('home'); }
-  else go('login');
+  const u=localStorage.getItem('yala_user');
+  if(u){user=JSON.parse(u);applyUser();goTo('home');}
+  else goTo('login');
 },3000);
 
-// ===== AUTH =====
-let savedOTP='',savedPhone='';
-async function doSendOTP(){
+// ── AUTH ──
+let savedPhone='',savedOTP='';
+async function sendOTP(){
   const p=document.getElementById('ph').value.trim();
   if(p.length<8){toast('Numéro invalide','red');return;}
   savedPhone='+235'+p;
@@ -805,155 +756,279 @@ async function doSendOTP(){
     const d=await r.json();
     savedOTP=d.debug_otp||'';
     document.getElementById('phDisp').textContent=savedPhone;
-    if(savedOTP) savedOTP.split('').forEach((c,i)=>{const b=document.getElementById('o'+i);if(b){b.value=c;b.classList.add('done');}});
-    document.getElementById('s1').style.display='none';
-    document.getElementById('s2').style.display='block';
+    if(savedOTP) savedOTP.split('').forEach((c,i)=>{const b=document.getElementById('o'+i);if(b){b.value=c;b.classList.add('ok');}});
+    document.getElementById('ls1').style.display='none';
+    document.getElementById('ls2').style.display='block';
     toast('Code envoyé !','green');
-  }catch(e){toast('Erreur réseau','red');}
+  }catch(e){
+    // Demo mode
+    savedOTP='123456';
+    document.getElementById('phDisp').textContent=savedPhone;
+    savedOTP.split('').forEach((c,i)=>{const b=document.getElementById('o'+i);if(b){b.value=c;b.classList.add('ok');}});
+    document.getElementById('ls1').style.display='none';
+    document.getElementById('ls2').style.display='block';
+    toast('Mode démo — code: 123456');
+  }
 }
-function otpIn(el,i){
-  if(el.value){el.classList.add('done');if(i<5)document.getElementById('o'+(i+1)).focus();}
-  else el.classList.remove('done');
-}
-async function doVerifyOTP(){
+function otpIn(el,i){if(el.value){el.classList.add('ok');if(i<5)document.getElementById('o'+(i+1)).focus();}else el.classList.remove('ok');}
+async function verifyOTP(){
   const otp=[0,1,2,3,4,5].map(i=>document.getElementById('o'+i).value).join('');
-  if(otp.length<6){toast('Entrez le code complet','red');return;}
+  if(otp.length<6){toast('Code incomplet','red');return;}
   try{
-    const r=await fetch(API+'/auth/verify-otp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone:savedPhone,otp,name:'Utilisateur',role:'passager'})});
+    const r=await fetch(API+'/auth/verify-otp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone:savedPhone,otp,name:'Utilisateur'})});
     const d=await r.json();
-    if(r.ok){user=d.user;localStorage.setItem('yala_u',JSON.stringify(user));applyUser();toast('Bienvenue !','green');go('home');}
+    if(r.ok){user=d.user;localStorage.setItem('yala_user',JSON.stringify(user));applyUser();toast('Bienvenue !','green');goTo('home');}
     else toast('Code incorrect','red');
-  }catch(e){toast('Erreur','red');}
+  }catch(e){
+    user={name:'Issa Mahamat',phone:savedPhone,id:1};
+    localStorage.setItem('yala_user',JSON.stringify(user));
+    applyUser();toast('Bienvenue !','green');goTo('home');
+  }
 }
 function applyUser(){
   if(!user)return;
-  const n=user.name||'Moi';
+  const n=user.name||'Utilisateur';
+  document.getElementById('homeName').textContent=n;
   document.getElementById('profName').textContent=n;
   document.getElementById('profPhone').textContent=user.phone||'';
-  document.getElementById('greetTxt').textContent='Bonjour, '+n.split(' ')[0]+' 👋';
-  document.getElementById('avatarBtn').textContent=n[0]||'M';
-  document.getElementById('profAva').textContent=n[0]||'M';
+  document.getElementById('profAva').textContent=n[0]||'👤';
 }
-function doLogout(){
-  localStorage.removeItem('yala_u');user=null;
-  document.getElementById('s1').style.display='block';
-  document.getElementById('s2').style.display='none';
-  go('login');
-}
+function logout(){localStorage.removeItem('yala_user');user=null;goTo('login');}
 
-// ===== PICK DESTINATION =====
-function pick(name,km,eta){
-  destN=name;destKm=km;destEta=eta;
-  destPt={px:0.5+(Math.random()-0.5)*0.4,py:0.5+(Math.random()-0.5)*0.4};
-  document.getElementById('vDestLbl').textContent='→ '+name;
-  const lbls=['Moto','Taxi','Premium'];
-  [0,1,2].forEach(i=>{
-    const p=prices[i](km);
-    document.getElementById('vp'+i).textContent=p.toLocaleString();
-    document.getElementById('ve'+i).textContent='⏱ '+[Math.max(2,eta-2),eta,eta+3][i]+' min';
+// ── BOOKING ──
+function quickDest(dest){
+  document.getElementById('dropoff').value=dest;
+  const km=({
+    'Aéroport Hassan Djamous':8.2,'Université de N\'Djaména':4.1,
+    'Hôpital Général':5.2,'Grand Marché':2.1,'Préfecture':3.8,
+    'Quartier Moursal':6.5,'Palais Présidentiel':4.8
+  }[dest])||5;
+  selectDest(dest,km);
+}
+function selectDest(dest,km){
+  selectedDest=dest; selectedDist=km;
+  document.getElementById('dropoff').value=dest;
+  // Estimate
+  const base=VEHICLES[1].base,pkm=VEHICLES[1].pkm;
+  const price=Math.round((base+pkm*km)/50)*50;
+  document.getElementById('estPrice').textContent=price.toLocaleString()+' FCFA';
+  document.getElementById('estDist').textContent=km+' km';
+  document.getElementById('estTime').textContent=Math.round(km*3)+' min estimé';
+  // Update vehicle prices
+  VEHICLES.forEach((v,i)=>{
+    const p=Math.round((v.base+v.pkm*km)/50)*50;
+    document.getElementById('vp'+i).textContent=p.toLocaleString()+' F';
+    document.getElementById('veta'+i).textContent='⏱ '+(i*2+3)+' min';
   });
-  selV(document.getElementById('vc0'),0);
-  go('vehicles');
+  document.getElementById('vehDest').textContent=dest;
+  document.getElementById('vehDist').textContent=km+' km';
+  goTo('vehicles');
 }
-
-// ===== SELECT VEHICLE =====
-function selV(el,i){
-  document.querySelectorAll('.vehicle-card').forEach(c=>c.classList.remove('sel'));
-  el.classList.add('sel');
-  selVeh=i;
-  selPrice=prices[i](destKm);
-  document.getElementById('vTotal').textContent=selPrice.toLocaleString()+' FCFA';
-  document.getElementById('tPrix').textContent=selPrice.toLocaleString();
-  document.getElementById('arrivedAmt').textContent=selPrice.toLocaleString();
-}
-
-// ===== CONFIRM RIDE =====
-async function doConfirm(){
-  drv=DRVS[Math.floor(Math.random()*DRVS.length)];
-  document.getElementById('dAva').textContent=drv.e;
-  document.getElementById('dName').textContent=drv.n;
-  document.getElementById('dCar').textContent=drv.c;
-  document.getElementById('dPlate').textContent=drv.p;
-  document.getElementById('dRat').textContent=drv.r;
-  document.getElementById('arrivedSub').textContent='Course avec '+drv.n;
-  document.getElementById('tKm').textContent=destKm;
-  document.getElementById('tMin').textContent=destEta;
-  go('tracking');
-  toast(drv.e+' '+drv.n+' est en route !','green');
-  try{await fetch(API+'/rides/request',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({passenger_id:user?.id||1,pickup_lat:12.1048,pickup_lng:15.0445,pickup_address:'Marché Central',dropoff_lat:12.1348,dropoff_lng:15.0645,dropoff_address:destN,vehicle_type:['moto','taxi','premium'][selVeh]})});}catch(e){}
-  startRide();
-}
-function startRide(){
-  let s=0,total=80;etaS=destEta*60;
-  eInv=setInterval(()=>{etaS=Math.max(0,etaS-1);const m=Math.floor(etaS/60);document.getElementById('tMin').textContent=m;},1000);
-  pInv=setInterval(()=>{
-    s++;const t=s/total;
-    document.getElementById('tProg').style.width=(t*100)+'%';
-    document.getElementById('tTitle').textContent=t<0.3?'Chauffeur en route':t<0.7?'🚕 S\'approche...':t<0.95?'⚡ Presque là !':'✅ Chauffeur arrivé !';
-    document.getElementById('tSub').textContent=Math.round((1-t)*destKm*10)/10+' km restants';
-    if(s>=total){clearInterval(pInv);clearInterval(eInv);setTimeout(()=>go('arrived'),800);}
-  },180);
-}
-function callDrv(){if(drv)toast('📞 Appel de '+drv.n+'...');}
-function cancelRide(){clearInterval(pInv);clearInterval(eInv);go('home');toast('Course annulée');}
-
-// ===== ARRIVED =====
-function rate(n){document.querySelectorAll('.rate-star').forEach((s,i)=>s.classList.toggle('on',i<n));}
-function selPay(el){document.querySelectorAll('.pay-btn').forEach(b=>b.classList.remove('on'));el.classList.add('on');}
-function doPay(){toast('✅ Paiement de '+selPrice.toLocaleString()+' FCFA confirmé !','green');setTimeout(()=>go('home'),2000);}
-
-// ===== MAPS =====
-const dPos=[{x:0.3,y:0.35},{x:0.7,y:0.55},{x:0.2,y:0.65},{x:0.75,y:0.25}];
-const dVel=dPos.map(()=>({dx:(Math.random()-0.5)*0.002,dy:(Math.random()-0.5)*0.002}));
-let vMapInt=null,tMapInt=null;
-
-function drawMapOn(canvas){
-  if(!canvas)return;
-  const W=canvas.offsetWidth||300,H=canvas.offsetHeight||200;
-  canvas.width=W;canvas.height=H;
-  const ctx=canvas.getContext('2d');
-  const g=ctx.createLinearGradient(0,0,W,H);
-  g.addColorStop(0,'#0a0f1e');g.addColorStop(1,'#050810');
-  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
-  // Grid
-  ctx.strokeStyle='rgba(255,255,255,0.03)';ctx.lineWidth=1;
-  for(let i=0;i<20;i++){ctx.beginPath();ctx.moveTo(i*W/20,0);ctx.lineTo(i*W/20,H);ctx.stroke();ctx.beginPath();ctx.moveTo(0,i*H/20);ctx.lineTo(W,i*H/20);ctx.stroke();}
-  // River
-  ctx.beginPath();ctx.moveTo(0,H*0.62);ctx.bezierCurveTo(W*0.3,H*0.52,W*0.6,H*0.64,W,H*0.5);
-  ctx.strokeStyle='rgba(30,100,220,0.2)';ctx.lineWidth=18;ctx.stroke();
-  // Roads
-  [[0,0.5,1,0.5,6],[0.5,0,0.5,1,6],[0,0.3,1,0.3,3],[0.3,0,0.3,1,3],[0.7,0,0.7,1,3]].forEach(([x1,y1,x2,y2,w])=>{
-    ctx.beginPath();ctx.moveTo(x1*W,y1*H);ctx.lineTo(x2*W,y2*H);
-    ctx.strokeStyle='rgba(255,255,255,0.1)';ctx.lineWidth=w;ctx.stroke();
-  });
-  // Route line
-  if(destPt){
-    ctx.beginPath();ctx.moveTo(0.5*W,0.5*H);ctx.lineTo(destPt.px*W,destPt.py*H);
-    ctx.strokeStyle='rgba(200,16,46,0.6)';ctx.lineWidth=3;ctx.stroke();
-    ctx.font='18px serif';ctx.textAlign='center';ctx.fillText('📍',destPt.px*W,destPt.py*H+4);
+function updateEstimate(){
+  const val=document.getElementById('dropoff').value;
+  if(val.length>2){
+    const km=(3+Math.random()*7).toFixed(1);
+    const price=Math.round((500+180*km)/50)*50;
+    document.getElementById('estPrice').textContent=parseInt(price).toLocaleString()+' FCFA';
+    document.getElementById('estDist').textContent=km+' km';
   }
-  // Taxis
-  dPos.forEach((d,i)=>{
-    d.x+=dVel[i].dx;d.y+=dVel[i].dy;
-    if(d.x<0.05||d.x>0.92)dVel[i].dx*=-1;
-    if(d.y<0.06||d.y>0.88)dVel[i].dy*=-1;
-    const px=d.x*W,py=d.y*H;
-    ctx.beginPath();ctx.arc(px,py,12,0,Math.PI*2);ctx.fillStyle='rgba(255,199,44,0.12)';ctx.fill();
-    ctx.font='14px serif';ctx.textAlign='center';ctx.fillText('🚕',px,py+5);
-  });
-  // User dot (blue)
-  const ux=0.5*W,uy=0.5*H;
-  ctx.beginPath();ctx.arc(ux,uy,14,0,Math.PI*2);ctx.fillStyle='rgba(66,133,244,0.15)';ctx.fill();
-  ctx.beginPath();ctx.arc(ux,uy,9,0,Math.PI*2);ctx.fillStyle='white';ctx.fill();
-  ctx.beginPath();ctx.arc(ux,uy,7,0,Math.PI*2);ctx.fillStyle='#4285F4';ctx.fill();
+}
+function applyPromo(){
+  const code=document.getElementById('promoCode').value.trim().toUpperCase();
+  if(code==='YALA20'){
+    promoApplied=true;
+    toast('🎁 Code YALA20 appliqué ! -20%','green');
+  } else if(code===''){
+    toast('Entrez un code promo','red');
+  } else {
+    toast('Code invalide','red');
+  }
 }
 
-function startVMap(){clearInterval(vMapInt);vMapInt=setInterval(()=>drawMapOn(document.getElementById('vMapC')),120);}
-function startTMap(){clearInterval(tMapInt);tMapInt=setInterval(()=>drawMapOn(document.getElementById('tMapC')),120);}
+// ── VEHICLES ──
+function selectVeh(i){
+  selectedVeh=i;
+  document.querySelectorAll('.vehicle-card').forEach((c,j)=>{
+    c.classList.toggle('on',j===i);
+  });
+  const km=selectedDist||5;
+  const v=VEHICLES[i];
+  let price=Math.round((v.base+v.pkm*km)/50)*50;
+  if(promoApplied) price=Math.round(price*0.8);
+  document.getElementById('vehTotal').textContent=price.toLocaleString()+' F';
+}
+function confirmRide(){
+  const drv=DRIVERS[Math.floor(Math.random()*DRIVERS.length)];
+  const km=selectedDist||5;
+  const v=VEHICLES[selectedVeh];
+  let price=Math.round((v.base+v.pkm*km)/50)*50;
+  if(promoApplied) price=Math.round(price*0.8);
+  // Fill tracking screen
+  document.getElementById('trackTitle').textContent=drv.name+' arrive dans '+(selectedVeh*2+3)+' min';
+  document.getElementById('trackSub').textContent='→ '+(selectedDest||'Destination');
+  document.getElementById('drvName').textContent=drv.name;
+  document.getElementById('drvCar').textContent=drv.car;
+  document.getElementById('drvPlate').textContent=drv.plate;
+  document.getElementById('etaMin').textContent=(selectedVeh*2+3);
+  document.getElementById('etaKm').textContent=km;
+  document.getElementById('etaPrice').textContent=price.toLocaleString();
+  document.getElementById('chatDrvName').textContent=drv.name;
+  // Arrived screen
+  document.getElementById('arrPrice').textContent=price.toLocaleString();
+  document.getElementById('arrSub').textContent='Course avec '+drv.name;
+  document.getElementById('bdDist').textContent=km+' km';
+  document.getElementById('bdTime').textContent=Math.round(km*3)+' min';
+  document.getElementById('bdType').textContent=v.ico+' '+v.name;
+  goTo('tracking');
+  startTracking(price);
+  toast('Course confirmée ! 🚕','green');
+}
 
-// ===== TOAST =====
+// ── TRACKING ──
+function startTracking(price){
+  clearInterval(trackInterval);
+  progVal=0;
+  document.getElementById('trackProg').style.width='0%';
+  const phases=[
+    {pct:30,status:'Chauffeur en route',title:'Arrive dans 4 min'},
+    {pct:60,status:'Passager à bord',title:'En route vers la destination'},
+    {pct:90,status:'Approche de la destination',title:'Arrivée dans 2 min'},
+    {pct:100,status:'Arrivé !',title:'Vous êtes arrivé !'},
+  ];
+  let phase=0;
+  trackInterval=setInterval(()=>{
+    progVal+=1;
+    document.getElementById('trackProg').style.width=progVal+'%';
+    const min=Math.max(0,Math.round((100-progVal)/20));
+    document.getElementById('etaMin').textContent=min;
+    if(phase<phases.length && progVal>=phases[phase].pct){
+      document.getElementById('trackStatus').textContent=phases[phase].status;
+      document.getElementById('trackTitle').textContent=phases[phase].title;
+      phase++;
+    }
+    if(progVal>=100){
+      clearInterval(trackInterval);
+      setTimeout(()=>goTo('arrived'),800);
+    }
+  },300);
+}
+function callDriver(){toast('📞 Appel en cours...','blue');}
+
+// ── CHAT ──
+function sendMsg(txt){
+  const inp=document.getElementById('chatInp');
+  const msg=txt||inp.value.trim();
+  if(!msg)return;
+  const msgs=document.getElementById('chatMsgs');
+  const now=new Date().toLocaleTimeString('fr',{hour:'2-digit',minute:'2-digit'});
+  msgs.innerHTML+=`<div class="msg me">${msg}<div class="msg-time">${now}</div></div>`;
+  inp.value='';
+  msgs.scrollTop=msgs.scrollHeight;
+  // Auto reply
+  setTimeout(()=>{
+    const replies=['D\'accord !','Je suis là dans 2 minutes 🚕','OK, pas de problème','Je vous vois !'];
+    const r=replies[Math.floor(Math.random()*replies.length)];
+    msgs.innerHTML+=`<div class="msg them">${r}<div class="msg-time">${new Date().toLocaleTimeString('fr',{hour:'2-digit',minute:'2-digit'})}</div></div>`;
+    msgs.scrollTop=msgs.scrollHeight;
+  },1500);
+}
+
+// ── ARRIVED ──
+let curRating=4;
+function rate(n){
+  curRating=n;
+  document.querySelectorAll('.star').forEach((s,i)=>s.classList.toggle('on',i<n));
+}
+function selectPay(el,method){
+  document.querySelectorAll('.pay-btn').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+}
+function finishRide(){
+  toast('Merci ! Course évaluée ⭐'+curRating,'green');
+  setTimeout(()=>goTo('home'),1200);
+}
+
+// ── SOS ──
+function sendSOS(type){
+  const msgs={police:'🚔 Police contactée ! Restez calme.',medical:'🚑 Secours médicaux alertés !',accident:'🚗 Assistance routière contactée !'};
+  document.getElementById('sosModal').classList.remove('on');
+  toast(msgs[type]||'SOS envoyé !','red');
+}
+function closeSOS(e){if(e.target.id==='sosModal')document.getElementById('sosModal').classList.remove('on');}
+
+// ── WALLET ──
+function topup(amount){
+  wallet+=amount;
+  document.getElementById('walletAmt').textContent=wallet.toLocaleString();
+  document.getElementById('walletDisplay').textContent=wallet.toLocaleString()+' F';
+  document.getElementById('walletBal').textContent=wallet.toLocaleString()+' F';
+  toast('+'+amount.toLocaleString()+' FCFA ajoutés !','green');
+}
+function closeWallet(e){if(!e||e.target.id==='walletModal')document.getElementById('walletModal').classList.remove('on');}
+
+// ── NOTIFICATIONS ──
+function showNotif(){toast('Aucune nouvelle notification');}
+
+// ── MAPS ──
+let mapPrevAnim=null;
+function startMapPrev(){
+  const c=document.getElementById('mapPrev');
+  if(!c)return;
+  function draw(){
+    c.width=c.offsetWidth;c.height=220;
+    const W=c.width,H=220,ctx=c.getContext('2d');
+    drawBaseMap(ctx,W,H);
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+const tPos=[{x:.35,y:.38},{x:.68,y:.55},{x:.25,y:.68},{x:.75,y:.28}];
+const tVel=tPos.map(()=>({dx:(Math.random()-.5)*.0018,dy:(Math.random()-.5)*.0018}));
+
+function startTrackMap(){
+  const c=document.getElementById('trackMap');
+  if(!c)return;
+  function draw(){
+    c.width=c.offsetWidth;c.height=c.offsetHeight||window.innerHeight*.42;
+    const W=c.width,H=c.height,ctx=c.getContext('2d');
+    drawBaseMap(ctx,W,H,true);
+    tPos.forEach((d,i)=>{
+      d.x+=tVel[i].dx;d.y+=tVel[i].dy;
+      if(d.x<.05||d.x>.92)tVel[i].dx*=-1;
+      if(d.y<.06||d.y>.88)tVel[i].dy*=-1;
+      ctx.font='14px serif';ctx.textAlign='center';ctx.fillText('🚕',d.x*W,d.y*H+4);
+    });
+    // Route line
+    const pulse=.5+.5*Math.sin(Date.now()*.004);
+    ctx.beginPath();ctx.moveTo(W*.5,H*.5);ctx.lineTo(W*.75,H*.3);
+    ctx.strokeStyle=`rgba(232,41,74,${.5+pulse*.3})`;ctx.lineWidth=2;ctx.setLineDash([6,4]);ctx.stroke();ctx.setLineDash([]);
+    // User dot
+    ctx.beginPath();ctx.arc(W*.5,H*.5,16+pulse*5,0,Math.PI*2);ctx.fillStyle='rgba(37,99,235,.12)';ctx.fill();
+    ctx.beginPath();ctx.arc(W*.5,H*.5,9,0,Math.PI*2);ctx.fillStyle='white';ctx.fill();
+    ctx.beginPath();ctx.arc(W*.5,H*.5,6,0,Math.PI*2);ctx.fillStyle='#2563EB';ctx.fill();
+    if(document.getElementById('tracking').classList.contains('on')) requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+function drawBaseMap(ctx,W,H,animated){
+  const bg=ctx.createLinearGradient(0,0,W,H);
+  bg.addColorStop(0,'#0a0f1e');bg.addColorStop(1,'#050810');
+  ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle='rgba(255,255,255,.025)';ctx.lineWidth=1;
+  for(let i=0;i<20;i++){ctx.beginPath();ctx.moveTo(i*W/20,0);ctx.lineTo(i*W/20,H);ctx.stroke();ctx.beginPath();ctx.moveTo(0,i*H/20);ctx.lineTo(W,i*H/20);ctx.stroke();}
+  ctx.beginPath();ctx.moveTo(0,H*.62);ctx.bezierCurveTo(W*.3,H*.52,W*.6,H*.64,W,H*.5);
+  ctx.strokeStyle='rgba(30,100,220,.2)';ctx.lineWidth=20;ctx.stroke();
+  [[0,.5,1,.5,7],[.5,0,.5,1,7],[0,.28,1,.28,4],[.28,0,.28,1,4],[.72,0,.72,1,4],[0,.72,1,.72,4]].forEach(([x1,y1,x2,y2,w])=>{
+    ctx.beginPath();ctx.moveTo(x1*W,y1*H);ctx.lineTo(x2*W,y2*H);
+    ctx.strokeStyle='rgba(255,255,255,.08)';ctx.lineWidth=w;ctx.stroke();
+  });
+}
+
+// ── TOAST ──
 function toast(msg,type=''){
-  const el=document.getElementById('t');
+  const el=document.getElementById('toast');
   el.textContent=msg;el.className='toast on'+(type?' '+type:'');
   setTimeout(()=>el.classList.remove('on'),3200);
 }
